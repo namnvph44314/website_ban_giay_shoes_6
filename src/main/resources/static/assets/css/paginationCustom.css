@@ -1,0 +1,43 @@
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.pagination a.active {
+    background-color: #00bcd4;
+    color: white;
+    border-radius: 50%;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 50%;
+}
+
+
+.pagination2 {
+    display: inline-block;
+}
+
+.pagination2 a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+.pagination2 a.active {
+    background-color: #00bcd4;
+    color: white;
+    border-radius: 10px;
+}
+
+.pagination2 a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 10px;
+}

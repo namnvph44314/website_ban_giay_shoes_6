@@ -1,0 +1,100 @@
+:root {
+    --primary-0: #fff9ff;
+    --primary-50: #f9e9ff;
+    --primary-100: #e8cdff;
+    --primary-200: #d1b6ff;
+    --primary-300: #b89dff;
+    --primary-400: #9f84e5;
+    --primary-500: #876bca;
+    --primary-600: #7054b0;
+    --primary-700: #5a3c96;
+    --primary-800: #45247d;
+    --primary-900: #310864;
+    --primary-950: #241045;
+    --primary-1000: #181028;
+
+    --neutral-0: #ffffff;
+    --neutral-50: #f2f2f2;
+    --neutral-100: #dedede;
+    --neutral-200: #cacaca;
+    --neutral-300: #b0b0b0;
+    --neutral-400: #989898;
+    --neutral-500: #808080;
+    --neutral-600: #686868;
+    --neutral-700: #525252;
+    --neutral-800: #3d3d3d;
+    --neutral-900: #282828;
+    --neutral-950: #1f1f1f;
+    --neutral-1000: #161616;
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+            'FILL' 1,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+}
+fieldset {
+    padding: 0;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: 100%;
+}
+
+legend {
+    font-weight: 24;
+}
+
+
+
+
+/* ===================== */
+/* ===================== */
+/* Code Here ↓ */
+
+.account-selection__option {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+
+    padding: 0.875em;
+
+    border: 2px solid var(--neutral-100);
+    border-radius: 8px;
+
+    width: 100%;
+
+    cursor: pointer;
+}
+
+.account-selection__input {
+    accent-color: #0097a7;
+}
+
+.account-selection__text {
+    flex-grow: 1;
+
+    color: var(--neutral-500);
+}
+
+.account-selection__icon {
+    color: var(--neutral-400);
+}
+
+.account-selection__input:checked ~ .account-selection__text {
+    color: var(--primary-800);
+}
+
+.account-selection__input:checked ~ .account-selection__icon {
+    color: var(--primary-500);
+}
+
+.account-selection__option:has(
+  .account-selection__input:checked
+)
+{
+    border-color: #00bcd4;
+}

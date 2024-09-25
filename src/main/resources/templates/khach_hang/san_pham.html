@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Sản phẩm</title>
+    <link rel="shortcut icon" href="/assets/images/Shoes6cop.png"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"/>
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"/>
+    <!-- BootStrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body ng-app="myAngularJs3" ng-controller="sanPhamController">
+<header>
+    <!-- Jumbotron -->
+    <div class="p-3 text-center bg-white border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/trang-chu/index"
+                   class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+                    <img src="/api/read-file-by-img-url/Shoes6cop.png" width="90px" height="73px"/>
+                </a>
+
+                <ul class="ms-3 nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/trang-chu/index" class="nav-link px-2 link-secondary">Trang chủ</a></li>
+                    <li><a href="/list-san-pham/index" class="nav-link px-2 link-body-emphasis">Sản phẩm</a>
+                    </li>
+                </ul>
+
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search"
+                      action="/list-san-pham/search" method="post"
+                      th:object="${searchRequest}">
+                    <div class="input-group float-center">
+                                <span class="input-group-text text-primary">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                        <input th:field="*{ten}" type="text" class="form-control" placeholder="Nhập tên sản phẩm ">
+                    </div>
+                </form>
+
+                <div ng-if="taiKhoan != null" class="dropdown text-end me-3">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/api/read-file-by-id-tai-khoan/{{taiKhoan.id}}" alt="{{taiKhoan.id}}"
+                             width="48" height="48"
+                             class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item" href="/khach-hang/tai-khoan/ho-so">Thông tin</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
+                    </ul>
+                </div>
+                <a ng-if="taiKhoan != null" href="/khach-hang/gio-hang-index"
+                   class="border rounded py-1 px-3 nav-link d-flex align-items-center position-relative">
+                    <i class="fas fa-shopping-cart m-1 me-md-2"></i>
+                    <p class="d-none d-md-block mb-0">Giỏ hàng</p>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{listGhctSize}}</span>
+                </a>
+                <a ng-if="taiKhoan == null" href="/login"
+                   class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+                    <i class="fas fa-user-alt m-1 me-md-2"></i>
+                    <p class="d-none d-md-block mb-0">Đăng nhập</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Jumbotron -->
+
+    <!-- Heading -->
+    <div class="bg-primary">
+        <div class="container py-4">
+            <h3 class="text-white mt-2">Sản phẩm</h3>
+        </div>
+    </div>
+    <!-- Heading -->
+
+</header>
+
+<!-- content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row gx-5">
+            <aside class="col-lg-6">
+                <div class="border rounded-4 mb-3 d-flex justify-content-center">
+                    <a data-fslightbox="mygalley" class="rounded-4" data-type="image">
+                        <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"
+                             src="/api/read-file-by-id-img/{{sanPham.hinhAnhList[0].id}}"
+                             id="bigImage"/>
+                    </a>
+                </div>
+                <div class="d-flex justify-content-center mb-3">
+                    <a ng-repeat="item in sanPham.hinhAnhList" data-fslightbox="mygalley"
+                       class="border mx-1 rounded-2" data-type="image">
+                        <img width="60" height="60" class="rounded-2"
+                             src="/api/read-file-by-id-img/{{item.id}}"
+                             ng-click="changeImage(item.id)"/>
+                    </a>
+                </div>
+                <!-- thumbs-wrap.// -->
+                <!-- gallery-wrap .end// -->
+            </aside>
+            <main class="col-lg-6">
+                <div class="ps-lg-3">
+                    <h4 class="title text-dark">{{sanPham.tenSanPham}}</h4>
+                    <div class="d-flex flex-row my-3">
+                        <span class="text-muted me-1" id="kho">
+                            <i class="fas fa-shopping-basket fa-sm mx-1"></i>{{sanPham.soLuongKho}}
+                        </span>
+                        <span class="text-muted">
+                            sản phẩm
+                        </span>
+                        <span ng-if="sanPham.soLuongKho > 0" id="conHang" class="text-success ms-2">Còn hàng</span>
+                        <span ng-if="sanPham.soLuongKho <= 0" id="hetHang" class="text-danger ms-2">Hết hàng</span>
+                    </div>
+                    <div class="d-flex flex-row mb-3"
+                         ng-if="sanPham.giaGiam > 0">
+                        <h5 id="giaGiam1" class="mb-1 me-1">{{sanPham.giaGiam | currency: '' : 0}} VNĐ</h5>
+                        <span id="giaSpan" class="text-danger"><s>{{sanPham.gia | currency: '' : 0}} VNĐ</s></span>
+                        <span class="text-muted">/đôi</span>
+                    </div>
+                    <div class="d-flex flex-row mb-3"
+                         ng-if="sanPham.giaGiam <= 0">
+                        <h5 id="giaGiam2" class="mb-1 me-1">{{sanPham.gia | currency: '' : 0}} VNĐ</h5>
+                        <span class="text-muted">/đôi</span>
+                    </div>
+                    <hr/>
+
+                    <div class="row mb-4">
+                        <!-- col.// -->
+                        <div class="col-md-4 col-12">
+                            <label class="mb-2 d-block ">
+                                <span class="fw-semibold">Màu sắc: </span>
+                                <span> {{sanPham.tenMauDangHien}}</span>
+                            </label>
+                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                <div ng-repeat="item in sanPham.anhMacDinhList">
+                                    <img src="/api/read-file-by-id-img/{{item.id}}"
+                                         class="anhMacDinh rounded float-start me-3 "
+                                         width="75px" height="75px" role="button"
+                                         id="{{item.sanPhamChiTietByIdSpct.mauSacByIdMauSac.id}}"
+                                         ng-click="chuyenMau(item.sanPhamChiTietByIdSpct.mauSacByIdMauSac.id)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-4 col-6">
+                            <label class="mb-2 fw-semibold">Kích cỡ</label>
+                            <select ng-change="changeSize()" ng-model="sanPham.sizeDangHien"
+                                    class="form-select border border-secondary" style="height: 35px;" id="sizeSelect">
+                                <option ng-repeat="item in sanPham.kichThuocList" ng-value="item.id">
+                                    {{item.tenKichThuoc}}
+                                </option>
+                            </select>
+                        </div>
+                        <!-- col.// -->
+                        <div class="col-md-4 col-6 mb-3">
+                            <label class="mb-2 d-block fw-semibold">Số lượng</label>
+                            <div class="input-group mb-3" style="width: 170px;">
+                                <button ng-click="giamSoLuong()" class="btn btn-white border border-secondary px-3"
+                                        type="button"
+                                        id="button-addon1" data-mdb-ripple-color="dark">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input ng-model="sanPham.soLuongMua" type="text" id="quantity"
+                                       class="form-control text-center border border-secondary" placeholder="0"
+                                       aria-label="Example text with button addon"
+                                       aria-describedby="button-addon1"
+                                       ng-change="nhapSoLuong()"
+                                       ng-blur="outInput()"/>
+                                <button ng-click="tangSoLuong()" class="btn btn-white border border-secondary px-3"
+                                        type="button"
+                                        id="button-addon2" data-mdb-ripple-color="dark">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: -35px">
+                        <p ng-if="tbLoi" class="text-danger" id="tbLoiTag">Số lượng bạn mua đã vượt quá số lượng có
+                            sẵn</p>
+                    </div>
+                    <button ng-click="themVaoGio()" id="btnBuy"
+                            class="btn btn-primary shadow-0">
+                        <span ng-if="loading" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        <span ng-if="loading == false" role="status"><i class="me-1 fa fa-shopping-basket"></i> Thêm vào giỏ</span>
+
+                    </button>
+
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+<!-- content -->
+
+<section class="bg-light border-top py-4">
+    <div class="container">
+        <div class="row gx-4">
+            <div class="col-lg-8 mb-4">
+                <div class="border rounded-2 px-3 py-2 bg-white">
+                    <div class="d-flex align-items-start">
+                        <!-- Pills navs -->
+                        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                             aria-orientation="vertical">
+                            <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
+                                    data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
+                                    aria-selected="true">Mô tả
+                            </button>
+                            <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
+                                    data-bs-target="#v-pills-profile" type="button" role="tab"
+                                    aria-controls="v-pills-profile" aria-selected="false">Chi tiết
+                            </button>
+                        </div>
+                        <!-- Pills navs -->
+
+                        <!-- Pills content -->
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                                 aria-labelledby="v-pills-home-tab" tabindex="0">
+                                <p>{{sanPham.moTa}}</p>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                                 aria-labelledby="v-pills-profile-tab" tabindex="0">
+                                <table class="table border mt-3 mb-2">
+                                    <tr>
+                                        <th class="py-2">Loai giày:</th>
+                                        <td class="py-2">{{sanPham.theLoai.tenTheLoai}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="py-2">Thương hiệu:</th>
+                                        <td class="py-2">{{sanPham.thuongHieu.tenThuongHieu}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="py-2">Chất liệu:</th>
+                                        <td class="py-2">{{sanPham.chatLieu.tenChatLieu}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="py-2">Đế giày:</th>
+                                        <td class="py-2">{{sanPham.deGiay.tenDeGiay}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Pills content -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="px-0 border rounded-2 shadow-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Sản phẩm cùng loại</h5>
+                            <div class="d-flex mb-3" ng-repeat="item in listSanPhamLienQuan">
+                                <a href="/khach-hang-san-pham/index/{{item.idSpct}}/{{item.mauSac.id}}/{{item.kichThuoc.id}}"
+                                   class="me-3">
+                                    <img src="/api/read-file-by-idspct-return-anh-mac-dinh/{{item.idSpct}}"
+                                         style="min-width: 96px; height: 96px;" class="img-md img-thumbnail"/>
+                                </a>
+                                <div class="info" ng-if="item.giaGiam == 0">
+                                    <a href="/khach-hang-san-pham/index/{{item.idSpct}}/{{item.mauSac.id}}/{{item.kichThuoc.id}}"
+                                       class="nav-link mb-1">{{item.tenSanPham}}</a>
+                                    <div class="d-flex flex-row">
+                                        <strong class="mb-1 me-1">{{item.gia | currency: '' : 0}} VNĐ</strong>
+                                        <span class="text-muted">/đôi</span>
+                                    </div>
+                                </div>
+
+                                <div class="info" ng-if="item.giaGiam > 0">
+                                    <a href="/khach-hang-san-pham/index/{{item.idSpct}}/{{item.mauSac.id}}/{{item.kichThuoc.id}}"
+                                       class="nav-link mb-1">{{item.tenSanPham}}</a>
+                                    <div class="d-flex flex-row">
+                                        <strong class="mb-1 me-1">{{item.giaGiam | currency: '' : 0}} VNĐ</strong>
+                                        <span class="text-danger"><s>{{item.gia | currency: '' : 0}} VNĐ</s></span>
+                                        <span class="text-muted">/đôi</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer -->
+<footer class="text-center text-lg-start text-muted bg-primary ">
+    <!-- Section: Links  -->
+    <section class="">
+        <div class="container text-center text-md-start pt-4 pb-4">
+            <!-- Grid row -->
+            <div class="row mt-3">
+                <!-- Grid column -->
+                <div class="col-12 col-lg-3 col-sm-12 mb-2">
+                    <!-- Content -->
+                    <a class="text-white h2">
+                        SHOES 6
+                    </a>
+                    <p class="mt-1 text-white">
+                        © 2024 Copyright: SHOES 6 FPT Polytechnic
+                    </p>
+
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Hà Nội
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            P. Kiều Mai, Phúc Diễn, Từ Liêm, Hà Nội, Việt Nam
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Tp.HCM
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            Tòa nhà QTSC9 (toà T), đường Tô Ký, phường Tân Chánh Hiệp, quận 12, TP HCM.
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Đà Nẵng
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            219 Nguyễn Sinh Sắc, phường Hoà Minh, quận Liên Chiểu, TP Đà Nẵng
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Thái Nguyên
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            Tòa nhà FPT Polytechnic, đường đê Mỏ Bạch, tổ 10, phường Quyết Thắng, TP Thái Nguyên, tỉnh
+                            Thái Nguyên
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+    </section>
+    <!-- Section: Links  -->
+</footer>
+
+<!-- Footer -->
+</body>
+<script>
+    let _soLuongTrongGio
+    let _giaTriHopLe = 1
+    const apiGetTaiKhoan = "/api/khach-hang/san-pham/get-tai-khoan";
+    const apiGetSoLuongSpTrongGio = "/api/khach-hang/san-pham/get-so-luong-spct-trong-gio/";
+    const apiGetList = "/api/khach-hang/gio-hang/get-list-gio_hang_chi-tiet";
+    const apiGetSanPham = "/api/khach-hang/san-pham/get-san-pham";
+    const apiChuyenMau = "/api/khach-hang/san-pham/chuyen-mau/";
+    const apiChangeSize = "/api/khach-hang/san-pham/change-size/";
+    const apiGetSanPhamLienQuan = "/api/khach-hang/san-pham/get-san-pham-lien-quan/";
+    const apiThemVaoGio = '/api/khach-hang/san-pham/them-vao-gio/'
+    const apiGetListGhctLength = '/api/khach-hang/san-pham/get-so-sp-trong-gio'
+    let myApp = angular.module("myAngularJs3", []);
+    myApp.controller("sanPhamController", myFunction);
+
+    function myFunction($scope, $http) {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
+        $scope.tbLoi = false
+        $scope.loading = false
+        $scope.getSoLuongSpTrongGio = (idSpct) => {
+            return $http.get(apiGetSoLuongSpTrongGio + idSpct)
+        }
+
+        $http.get(apiGetTaiKhoan)
+            .then(function (res) {
+                if (res.status == 200) {
+                    $scope.taiKhoan = res.data
+                    if ($scope.taiKhoan == '') {
+                        $scope.taiKhoan = null
+                    }
+                    return $scope.taiKhoan
+                }
+            })
+            .then(function (tk) {
+                if (tk != null) {
+                    $scope.getListGhctLength()
+                }
+            })
+
+        $scope.getListGhctLength = () => {
+            $http.get(apiGetListGhctLength).then(function (res) {
+                if (res.status == 200) {
+                    $scope.listGhctSize = res.data
+                }
+            })
+        }
+
+
+        $http.get(apiGetSanPham)
+            .then(function (res) {
+                if (res.status == 200) {
+                    $scope.sanPham = res.data
+                    console.log("vao day")
+
+                    // let element = document.getElementById("hoaDon" + billId)
+                    // element.classList.remove("bg-cyan-100");
+                    // element.classList.remove("text-cyan-900");
+                    // element.classList.add("bg-cyan-500");
+                    // element.classList.add("text-white");
+                }
+            })
+            .then(function () {
+                if ($scope.sanPham.soLuongKho <= 0) {
+                    disabled()
+                } else {
+                    visibled()
+                }
+                $scope.getSoLuongSpTrongGio($scope.sanPham.idSpct)
+                    .then(function (res) {
+                        _soLuongTrongGio = res.data
+                    })
+                    .then(function () {
+                        $http.get(apiGetSanPhamLienQuan + $scope.sanPham.theLoai.id)
+                            .then(function (res) {
+                                if (res.status == 200) {
+                                    $scope.listSanPhamLienQuan = res.data
+                                }
+                            })
+                            .then(function () {
+                                let listElement = document.querySelectorAll(".anhMacDinh");
+                                for (let i = 0; i < listElement.length; i++) {
+                                    if (listElement[i].id == $scope.sanPham.mauDangHien){
+                                        listElement[i].classList.add("border");
+                                        listElement[i].classList.add("border-3");
+                                        listElement[i].classList.add("border-info");
+                                    }
+                                }
+                            })
+                    })
+            })
+        $scope.chuyenMau = (idMauDangHien) => {
+            $scope.sanPham.mauDangHien = idMauDangHien
+            $scope.tbLoi = false
+            let listElement = document.querySelectorAll(".anhMacDinh");
+            for (let i = 0; i < listElement.length; i++) {
+                console.log("casdas hlkj")
+                if (listElement[i].classList.contains('border-info')){
+                    listElement[i].classList.remove("border");
+                    listElement[i].classList.remove("border-3");
+                    listElement[i].classList.remove("border-info");
+                }
+            }
+            $http.get(apiChuyenMau + $scope.sanPham.idSpct + '/' + $scope.sanPham.mauDangHien)
+                .then(function (res) {
+                    if (res.status == 200) {
+                        $scope.sanPham = res.data
+                    }
+                })
+                .then(function () {
+                    if ($scope.sanPham.soLuongKho <= 0) {
+                        disabled()
+                    } else {
+                        visibled()
+                    }
+                    $scope.getSoLuongSpTrongGio($scope.sanPham.idSpct)
+                        .then(function (res) {
+                            _soLuongTrongGio = res.data
+                        })
+                    .then(function (){
+                        let listElement = document.querySelectorAll(".anhMacDinh");
+                        for (let i = 0; i < listElement.length; i++) {
+                            if (listElement[i].id == $scope.sanPham.mauDangHien){
+                                listElement[i].classList.add("border");
+                                listElement[i].classList.add("border-3");
+                                listElement[i].classList.add("border-info");
+                            }
+                        }
+                    })
+                })
+        }
+        $scope.changeSize = () => {
+            $scope.tbLoi = false
+            $http.get(apiChangeSize + $scope.sanPham.idSpct + '/' + $scope.sanPham.mauDangHien + '/' + $scope.sanPham.sizeDangHien)
+                .then(function (res) {
+                    if (res.status == 200) {
+                        let response
+                        response = res.data
+                        $scope.sanPham.gia = response.gia
+                        $scope.sanPham.giaGiam = response.giaGiam
+                        $scope.sanPham.soLuongKho = response.soLuongKho
+                        $scope.sanPham.idSpct = response.idSpct
+                    }
+                })
+                .then(function () {
+                    if ($scope.sanPham.soLuongKho <= 0) {
+                        disabled()
+                    } else {
+                        visibled()
+                    }
+                    $scope.getSoLuongSpTrongGio($scope.sanPham.idSpct)
+                        .then(function (res) {
+                            _soLuongTrongGio = res.data
+                        })
+                })
+        }
+
+        $scope.changeImage = function (id) {
+            var image = document.getElementById("bigImage")
+            image.src = "/api/read-file-by-id-img/" + id
+        }
+
+        $scope.tangSoLuong = () => {
+            let newQuantity = (parseInt($scope.sanPham.soLuongMua) || 0) + 1
+            let max = $scope.sanPham.soLuongKho
+            if (_soLuongTrongGio + newQuantity > max) {
+                $scope.sanPham.soLuongMua = max - _soLuongTrongGio
+                _giaTriHopLe = $scope.sanPham.soLuongMua
+                $scope.tbLoi = true
+            } else {
+                if (newQuantity > max) {
+                    $scope.sanPham.soLuongMua = max
+                    _giaTriHopLe = max
+                    $scope.tbLoi = false
+                } else {
+                    $scope.sanPham.soLuongMua = newQuantity
+                    _giaTriHopLe = newQuantity
+                    $scope.tbLoi = false
+                }
+            }
+
+        }
+
+        $scope.giamSoLuong = () => {
+            let max = $scope.sanPham.soLuongKho
+            let newQuantity = (parseInt($scope.sanPham.soLuongMua) || 0) - 1
+            if (newQuantity <= 1) {
+                $scope.sanPham.soLuongMua = 1
+                newQuantity = 1
+                _giaTriHopLe = 1
+                $scope.tbLoi = false
+            }
+            if (_soLuongTrongGio + newQuantity > max) {
+                $scope.sanPham.soLuongMua = max - _soLuongTrongGio
+                _giaTriHopLe = $scope.sanPham.soLuongMua
+                $scope.tbLoi = true
+            } else {
+                $scope.sanPham.soLuongMua = newQuantity
+                _giaTriHopLe = newQuantity
+                $scope.tbLoi = false
+            }
+        }
+
+        $scope.nhapSoLuong = () => {
+            if ($scope.sanPham.soLuongMua == "") {
+                $scope.sanPham.soLuongMua = ""
+                $scope.tbLoi = false
+            } else {
+                if (isNaN($scope.sanPham.soLuongMua)) {
+                    $scope.sanPham.soLuongMua = _giaTriHopLe
+                    $scope.tbLoi = false
+                } else {
+                    if ($scope.sanPham.soLuongMua <= 0) {
+                        $scope.sanPham.soLuongMua = 1
+                        _giaTriHopLe = 1
+                        $scope.tbLoi = false
+                    } else {
+                        _giaTriHopLe = $scope.sanPham.soLuongMua
+                        $scope.tbLoi = false
+                    }
+                }
+            }
+        }
+
+        $scope.outInput = () => {
+            $scope.getSoLuongSpTrongGio($scope.sanPham.idSpct)
+                .then(function (res) {
+                    _soLuongTrongGio = res.data
+                })
+                .then(function () {
+                    let max = $scope.sanPham.soLuongKho
+                    if ($scope.sanPham.soLuongMua == 0) {
+                        if (_soLuongTrongGio + parseInt($scope.sanPham.soLuongMua) + 1 > max) {
+                            $scope.sanPham.soLuongMua = max - _soLuongTrongGio
+                            _giaTriHopLe = $scope.sanPham.soLuongMua
+                        } else {
+                            $scope.sanPham.soLuongMua = 1
+                        }
+                        $scope.tbLoi = false
+                    }
+                    if (_soLuongTrongGio + parseInt($scope.sanPham.soLuongMua) > max) {
+                        $scope.sanPham.soLuongMua = max - _soLuongTrongGio
+                        _giaTriHopLe = $scope.sanPham.soLuongMua
+                        $scope.tbLoi = true
+                    }
+                })
+
+        }
+
+        $scope.themVaoGio = () => {
+            if ($scope.taiKhoan == null) {
+                Toast.fire({
+                    icon: "info",
+                    title: "Vui lòng đăng nhập để mua hàng"
+                });
+                $scope.loading = false
+            } else {
+                $scope.tbLoi = false
+                $scope.loading = true
+                const max = $scope.sanPham.soLuongKho
+                if ($scope.sanPham.soLuongMua <= 0) {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Thêm vào giỏ hàng thất bại, vui lòng nhập số lượng > 0"
+                    });
+                    $scope.loading = false
+                } else if (_soLuongTrongGio + parseInt($scope.sanPham.soLuongMua) > max) {
+                    $scope.sanPham.soLuongMua = max - _soLuongTrongGio
+                    _giaTriHopLe = $scope.sanPham.soLuongMua
+                    $scope.tbLoi = true
+                    $scope.loading = false
+                } else {
+                    $http.get(apiThemVaoGio + $scope.sanPham.idSpct + '/' + $scope.sanPham.soLuongMua)
+                        .then(function (res) {
+                            return res.data
+                        })
+                        .then(function (result) {
+                            $scope.getSoLuongSpTrongGio($scope.sanPham.idSpct)
+                                .then(function (res) {
+                                    return res.data
+                                })
+                                .then(function (data) {
+                                    _soLuongTrongGio = data
+                                })
+                                .then(function () {
+                                    $scope.getListGhctLength()
+                                    if (result == true) {
+                                        Toast.fire({
+                                            icon: "success",
+                                            title: "Thêm vào giỏ hàng thành công"
+                                        });
+                                        $scope.loading = false
+                                    } else {
+                                        Toast.fire({
+                                            icon: "error",
+                                            title: "Thêm vào giỏ hàng thất bại"
+                                        });
+                                        $scope.loading = false
+                                    }
+                                })
+                        })
+                }
+            }
+
+        }
+
+        const disabled = () => {
+            document.getElementById('button-addon2').disabled = true;
+            document.getElementById('button-addon1').disabled = true;
+            document.getElementById('quantity').disabled = true;
+            document.getElementById('quantity').disabled = true;
+            document.getElementById('btnBuy').disabled = true;
+        }
+        const visibled = () => {
+            document.getElementById('button-addon2').disabled = false;
+            document.getElementById('button-addon1').disabled = false;
+            document.getElementById('quantity').disabled = false;
+            document.getElementById('quantity').disabled = false;
+            document.getElementById('btnBuy').disabled = false;
+        }
+    }
+</script>
+</html>
+

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Trang chủ</title>
+    <link rel="shortcut icon" href="/assets/images/Shoes6cop.png"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"/>
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"/>
+    <!-- BootStrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+</head>
+<body ng-app="myAngularJs4" ng-controller="trangChuController">
+<header>
+    <!-- Jumbotron -->
+    <div class="p-3 text-center bg-white border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/trang-chu/index" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+                    <img src="/api/read-file-by-img-url/Shoes6cop.png" width="90px" height="73px"/>
+                </a>
+
+                <ul class="ms-3 nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/trang-chu/index" class="nav-link px-2 link-secondary">Trang chủ</a></li>
+                    <li><a href="/list-san-pham/index" class="nav-link px-2 link-body-emphasis">Sản phẩm</a>
+                    </li>
+                </ul>
+
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search"
+                      action="/list-san-pham/search" method="post"
+                      th:object="${searchRequest}">
+                    <div class="input-group float-center">
+                                <span class="input-group-text text-primary">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                        <input th:field="*{ten}" type="text" class="form-control" placeholder="Nhập tên sản phẩm ">
+                    </div>
+                </form>
+
+                <div ng-if="taiKhoan != null" class="dropdown text-end me-3">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/api/read-file-by-id-tai-khoan/{{taiKhoan.id}}" alt="mdo" width="48" height="48"
+                             class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item" href="/khach-hang/tai-khoan/ho-so">Thông tin</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
+                    </ul>
+                </div>
+                <a ng-if="taiKhoan != null" href="/khach-hang/gio-hang-index"
+                   class="border rounded py-1 px-3 nav-link d-flex align-items-center position-relative">
+                    <i class="fas fa-shopping-cart m-1 me-md-2"></i>
+                    <p class="d-none d-md-block mb-0">Giỏ hàng</p>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{listGhctSize}}</span>
+                </a>
+                <a ng-if="taiKhoan == null" href="/login"
+                   class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+                    <i class="fas fa-user-alt m-1 me-md-2"></i>
+                    <p class="d-none d-md-block mb-0">Đăng nhập</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Jumbotron -->
+    <!-- Heading -->
+    <div class="bg-primary">
+        <div class="container py-4">
+            <h3 class="text-white mt-2">Trang chủ</h3>
+        </div>
+    </div>
+    <!-- Heading -->
+</header>
+<!--  intro  -->
+<section class="py-5">
+    <div class="container">
+        <main class="card p-3 shadow-2-strong">
+            <div class="row">
+                <div class="col-lg-3">
+                    <nav class="nav flex-column nav-pills mb-md-2">
+                        <a class="nav-link my-0 py-2 ps-3 bg-white"
+                           ng-repeat="item in listDanhMuc"
+                           href="/list-san-pham/find-by-danh-muc/{{item.id}}">
+                            {{item.tenTheLoai}}
+                        </a>
+
+                    </nav>
+                </div>
+                <div class="col-lg-9">
+                    <div class="card-banner h-auto bg-primary rounded-1" style="height: 350px;">
+                        <div id="carouselExample" class="carousel slide rounded-1">
+                            <div class="carousel-inner rounded-1">
+                                <div class="carousel-item active">
+                                    <img src="/api/read-file-by-img-url/banner1.png" class="d-block w-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="/api/read-file-by-img-url/banner2.png" class="d-block w-100" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="/api/read-file-by-img-url/banner3.png" class="d-block w-100" alt="...">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!-- container end.// -->
+</section>
+<!-- intro -->
+
+<!-- Products -->
+<section>
+    <div class="container my-5">
+        <header class="mb-4">
+            <h3>Hàng mới về</h3>
+        </header>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6" ng-repeat="item in listHangMoiVe">
+                <div class="card my-2 shadow-0">
+                    <a href="/khach-hang-san-pham/index/{{item.id}}/{{item.mauSac.id}}/{{item.kichThuoc.id}}" class="img-wrap">
+                        <div ng-if="item.giaTri > 0"
+                             class="badge text-bg-success text-white position-absolute fs-6"
+                             style="top: 0.5rem; right: 0.5rem">-{{item.giaTri}}%</div>
+                        <img src="/api/read-file-by-idspct-return-anh-mac-dinh/{{item.id}}" alt="Không có ảnh"
+                             class="card-img-top" style="aspect-ratio: 1 / 1">
+                    </a>
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex flex-row" ng-if="item.giaTri > 0" >
+                            <h5 class="mb-1 me-1">{{item.giaGiam | currency: '' : 0}} VNĐ</h5>
+                            <span  class="text-danger" style="font-size: smaller"><s>{{item.gia | currency: '' : 0}} VNĐ</s></span>
+                        </div>
+                        <div class="d-flex flex-row" ng-if="item.giaTri <= 0">
+                            <h5 class="mb-1 me-1">{{item.gia | currency: '' : 0}} VNĐ</h5>
+                        </div>
+                        <p class="card-text">{{item.tenSanPham}}</p>
+                        <!--                                <div class="card-footer d-flex align-items-end pt-3 px-0 pb-0 mt-auto">-->
+                        <!--                                    <a href="#!" class="btn btn-primary shadow-0 me-1">Thêm vào giỏ</a>-->
+                        <!--                                </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Products -->
+
+<!-- Footer -->
+<footer class="text-center text-lg-start text-muted bg-primary">
+    <!-- Section: Links  -->
+    <section class="">
+        <div class="container text-center text-md-start pt-4 pb-4">
+            <!-- Grid row -->
+            <div class="row mt-3">
+                <!-- Grid column -->
+                <div class="col-12 col-lg-3 col-sm-12 mb-2">
+                    <!-- Content -->
+                    <a href="https://mdbootstrap.com/" target="_blank" class="text-white h2">
+                        SHOES 6
+                    </a>
+                    <p class="mt-1 text-white">
+                        © 2024 Copyright: SHOES 6 FPT Polytechnic
+                    </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Hà Nội
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            P. Kiều Mai, Phúc Diễn, Từ Liêm, Hà Nội, Việt Nam
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Tp.HCM
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            Tòa nhà QTSC9 (toà T), đường Tô Ký, phường Tân Chánh Hiệp, quận 12, TP HCM.
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Đà Nẵng
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            219 Nguyễn Sinh Sắc, phường Hoà Minh, quận Liên Chiểu, TP Đà Nẵng
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Thái Nguyên
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            Tòa nhà FPT Polytechnic, đường đê Mỏ Bạch, tổ 10, phường Quyết Thắng, TP Thái Nguyên, tỉnh
+                            Thái Nguyên
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+    </section>
+
+    <!-- Section: Links  -->
+</footer>
+<!-- Footer -->
+</body>
+<script>
+    const apiGetTaiKhoan = "/api/khach-hang/trang-chu/get-tai-khoan";
+    const apiGetListGhctLength = '/api/khach-hang/trang-chu/get-so-sp-trong-gio'
+    const apiGetListDanhMuc = '/api/khach-hang/trang-chu/get-list-danh-muc'
+    const apiGetListHangMoiVe = '/api/khach-hang/trang-chu/get-hang-moi-ve'
+    let myApp = angular.module("myAngularJs4", []);
+    myApp.controller("trangChuController", myFunction);
+    function myFunction($scope, $http, $window) {
+        $http.get(apiGetTaiKhoan)
+            .then(function (res) {
+            if (res.status == 200) {
+                $scope.taiKhoan = res.data
+                if ($scope.taiKhoan == '') {
+                    $scope.taiKhoan = null
+                }
+                return $scope.taiKhoan
+            }
+            })
+            .then(function (tk) {
+                if (tk != null) {
+                    $scope.getListGhctLength()
+                }
+            })
+
+        $http.get(apiGetListDanhMuc).then(function (res) {
+            if (res.status == 200) {
+                $scope.listDanhMuc = res.data
+            }
+        })
+
+        $http.get(apiGetListHangMoiVe).then(function (res) {
+            if (res.status == 200) {
+                $scope.listHangMoiVe = res.data
+                console.log($scope.listHangMoiVe)
+            }
+        })
+
+        $scope.getListGhctLength = () => {
+            $http.get(apiGetListGhctLength).then(function (res) {
+                if (res.status == 200) {
+                    $scope.listGhctSize = res.data
+                }
+            })
+        }
+
+    }
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault(); // Ngăn chuột phải
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.keyCode === 123) {
+            e.preventDefault();
+        }
+    });
+</script>
+</html>

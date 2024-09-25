@@ -1,0 +1,262 @@
+<div class="content-page">
+    <div class="container-fluid">
+        <!--            Paste code vào đây-->
+        <div class="card border-primary">
+            <div class="card-body">
+
+            </div>
+        </div>
+        <!--    modal lich sử trang thai-->
+
+
+        <div class="box">
+            <table class="table table-borderless">
+                <thead>
+                <tr class="text-center" style="background-color: lightskyblue">
+                    <th scope="col">STT</th>
+                    <th scope="col">Ảnh</th>
+                    <th scope="col">Tên Sản Phẩm</th>
+                    <th scope="col" style="width: 120px">Giá</th>
+                    <th scope="col">Số Lượng</th>
+                    <th scope="col">Thao Tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="border: 1px solid #ccc" class="text-center"
+                    ng-repeat="sptq in listSanPhamTaiQuay">
+                    <td>
+                        {{$index + 1 }}
+                    </td>
+
+                    <td >
+                        <div class="iq-avatar">
+                            <img class="avatar-50 rounded" src="/api/read-file-by-idspct/{{sptq.id}}" alt="#" data-original-title="" title="">
+                        </div>
+                    </td>
+                    <td>
+                        {{sptq.sanPhamByIdSanPham.tenSanPham}}/{{sptq.mauSacByIdMauSac.tenMauSac}}/{{sptq.kichThuocByIdKichCo.tenKichThuoc}}
+                    </td>
+                    <td >
+                        <span ng-show="sptq.giaGiamGia == sptq.giaBan"> {{ sptq.gia| currency: '' : 0}} VNĐ </span>
+                    </td>
+                    <td>
+                        <div class="quantity form-group">
+                            <input class="form-control"
+                                   ng-model="sptq.soLuongNhap"
+                                   ng-blur="truSl(sptq, sptq.soLuongNhap)"
+                                   ng-value="sptq.soLuongNhap"
+                                   type="number"/>
+                        </div>
+                        <h6 class="mt-2">
+                            {{sptq.soLuong}} đôi
+                        </h6>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-success"
+                                ng-click="themSanPhamHoaDonChiTiet(sptq.id, sptq.soLuongNhap, sptq)">
+                            Thêm
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Modal Quay Lại Trạng Thái -->
+
+
+        <!-- modal Lịch sử -->
+
+
+        <!-- modal hủy hóa đơn -->
+        <!-- modal thông báo trạng thái HD -->
+        <div class="modal fade" id="lichsu" tabindex="-1" data-backdrop="static" data-keyboard="false"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Lịch sử thay đổi</h5>
+                        <br/>
+                    </div>
+                    <div class="modal-body">
+                        <br/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Hủy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--    Lịch sử thanh toán-->
+
+        <div class="card border-primary">
+            <div class="card-header border-primary d-flex align-items-center justify-content-between">
+                <h4>
+                    Lịch sử thanh toán
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive rounded mb-3">
+                    <table class="data-table table mb-0 tbl-server-info" ng-if="lichSuHoaDon && lichSuHoaDon.length > 0">
+                        <thead class="bg-white text-uppercase">
+                        <tr class="ligth ligth-data">
+                            <th scope="col">STT</th>
+                            <th scope="col">Số tiền</th>
+                            <th scope="col">Thời gian</th>
+                            <th scope="col">Hình thức thanh toán</th>
+                            <th scope="col">Ghi chú</th>
+                            <th scope="col">Người xác nhận</th>
+                        </tr>
+                        </thead>
+                        <tbody class="ligth-body">
+                        <tr ng-repeat="lichSu in lichSuHoaDon" >
+                            <td>{{$index + 1}}</td>
+                            <td>{{lichSu.tienKhachTra| currency: '' : 0}} VNĐ</td>
+                            <td>{{lichSu.ngayHoanThanh | date:'dd/MM/yyyy h:mm:ss a'}}</td>
+                            <td>{{lichSu.phuongthucthanhtoan == 1 ? 'Tiền mặt' : 'Chuyển khoản'}}</td>
+                            <td>{{lichSu.ghiChu}}</td>
+                            <td>{{lichSu.hoVaTen}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--    Thông tin đơn hàng-->
+        <div class="card border-primary">
+            <div class="card-header border-primary d-flex align-items-center justify-content-between">
+                <h4>
+                    Thông tin đơn hàng
+                </h4>
+
+                <div >
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#updateGiao" ng-show="hoaDonChiTiet.trangThai == 1">
+                        Cập nhật
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row" ng-if="hoaDonChiTiet">
+                    <div class="col-lg-4">
+                        <!--                                <p>Mã hóa đơn:{{ hoaDonChiTiet.maHoaDon }}</p>-->
+
+                        <p><strong>Mã hóa đơn: </strong> {{ hoaDonChiTiet.maHoaDon }}</p>
+                        <p><strong>Loại đơn: </strong> {{ hoaDonChiTiet.loaiDonhang ==1? 'Tại quầy': 'Online' }}</p>
+                        <!--                                <p>Loại: {{ hoaDonChiTiet.loaiDonhang ==1? 'Tại quầy': 'Online' }}</p>-->
+                    </div>
+                    <div class="col-lg-4">
+                        <p><strong>Tên Khách hàng: </strong> {{ hoaDonChiTiet.hoVaTen }}</p>
+                        <p><strong>Số điện thoại người nhận: </strong> {{ hoaDonChiTiet.soDienThoaiNhan }}</p>
+                        <p><strong>Email: </strong> {{ hoaDonChiTiet.email }}</p>
+                        <!--                                <p>Tên khách hàng: {{ hoaDonChiTiet.hoVaTen }}</p>-->
+                        <!--                                <p>Số điện thoại người nhận: {{ hoaDonChiTiet.soDienThoaiNhan }}</p>-->
+                        <!--                                <p>Email: {{ hoaDonChiTiet.email }}</p>-->
+                    </div>
+                    <div class="col-lg-4">
+                        <p><strong>Địa chỉ: </strong> {{ hoaDonChiTiet.diaChi }}</p>
+                        <!--                                <p>Địa chỉ: {{ hoaDonChiTiet.diaChi }}</p>-->
+
+                        <p><strong>Trạng thái: </strong>
+                            {{
+                            hoaDonChiTiet.trangThai === 1 ? 'Chờ Xác nhận' :
+                            hoaDonChiTiet.trangThai === 2 ? 'Xác nhận' :
+                            hoaDonChiTiet.trangThai === 3 ? 'Chờ giao hàng' :
+                            hoaDonChiTiet.trangThai === 4 ? 'Giao hàng' :
+                            hoaDonChiTiet.trangThai === 5 ? 'Hoàn thành' :
+                            hoaDonChiTiet.trangThai === 6 ? 'Đã hủy' :
+                            hoaDonChiTiet.trangThai === 0 ? 'Trả hàng' :
+                            hoaDonChiTiet.trangThai === 10 ? 'Tạo đơn' :
+                            'Unknown'
+                            }}</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="card border-primary">
+            <div class="card-header border-primary d-flex align-items-center justify-content-between">
+                <h4 >
+                    Danh sách sản phẩm
+                </h4>
+                <div style="margin-right: 20px">
+
+                    <button class="btn btn-success" ng-show="hoaDonChiTiet.trangThai == 1"
+                            data-toggle="modal" data-target="#sanpham">
+                        Thêm sản phẩm
+                    </button>
+
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive rounded mb-3">
+                    <table class="data-table table mb-0 tbl-server-info">
+                        <thead class="bg-white text-uppercase">
+                        <tr class="ligth ligth-data">
+                            <th>STT</th>
+                            <th>Ảnh</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Kích thước</th>
+                            <th>Màu sắc</th>
+                            <th>Số lượng</th>
+                            <th>Giá tiền</th>
+                            <th>Tổng tiền</th>
+                            <th ng-show="hoaDonChiTiet.trangThai == 1">Hành động</th>
+                        </tr>
+                        </thead>
+                        <tbody class="ligth-body">
+                        <tr ng-repeat="sp in sanPhamCTHoaDonCT">
+                            <td class="dssp">{{ $index + 1 }}</td>
+                            <td>
+                                <div class="iq-avatar">
+                                    <img class="avatar-50 rounded" src="/api/read-file-by-idspct/{{sp.sanPhamChiTiet.id}}" alt="#" data-original-title="" title="">
+                                </div>
+                            </td>
+                            <td class="dssp">{{ sp.sanPhamChiTiet.sanPhamByIdSanPham.tenSanPham }}</td>
+                            <td class="dssp">{{ sp.sanPhamChiTiet.kichThuocByIdKichCo.tenKichThuoc }}</td>
+                            <td class="dssp">{{ sp.sanPhamChiTiet.mauSacByIdMauSac.tenMauSac }}</td>
+                            <td class="dssp">
+                                <div class="form-group">
+                                    <input class="form-control"
+                                           ng-disabled="hoaDonChiTiet.trangThai !== 1"
+                                           ng-model="sp.soLuongSanPham"
+                                           ng-blur="updateOrder(sp.idHoaDonChiTiet, sp.soLuongSanPham)"
+                                           type="number"/>
+                                </div>
+
+                            </td>
+                            <td class="dssp">{{ sp.gia | currency: '' : 0}} VNĐ</td>
+                            <td class="dssp">{{ (sp.gia * sp.soLuongSanPham)| currency: '' : 0}} VNĐ</td>
+                            <td  ng-show="hoaDonChiTiet.trangThai == 1">
+                                <button class="btn btn-danger"
+                                        ng-click="xoaSanPhamKhoiHoaDon(sp.sanPhamChiTiet.id)"
+                                        data--toggle="modal" data-target="#exampleModalXoa">
+                                    <i class="ri-delete-bin-7-line"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>

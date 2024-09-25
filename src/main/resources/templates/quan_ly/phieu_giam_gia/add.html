@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Phiếu giảm giá</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/images/Shoes6cop.png"/>
+    <link rel="stylesheet" href="/assets/css/backend-plugin.min.css">
+    <link rel="stylesheet" href="/assets/css/backend.css?v=1.0.0">
+    <link rel="stylesheet" href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
+    <link rel="stylesheet" href="/assets/vendor/remixicon/fonts/remixicon.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+</head>
+
+<body ng-app="myAngularJs" ng-controller="myController">
+<!-- loader Start -->
+<div id="loading">
+    <div id="loading-center">
+    </div>
+</div>
+<!-- loader END -->
+<!-- Wrapper Start -->
+<div class="wrapper">
+    <div class="iq-sidebar  sidebar-default ">
+        <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
+            <a href="../backend/index.html" class="header-logo">
+                <img src="/api/read-file-by-img-url/Shoes6cop.png" class="img-fluid rounded-normal light-logo"
+                     alt="logo"><h5 class="logo-title light-logo ml-3">SHOES 6</h5>
+            </a>
+            <div class="iq-menu-bt-sidebar ml-0">
+                <i class="las la-bars wrapper-menu"></i>
+            </div>
+        </div>
+        <div class="data-scrollbar" data-scroll="1">
+            <nav class="iq-sidebar-menu">
+                <ul id="iq-sidebar-toggle" class="iq-menu">
+                    <li class="">
+                        <a href="/admin/thong-ke/index" class="svg-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                 class="bi bi-speedometer2" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4M3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.39.39 0 0 0-.029-.518z"/>
+                                <path fill-rule="evenodd"
+                                      d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A8 8 0 0 1 0 10m8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3"/>
+                            </svg>
+                            <span class="ml-4">Thống kê</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="/ban-hang-tai-quay" class="svg-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                 class="bi bi-cash-stack" viewBox="0 0 16 16">
+                                <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                                <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2z"/>
+                            </svg>
+                            <span class="ml-4">Bán hàng tại quầy</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="/hoa-don/hien-thi" class="svg-icon">
+                            <svg class="svg-icon" id="p-dash7" width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            <span class="ml-4">Quản lý đơn hàng</span>
+                        </a>
+                    </li>
+                    <li class=" ">
+                        <a href="#product" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                            <svg class="svg-icon" id="p-dash2" width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                            <span class="ml-4">Quản lý sản phẩm</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20"
+                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul id="product" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                            <li class="">
+                                <a href="/admin/san-pham/index">
+                                    <i class="las la-minus"></i><span>Sản phẩm</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/admin/de-giay/index-de-giay">
+                                    <i class="las la-minus"></i><span>Đế giày</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/admin/loai-giay/index-loai-giay">
+                                    <i class="las la-minus"></i><span>Loại giày</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/admin/thuong-hieu/index-thuong-hieu">
+                                    <i class="las la-minus"></i><span>Thương hiệu</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/admin/chat-lieu/index-chat-lieu">
+                                    <i class="las la-minus"></i><span>Chất liệu</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/admin/kich-co/index-kich-co">
+                                    <i class="las la-minus"></i><span>Kích cỡ</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/admin/mau-sac/index-mau-sac">
+                                    <i class="las la-minus"></i><span>Màu sắc</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class=" ">
+                        <a href="#category" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                 class="bi bi-ticket-perforated" viewBox="0 0 16 16">
+                                <path d="M4 4.85v.9h1v-.9zm7 0v.9h1v-.9zm-7 1.8v.9h1v-.9zm7 0v.9h1v-.9zm-7 1.8v.9h1v-.9zm7 0v.9h1v-.9zm-7 1.8v.9h1v-.9zm7 0v.9h1v-.9z"/>
+                                <path d="M1.5 3A1.5 1.5 0 0 0 0 4.5V6a.5.5 0 0 0 .5.5 1.5 1.5 0 1 1 0 3 .5.5 0 0 0-.5.5v1.5A1.5 1.5 0 0 0 1.5 13h13a1.5 1.5 0 0 0 1.5-1.5V10a.5.5 0 0 0-.5-.5 1.5 1.5 0 0 1 0-3A.5.5 0 0 0 16 6V4.5A1.5 1.5 0 0 0 14.5 3zM1 4.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v1.05a2.5 2.5 0 0 0 0 4.9v1.05a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-1.05a2.5 2.5 0 0 0 0-4.9z"/>
+                            </svg>
+                            <span class="ml-4">Giảm giá</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20"
+                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul id="category" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                            <li class="">
+                                <a href="/admin/giam-gia-san-pham/index">
+                                    <i class="las la-minus"></i><span>Đợt giảm giá</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/admin/phieu-giam-gia/index">
+                                    <i class="las la-minus"></i><span>Phiếu giảm giá</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class=" ">
+                        <a href="#category2" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                            <svg class="svg-icon" id="p-dash8" width="20" height="20" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span class="ml-4">Tài khoản</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" width="20" height="20"
+                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul id="category2" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                            <li class="">
+                                <a href="/admin/nhan-vien/index">
+                                    <i class="las la-minus"></i><span>Nhân viên</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/tai-khoan/index">
+                                    <i class="las la-minus"></i><span>Khách hàng</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="p-3"></div>
+        </div>
+    </div>
+    <div class="iq-top-navbar">
+        <div class="iq-navbar-custom">
+            <nav class="navbar navbar-expand-lg navbar-light p-0">
+                <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
+                    <i class="ri-menu-line wrapper-menu"></i>
+                    <a href="../backend/index.html" class="header-logo">
+                        <img src="/api/read-file-by-img-url/Shoes6cop.png" class="img-fluid rounded-normal" alt="logo">
+                        <h5 class="logo-title ml-3">SHOES 6</h5>
+
+                    </a>
+                </div>
+                <div class="d-flex align-items-center">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-label="Toggle navigation">
+                        <i class="ri-menu-3-line"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto navbar-list align-items-center">
+                            <li class="nav-item nav-icon search-content">
+                                <a href="#" class="search-toggle rounded" id="dropdownSearch" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <i class="ri-search-line"></i>
+                                </a>
+                                <div class="iq-search-bar iq-sub-dropdown dropdown-menu"
+                                     aria-labelledby="dropdownSearch">
+                                    <form action="#" class="searchbox p-2">
+                                        <div class="form-group mb-0 position-relative">
+                                            <input type="text" class="text search-input font-size-12"
+                                                   placeholder="type here to search...">
+                                            <a href="#" class="search-link"><i class="las la-search"></i></a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="nav-item nav-icon dropdown caption-content">
+                                <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton4"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="/api/read-file-by-id-tai-khoan/{{taiKhoan.id}}" class="img-fluid rounded"
+                                         alt="user">
+                                </a>
+                                <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <div class="card shadow-none m-0">
+                                        <div class="card-body p-0 text-center">
+                                            <div class="media-body profile-detail text-center">
+                                                <img src="/api/read-file-by-img-url/modern-sports-shoe-design-abstract-motion-generated-by-ai.jpg"
+                                                     alt="profile-bg"
+                                                     class="rounded-top img-fluid mb-4">
+                                                <img src="/api/read-file-by-id-tai-khoan/{{taiKhoan.id}}"
+                                                     alt="profile-img"
+                                                     class="rounded profile-img img-fluid avatar-70">
+                                            </div>
+                                            <div class="p-3">
+                                                <h5 class="mb-1">{{taiKhoan.email}}</h5>
+                                                <p class="mb-0">{{taiKhoan.hoVaTen}}</p>
+                                                <div class="d-flex align-items-center justify-content-center mt-3">
+                                                    <a href="/tai-khoan-quan-ly/ho-so" class="btn border mr-2">Thông
+                                                        tin</a>
+                                                    <a href="/logout" class="btn border">Đăng xuất</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="content-page">
+        <div class="container-fluid">
+            <div class="row mb-3">
+                <div class="col-lg-12">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between">
+                        <div>
+                            <h4 class="mb-3">Thêm phiếu giảm giá</h4>
+                        </div>
+                        <button ng-click="addPgg()" type="submit" class="btn btn-primary add-list">
+                            <i class="las la-plus mr-3"></i> Thêm mới
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <form id="form">
+                <div class="row">
+                    <div class="col-5">
+                        <div class="mb-3">
+                            <label class="form-label">Mã phiếu</label>
+                            <input type="text" ng-model="pggRequest.maPhieu" class="form-control">
+                            <div class="text-danger" ng-if="kiemTra.maPhieu">
+                                Vui lòng nhập mã phiếu
+                            </div>
+                            <div class="text-danger" ng-if="checkTrung.ma">
+                                Mã phiếu đã tồn tại
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tên phiếu</label>
+                            <input type="text" ng-model="pggRequest.tenPhieu" class="form-control">
+                            <div class="text-danger" ng-if="kiemTra.tenPhieu">
+                                Vui lòng nhập tên phiếu
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="mr-2">Kiểu giá trị</label>
+                            <div class="custom-control custom-radio custom-radio-color custom-control-inline">
+                                <input type="radio" ng-model="pggRequest.kieuGiaTri" ng-value="0"
+                                       id="phanTram" class="custom-control-input bg-primary">
+                                <label class="custom-control-label" for="phanTram">Phần trăm</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-radio-color custom-control-inline">
+                                <input type="radio" ng-model="pggRequest.kieuGiaTri" ng-value="1"
+                                       id="tienMat" class="custom-control-input bg-primary" ng-change="clearGiaTriToiDa()">
+                                <label class="custom-control-label" for="tienMat">Thành tiền</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="form-label">Giá trị</label>
+                                    <input type="number" min="0" ng-model="pggRequest.giaTri" ng-change="clearGiaTriToiDa()"
+                                           class="form-control">
+                                    <div class="text-danger" ng-if="kiemTra.giaTri">
+                                        Vui lòng nhập giá trị
+                                    </div>
+                                    <div class="text-danger" ng-if="checkGiaTri.giaTri">
+                                        Vui lòng nhập giá trị trong khoảng từ 0-100
+                                    </div>
+                                </div>
+                                <div class="input-container mb-3 col-6">
+                                    <label class="form-label">Giảm tối đa (VNĐ)</label>
+                                    <input ng-model="pggRequest.giaTriToiDa" type="number" min="0"
+                                           step="1000" ng-disabled="pggRequest.kieuGiaTri == 1"
+                                           class="form-control">
+                                    <div class="text-danger" ng-if="kiemTra.giaTriToiDa">
+                                        Vui lòng nhập giá trị giảm tối đa
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="mb-3 col-6">
+                                    <label class="form-label">Số lượng</label>
+                                    <input ng-model="pggRequest.soLuong" type="number" min="0"
+                                           class="form-control">
+                                    <div class="text-danger" ng-if="kiemTra.soLuong">
+                                        Vui lòng nhập số lượng
+                                    </div>
+                                    <div class="text-danger" ng-if="kiemTra.khSoHuu">
+                                        Số lượng khách hàng đang chọn lớn hơn số lượng phiếu
+                                    </div>
+                                </div>
+                                <div class="input-container mb-3 col-6">
+                                    <label class="form-label">Đơn tối thiếu (VNĐ)</label>
+                                    <input ng-model="pggRequest.dieuKien" type="number" min="0" step="1000"
+                                           class="form-control">
+                                    <div class="text-danger" ng-if="kiemTra.dieuKien">
+                                        Vui lòng nhập giá trị đơn tối thiếu
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Từ ngày</label>
+                            <input type="datetime-local" ng-model="pggRequest.tuNgay" id="datetimeInput1"
+                                   onchange="updateMinDate()"
+                                   class="form-control">
+                            <div class="text-danger" ng-if="kiemTra.tuNgay">
+                                Vui lòng nhập ngày bắt đầu
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Đến ngày</label>
+                            <input type="datetime-local" ng-model="pggRequest.denNgay" id="datetimeInput2"
+                                   onchange="updateMaxDate()"
+                                   class="form-control">
+                            <div class="text-danger" ng-if="kiemTra.denNgay">
+                                Vui lòng nhập ngày kết thúc
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Kiểu</label>
+                            <div class="custom-control custom-radio custom-radio-color custom-control-inline">
+                                <input type="radio" name="kieu" id="rdo1" ng-value="1"
+                                       onclick="disableDiv1()" ng-model="pggRequest.kieu"
+                                       class="custom-control-input bg-primary">
+                                <label class="custom-control-label" for="rdo1">Công khai</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-radio-color custom-control-inline">
+                                <input type="radio" name="kieu" id="rdo2" ng-value="0"
+                                       onclick="disableDiv2()" ng-model="pggRequest.kieu"
+                                       class="custom-control-input bg-primary">
+                                <label class="custom-control-label" for="rdo2">Cá nhân</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7" id="myDiv">
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-success my-2 my-sm-0" type="button"
+                                        ng-click="searchKh()"><i class="ri-search-2-line"></i></button>
+                            </div>
+                            <input class="form-control mr-sm-2" type="search"
+                                   placeholder="Nhập số điện thoại khách hàng cần tìm"
+                                   id="sdt" name="sdt" value="" ng-model="sdt"
+                                   aria-label="Search">
+                        </div>
+                        <div class="table-responsive rounded mb-3">
+                            <table class="data-table table mb-0 tbl-server-info">
+                                <thead class="bg-white text-uppercase">
+                                <tr class="ligth ligth-data">
+                                    <th></th>
+                                    <th>Tên</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Email</th>
+                                    <th>Ngày sinh</th>
+                                </tr>
+                                </thead>
+                                <tbody class="ligth-body">
+                                <tr ng-repeat="item in kh">
+                                    <td>
+                                        <div class="form-check">
+                                            <input class="select-item" type="checkbox"
+                                                   ng-checked="isSelected(item.id)"
+                                                   ng-click="toggleSelection(item.id)">
+                                        </div>
+                                    </td>
+                                    <td>{{item.hoVaTen}}</td>
+                                    <td>{{item.soDienThoai}}</td>
+                                    <td>{{item.email}}</td>
+                                    <td>{{item.ngaySinh}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item" ng-class="{disabled: pageNumberKh === 0}">
+                                    <a class="page-link" href="#" ng-click="previousPageKh()">Previous</a>
+                                </li>
+                                <li class="page-item" ng-repeat="n in getPagesToDisplayKh()"
+                                    ng-class="{active: n === pageNumberKh}">
+                                    <a class="page-link" href="#" ng-click="setPageKh(n)">{{n + 1}}</a>
+                                </li>
+                                <li class="page-item"
+                                    ng-class="{disabled: pageNumberKh === totalPagesKh - 1}">
+                                    <a class="page-link" href="#" ng-click="nextPageKh()">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <!-- Wrapper End-->
+    <footer class="iq-footer">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item"><a href="#">Chính sách bảo mật</a></li>
+                                <li class="list-inline-item"><a href="#">Điều khoản</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6 text-right">
+                            <span class="mr-1">2024©</span> <a href="#" class="">SHOES 6</a>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+<script src="/assets/js/backend-bundle.min.js"></script>
+<script src="/assets/js/table-treeview.js"></script>
+<script src="/assets/js/customizer.js"></script>
+<script async="" src="/assets/js/chart-custom.js"></script>
+<script src="/assets/js/app.js"></script>
+<script>
+    let sdt = document.querySelector('input[name="sdt"]').value;
+    console.log("sdt: " + sdt)
+
+    function disableDiv1() {
+        const div = document.getElementById('myDiv');
+        const elements = div.querySelectorAll('button, input, a, select, textarea, checkbox');
+        elements.forEach(element => {
+            element.disabled = true;
+        });
+        div.style.opacity = '0.5'; // Tùy chọn: Làm mờ div để chỉ ra rằng nó bị vô hiệu hóa
+    }
+
+    function disableDiv2() {
+        const div = document.getElementById('myDiv');
+        const elements = div.querySelectorAll('button, input, a, select, textarea, checkbox');
+        elements.forEach(element => {
+            element.disabled = false;
+        });
+        div.style.opacity = '1';
+    }
+
+    function submitData() {
+        var sdt = "";
+        sdt = document.getElementById('sdt').value
+
+        // Sử dụng window.location.href để chuyển hướng đến controller với tham số sdt
+        window.location.href = '/admin/phieu-giam-gia/khach-hang?sdt=' + encodeURIComponent(sdt);
+    }
+
+
+    const apiAddPgg = '/kh/phieu-giam-gia/api/add';
+    const apiPageKh = '/kh/phieu-giam-gia/api/page-khach-hang';
+    const apiSrKh = '/kh/phieu-giam-gia/api/search-khach-hang';
+    const apiAddPggKh = '/kh/phieu-giam-gia/api/add-pgg-kh'
+
+    let myApp = angular.module("myAngularJs", ['ngRoute']);
+    myApp.controller("myController", myFunction);
+
+    function myFunction($scope, $http, $window) {
+        $scope.clearGiaTriToiDa = function() {
+            if ($scope.pggRequest.kieuGiaTri == 1) {
+                $scope.pggRequest.giaTriToiDa = $scope.pggRequest.giaTri; // Xóa giá trị ô input khi chọn radio button
+            }
+        };
+
+        $http.get("/api/khach-hang/trang-chu/get-tai-khoan")
+            .then(function (res) {
+                if (res.status == 200) {
+                    $scope.taiKhoan = res.data
+                    if ($scope.taiKhoan == '') {
+                        $scope.taiKhoan = null
+                    }
+                    return $scope.taiKhoan
+                }
+            })
+
+        $scope.pggRequest = {
+            kieuGiaTri: 0,
+            kieu: 0
+        };
+
+        $scope.pageNumberKh = 0; // Trang hiện tại bắt đầu từ 0
+        $scope.totalPagesKh = 0; // Tổng số trang
+        $scope.pageSize = 8; // Kích thước trang
+        $scope.pageRange = 2; // Số lượng trang sẽ hiển thị
+        $scope.sdt = ''; // Tham số tìm kiếm
+        $scope.isSearchingKh = false; // Để xác định xem có đang tìm kiếm không
+
+// Hàm tính toán các trang cần hiển thị
+        $scope.getPagesToDisplayKh = function () {
+            let startPage = Math.max(0, $scope.pageNumberKh - Math.floor($scope.pageRange / 2));
+            let endPage = Math.min($scope.totalPagesKh, startPage + $scope.pageRange);
+
+            if (endPage - startPage < $scope.pageRange) {
+                startPage = Math.max(0, endPage - $scope.pageRange);
+            }
+
+            return Array.from({length: endPage - startPage}, (v, i) => startPage + i);
+        };
+
+// Hàm tải dữ liệu từ API với phân trang
+        $scope.loadPageKh = function (pageNumber, isSearching = false, searchQuery = '') {
+            let url;
+            if (isSearching) {
+                url = apiSrKh + "?timKiem=" + searchQuery + "&page=" + pageNumber + "&size=" + $scope.pageSize;
+            } else {
+                url = apiPageKh + '?page=' + pageNumber + '&size=' + $scope.pageSize;
+            }
+
+            $http.get(url).then(function (res) {
+                if (res.status === 200) {
+                    $scope.kh = res.data.content; // Dữ liệu của trang hiện tại
+                    $scope.totalPagesKh = res.data.totalPages; // Tổng số trang từ API
+                    $scope.pageNumberKh = pageNumber; // Cập nhật trang hiện tại
+                }
+            }).catch(function (error) {
+                console.error('Lỗi khi tải trang:', error);
+            });
+        };
+
+// Chuyển trang
+        $scope.previousPageKh = function () {
+            if ($scope.pageNumberKh > 0) {
+                $scope.loadPageKh($scope.pageNumberKh - 1, $scope.isSearchingKh, $scope.sdt);
+            }
+        };
+
+        $scope.nextPageKh = function () {
+            if ($scope.pageNumberKh < $scope.totalPagesKh - 1) {
+                $scope.loadPageKh($scope.pageNumberKh + 1, $scope.isSearchingKh, $scope.sdt);
+            }
+        };
+
+        $scope.setPageKh = function (pageNumber) {
+            $scope.loadPageKh(pageNumber, $scope.isSearchingKh, $scope.sdt);
+        };
+
+// Gọi để tải trang đầu tiên khi khởi tạo
+        $scope.loadPageKh(0);
+
+// Hàm tìm kiếm dữ liệu
+        $scope.searchKh = function () {
+            $scope.sdt = document.getElementById("sdt").value;
+            $scope.isSearchingKh = true; // Bật chế độ tìm kiếm
+            $scope.loadPageKh(0, true, $scope.sdt); // Tìm kiếm và tải trang đầu tiên
+        };
+
+// Hàm không tìm kiếm
+        $scope.resetSearch = function () {
+            $scope.sdt = '';
+            $scope.isSearchingKh = false;
+            $scope.loadPageKh(0); // Tải lại dữ liệu không tìm kiếm
+        };
+
+        $scope.selectedItemIds = []; // Danh sách lưu trữ các ID của các mục đã chọn
+
+// Hàm kiểm tra xem một mục có được chọn không
+        $scope.isSelected = function (itemId) {
+            return $scope.selectedItemIds.includes(itemId);
+        };
+
+// Hàm để chuyển đổi trạng thái chọn của một mục
+        $scope.toggleSelection = function (itemId) {
+            const index = $scope.selectedItemIds.indexOf(itemId);
+            if (index === -1) {
+                $scope.selectedItemIds.push(itemId); // Thêm vào danh sách nếu chưa có
+            } else {
+                $scope.selectedItemIds.splice(index, 1); // Loại bỏ khỏi danh sách nếu đã có
+            }
+        };
+
+        $scope.addPgg = function () {
+            console.log("vao add list")
+            //Kiểm tra từng trường dữ liệu
+            $scope.kiemTra = {
+                maPhieu: false,
+                tenPhieu: false,
+                giaTri: false,
+                giaTriToiDa: false,
+                dieuKien: false,
+                soLuong: false,
+                tuNgay: false,
+                denNgay: false
+            };
+            //Tạo 1 biến để kiểm tra
+            let flag = true;
+            if (!$scope.pggRequest || !$scope.pggRequest.maPhieu) {
+                flag = false;
+                $scope.kiemTra.maPhieu = true
+            }
+            if (!$scope.pggRequest || !$scope.pggRequest.tenPhieu) {
+                flag = false;
+                $scope.kiemTra.tenPhieu = true
+            }
+            if (!$scope.pggRequest || !$scope.pggRequest.giaTri) {
+                flag = false;
+                $scope.kiemTra.giaTri = true;
+            }
+            if (!$scope.pggRequest || !$scope.pggRequest.giaTriToiDa) {
+                flag = false;
+                $scope.kiemTra.giaTriToiDa = true;
+            }
+            if (!$scope.pggRequest || !$scope.pggRequest.dieuKien) {
+                flag = false;
+                $scope.kiemTra.dieuKien = true;
+            }
+            if (!$scope.pggRequest || !$scope.pggRequest.soLuong) {
+                flag = false;
+                $scope.kiemTra.soLuong = true;
+            }
+            if (!$scope.pggRequest || !$scope.pggRequest.tuNgay) {
+                flag = false;
+                $scope.kiemTra.tuNgay = true;
+            }
+            if (!$scope.pggRequest || !$scope.pggRequest.denNgay) {
+                flag = false;
+                $scope.kiemTra.denNgay = true;
+            }
+            console.log($scope.pggRequest.kieuGiaTri + "//////" + $scope.pggRequest.giaTri)
+            $scope.checkGiaTri = {
+                giaTri: false
+            }
+            if ($scope.pggRequest.kieuGiaTri == 0 && $scope.pggRequest.giaTri > 100) {
+                $scope.checkGiaTri.giaTri = true;
+                flag = false;
+            }
+            if ($scope.pggRequest.kieu == 0 && $scope.pggRequest.soLuong < $scope.selectedItemIds.length) {
+                flag = false;
+                $scope.kiemTra.khSoHuu = true
+            }
+            $scope.checkTrung = {
+                ma: false
+            }
+            const apiCheckMa = "/kh/phieu-giam-gia/api/check-ma";
+            $http.get(apiCheckMa + "?ma=" + $scope.pggRequest.maPhieu).then(function (response) {
+                if (response.status == 200) {
+                    $scope.getMa = response.data;
+                    if ($scope.getMa !== "") {
+                        flag = false;
+                        $scope.checkTrung.ma = true
+                    }
+                }
+            }).then(function (res) {
+                if (flag) {
+                    let newList = {
+                        maKhuyenMai: $scope.pggRequest.maPhieu,
+                        ten: $scope.pggRequest.tenPhieu,
+                        giaTriToiDa: $scope.pggRequest.giaTriToiDa,
+                        giaTriNhoNhat: $scope.pggRequest.dieuKien,
+                        soLuong: $scope.pggRequest.soLuong,
+                        kieu: $scope.pggRequest.kieu,
+                        kieuGiaTri: $scope.pggRequest.kieuGiaTri,
+                        giaTri: $scope.pggRequest.giaTri,
+                        ngayBatDau: $scope.pggRequest.tuNgay,
+                        ngayKetThuc: $scope.pggRequest.denNgay
+                    }
+                    Swal.fire({
+                        title: 'Bạn có muốn thêm phiếu giảm giá?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Xác nhận',
+                        cancelButtonText: 'Hủy'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $http.post(
+                                apiAddPgg,//link api
+                                newList //dữ liệu thêm vào api
+                            ).then(function (res) {
+                                if (res.status == 200) {
+                                    Swal.fire(
+                                        'Thêm thành công!',
+                                        'Phiếu giảm giá đã thêm thành công.',
+                                        'success'
+                                    ).then(function (res) {
+                                        $http.post(
+                                            apiAddPggKh,//link api
+                                            $scope.selectedItemIds //dữ liệu thêm vào api
+                                        ).then(
+                                            window.location.href = "/admin/phieu-giam-gia/index?reload=true",
+                                        )
+                                    });
+                                }
+                            });
+                        }
+                    });
+
+                }
+            })
+
+        }
+    }
+
+    function updateMinDate() {
+        // Lấy giá trị của trường ngày bắt đầu
+        const startDate = document.getElementById('datetimeInput1').value;
+
+        // Lấy trường ngày kết thúc
+        const endDateInput = document.getElementById('datetimeInput2');
+
+        if (startDate) {
+            // Cập nhật thuộc tính min của trường ngày kết thúc
+            endDateInput.setAttribute('min', startDate);
+
+            // Nếu ngày kết thúc đã được chọn và nhỏ hơn ngày bắt đầu, xóa giá trị ngày kết thúc
+            if (endDateInput.value && endDateInput.value < startDate) {
+                endDateInput.value = '';
+            }
+        } else {
+            // Nếu không có ngày bắt đầu, xóa thuộc tính min
+            endDateInput.removeAttribute('min');
+        }
+    }
+
+    function updateMaxDate() {
+        // Lấy giá trị của trường ngày kết thúc
+        const endDate = document.getElementById('datetimeInput2').value;
+
+        // Lấy trường ngày bắt đầu
+        const startDateInput = document.getElementById('datetimeInput1');
+
+        if (startDateInput) {
+            // Cập nhật thuộc tính max của trường ngày bắt đầu với giá trị của ngày kết thúc
+            startDateInput.setAttribute('max', endDate);
+
+            // Nếu ngày bắt đầu đã được chọn và lớn hơn ngày kết thúc, xóa giá trị ngày bắt đầu
+            if (startDateInput.value && startDateInput.value > endDate) {
+                startDateInput.value = '';
+            }
+        } else {
+            // Nếu không có trường ngày bắt đầu, không làm gì cả hoặc có thể thêm logic khác
+            console.log('Phần tử ngày bắt đầu không tồn tại.');
+        }
+    }
+
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault(); // Ngăn chuột phải
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.keyCode === 123) {
+            e.preventDefault();
+        }
+    });
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

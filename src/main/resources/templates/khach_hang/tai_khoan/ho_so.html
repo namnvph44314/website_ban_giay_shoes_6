@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Tài khoản của tôi</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/images/Shoes6cop.png"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"/>
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"/>
+    <!-- BootStrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+            margin-bottom: 20px; /* Tạo khoảng cách dưới ảnh */
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        .flex-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-group {
+            display: flex;
+            align-items: center;
+            margin-left: 10px; /* Khoảng cách giữa tiêu đề và biểu tượng */
+        }
+    </style>
+    <style>
+        .dropdown-toggle {
+            outline: 0;
+        }
+
+        .btn-toggle {
+            padding: .25rem .5rem;
+            font-weight: 600;
+            color: var(--bs-emphasis-color);
+            background-color: transparent;
+        }
+
+        .btn-toggle:hover,
+        .btn-toggle:focus {
+            color: rgba(var(--bs-emphasis-color-rgb), .85);
+            background-color: var(--bs-tertiary-bg);
+        }
+
+        .btn-toggle::before {
+            width: 1.25em;
+            line-height: 0;
+            content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+            transition: transform .35s ease;
+            transform-origin: .5em 50%;
+        }
+
+        [data-bs-theme="dark"] .btn-toggle::before {
+            content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%28255,255,255,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+        }
+
+        .btn-toggle[aria-expanded="true"] {
+            color: rgba(var(--bs-emphasis-color-rgb), .85);
+        }
+
+        .btn-toggle[aria-expanded="true"]::before {
+            transform: rotate(90deg);
+        }
+
+        .btn-toggle-nav a {
+            padding: .1875rem .5rem;
+            margin-top: .125rem;
+            margin-left: 1.25rem;
+        }
+
+        .btn-toggle-nav a:hover,
+        .btn-toggle-nav a:focus {
+            background-color: var(--bs-tertiary-bg);
+        }
+
+        .scrollarea {
+            overflow-y: auto;
+        }
+
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .b-example-divider {
+            width: 100%;
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .btn-bd-primary {
+            --bd-violet-bg: #712cf9;
+            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+            --bs-btn-font-weight: 600;
+            --bs-btn-color: var(--bs-white);
+            --bs-btn-bg: var(--bd-violet-bg);
+            --bs-btn-border-color: var(--bd-violet-bg);
+            --bs-btn-hover-color: var(--bs-white);
+            --bs-btn-hover-bg: #6528e0;
+            --bs-btn-hover-border-color: #6528e0;
+            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+            --bs-btn-active-color: var(--bs-btn-hover-color);
+            --bs-btn-active-bg: #5a23c8;
+            --bs-btn-active-border-color: #5a23c8;
+        }
+
+        .bd-mode-toggle {
+            z-index: 1500;
+        }
+
+        .bd-mode-toggle .dropdown-menu .active .bi {
+            display: block !important;
+        }
+    </style>
+</head>
+<body ng-app="myAngularJs6" ng-controller="taiKhoanController">
+<header>
+    <!-- Jumbotron -->
+    <div class="p-3 text-center bg-white border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/trang-chu/index" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+                    <img src="/api/read-file-by-img-url/Shoes6cop.png" width="90px" height="73px"/>
+                </a>
+
+                <ul class="ms-3 nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/trang-chu/index" class="nav-link px-2 link-body-emphasis">Trang chủ</a></li>
+                    <li><a href="/list-san-pham/index" class="nav-link px-2 link-body-emphasis">Sản phẩm</a>
+                    </li>
+                </ul>
+
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search"
+                      action="/list-san-pham/search" method="post"
+                      th:object="${searchRequest}">
+                    <div class="input-group float-center">
+                                <span class="input-group-text text-primary">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                        <input th:field="*{ten}" type="text" class="form-control" placeholder="Nhập tên sản phẩm ">
+                    </div>
+                </form>
+
+                <div ng-if="taiKhoan != null" class="dropdown text-end me-3">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/api/read-file-by-id-tai-khoan/{{taiKhoan.id}}" alt="mdo" width="48" height="48"
+                             class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item" href="/khach-hang/tai-khoan/ho-so">Thông tin</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
+                    </ul>
+                </div>
+                <a ng-if="taiKhoan != null" href="/khach-hang/gio-hang-index"
+                   class="border rounded py-1 px-3 nav-link d-flex align-items-center position-relative">
+                    <i class="fas fa-shopping-cart m-1 me-md-2"></i>
+                    <p class="d-none d-md-block mb-0">Giỏ hàng</p>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{listGhctSize}}</span>
+                </a>
+                <a ng-if="taiKhoan == null" href="/login"
+                   class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+                    <i class="fas fa-user-alt m-1 me-md-2"></i>
+                    <p class="d-none d-md-block mb-0">Đăng nhập</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Jumbotron -->
+
+    <!-- Heading -->
+    <div class="bg-primary mb-4">
+        <div class="container py-4">
+            <h3 class="text-white mt-2">Tài khoản của tôi</h3>
+            <!--            Breadcrumb-->
+            <!--            <nav class="d-flex mb-2">-->
+            <!--                <h6 class="mb-0">-->
+            <!--                    <a href="" class="text-white-50">Trang chủ</a>-->
+            <!--                    <span class="text-white-50 mx-2"> > </span>-->
+            <!--                    <a href="" class="text-white-50">Danh sách sản phẩm</a>-->
+            <!--                    <span class="text-white-50 mx-2"> > </span>-->
+            <!--                    <a href="" class="text-white-50">Sản phẩm</a>-->
+            <!--                    <span class="text-white-50 mx-2"> > </span>-->
+            <!--                    <a href="" class="text-white-50">Giỏ hàng</a>-->
+            <!--                </h6>-->
+            <!--            </nav>-->
+            <!--            Breadcrumb-->
+        </div>
+    </div>
+    <!-- Heading -->
+
+</header>
+<!-- Products -->
+<section>
+    <div class="container my-5 mx-5">
+        <div class="row">
+            <div class="col-3">
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary rounded border">
+                    <div >
+                        <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none "
+                            aria-expanded="false">
+                            <img src="/api/read-file-by-id-tai-khoan/{{taiKhoan.id}}" alt="" width="48" height="48" class="rounded-circle me-2">
+                            <strong>{{taiKhoan.hoVaTen}}</strong>
+                        </a>
+                    </div>
+                    <hr>
+                    <ul class="nav nav-pills flex-column mb-auto">
+                        <li class="nav-item">
+                            <a href="/khach-hang/tai-khoan/ho-so" class="nav-link active">
+                                <i class="bi bi-person me-2"></i>
+                                Tài khoản của tôi
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/khach-hang/tai-khoan/don-mua" class="nav-link link-body-emphasis">
+                                <i class="bi bi-receipt me-2"></i>
+                                Đơn mua
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/khach-hang/tai-khoan/phieu-giam-gia" class="nav-link link-body-emphasis">
+                                <i class="bi bi-ticket-perforated me-2"></i>
+                                Phiếu giảm giá
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/khach-hang/tai-khoan/doi-mat-khau" class="nav-link link-body-emphasis">
+                                <i class="bi bi-key me-2"></i>
+                                Đổi mật khẩu
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        <div class="col-9">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5>Hồ sơ</h5>
+                </div>
+                <div class="card-body ">
+                    <div class="container">
+                        <div class="toast-container2">
+                            <div id="infoToast" class="toast text-bg-success" role="alert" aria-live="assertive"
+                                 aria-atomic="true">
+                                <div class="toast-header">
+                                    <img src="/khach-hang/gio-hang/read-file/Shoes6cop.png" width="18px" height="15px"
+                                         class="rounded me-2" alt="...">
+                                    <strong class="me-auto">Thông báo</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="toast"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div id="infoToastBody" class="toast-body"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <form class="form-control" id="formTaiKhoan" method="post" action="/api/khach-hang/tai-khoan/uploadFile-detail" enctype="multipart/form-data">
+                                    <h4>Thông tin cá nhân</h4>
+                                    <hr>
+                                    <div class="container mt-5">
+                                        <div class="container mt-5">
+                                            <div class="text-center">
+                                                <img ng-src="/api/read-file-khach-hang/{{taiKhoanRequest.id}}" id="profilePic" class="profile-pic"
+                                                     alt="Profile Picture">
+                                                <br>
+                                                <div class="file-input-wrapper">
+                                                    <button class="btn btn-primary">Chọn ảnh</button>
+                                                    <!--                                    <input type="file" id="uploadProfilePic"-->
+                                                    <!--                                           file-model="taiKhoanRequest.anh">-->
+                                                    <input type="file" id="uploadProfilePic"
+                                                           name="file" onchange="angular.element(this).scope().SelectFile(event)"
+                                                           accept="image/*">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Tên khách hàng</label>
+                                            <input type="text" class="form-control" ng-model="taiKhoanRequest.tenKhachHang">
+                                            <div class="text-danger" ng-if="kiemTra.tenKhachHang">
+                                                Vui lòng nhập họ tên
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Số điện thoại</label>
+                                            <input type="text" class="form-control" ng-model="taiKhoanRequest.sdt">
+                                            <div class="text-danger" ng-if="kiemTra.sdt">
+                                                Vui lòng nhập số điện thoại
+                                            </div>
+                                            <div class="text-danger" ng-if="dinhDang.sdt">
+                                                Số điện thoại sai định dạng
+                                            </div>
+                                            <div class="text-danger" ng-if="checkTrung.sdt">
+                                                Số điện thoại đã tồn tại
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">email</label>
+                                            <input type="email" class="form-control" ng-model="taiKhoanRequest.email">
+                                            <div class="text-danger" ng-if="kiemTra.email">
+                                                Vui lòng nhập email
+                                            </div>
+                                            <div class="text-danger" ng-if="dinhDang.email">
+                                                Email sai định dạng
+                                            </div>
+                                            <div class="text-danger" ng-if="checkTrung.email">
+                                                Email đã tồn tại
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Ngày sinh</label>
+                                            <input type="date" class="form-control" ng-model="taiKhoanRequest.ngaySinh">
+                                            <div class="text-danger" ng-if="kiemTra.ngaySinh">
+                                                Vui lòng chọn ngày sinh
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Giới tính</label><br>
+                                            <input class="form-check-input" type="radio" name="gioiTinh" ng-value="1"
+                                                   ng-model="taiKhoanRequest.gioiTinh">
+                                            <label class="form-check-label">Nam</label>
+                                            <input class="form-check-input" type="radio" name="gioiTinh" ng-value="0"
+                                                   ng-model="taiKhoanRequest.gioiTinh">
+                                            <label class="form-check-label">Nữ</label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Trạng thái</label>
+                                            <select ng-model="taiKhoanRequest.trangThai" class="form-select">
+                                                <option ng-value="2" disabled selected>Chọn trạng thái</option>
+                                                <option ng-value="1">Hoạt động</option>
+                                                <option ng-value="0">Ngừng hoạt động</option>
+                                            </select>
+                                            <div class="text-danger" ng-if="kiemTra.trangThai">
+                                                Vui lòng chọn trạng thái
+                                            </div>
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <button ng-click="updateList()" type="button" class="btn btn-outline-success"
+                                                    style="width: 100px;">Cập nhật
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-8">
+                                <div ng-repeat="diaChi in lstDc " class="mb-3">
+                                    <form class="form-control">
+                                        <div class="flex-row">
+                                            <h5>Địa chỉ {{(pageNumberDc * pageSize) + $index + 1}}</h5>
+                                            <div class="icon-group">
+                                                <div ng-if="diaChi.macDinh == true">
+                                                    <i class="bi bi-star-fill" style="color: darkorange"></i>
+                                                </div>
+                                                <div ng-if="diaChi.macDinh == false" style="color: black">
+                                                    <i class="bi bi-star" ng-click="updateMacDinh(diaChi.id)"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <!-- Tên khách hàng -->
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Tên</label>
+                                                    <input type="text" class="form-control" ng-model="diaChi.hoVaTen" disabled>
+                                                </div>
+                                            </div>
+                                            <!-- Số điện thoại -->
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Số điện thoại</label>
+                                                    <input type="text" class="form-control" ng-model="diaChi.soDienThoai" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Tỉnh/Thành -->
+                                        <div class="row">
+                                            <div class="col-sm-4 mb-3">
+                                                <p class="mb-0">Tỉnh/Thành</p>
+                                                <select ng-model="diaChi.idTinh"
+                                                        ng-change="selectTinhThanh(diaChi)" class="form-select" disabled>
+                                                    <option ng-value="0" disabled selected>Chọn Tỉnh/Thành</option>
+                                                    <option ng-value="diaChi.idTinh">
+                                                        {{diaChi.tenTinh}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <!-- Quận/Huyện -->
+                                            <div class="col-sm-4 mb-3">
+                                                <p class="mb-0">Quận/Huyện</p>
+                                                <select ng-model="diaChi.idHuyen"
+                                                        ng-change="selectQuanHuyen(diaChi)" class="form-select" disabled>
+                                                    <option ng-value="0" disabled selected>Chọn Quận/Huyện</option>
+                                                    <option  ng-value="diaChi.idHuyen">
+                                                        {{diaChi.tenHuyen}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <!-- Xã/Phường -->
+                                            <div class="col-sm-4 mb-3">
+                                                <p class="mb-0">Xã/Phường</p>
+                                                <select ng-model="diaChi.idXa" class="form-select" disabled>
+                                                    <option value="0" disabled selected>Chọn Xã/Phường</option>
+                                                    <option ng-value="diaChi.idXa">
+                                                        {{diaChi.tenXa}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- Địa chỉ cụ thể -->
+                                        <div class="col-sm-12 mb-3">
+                                            <p class="mb-0">Địa chỉ cụ thể</p>
+                                            <input disabled ng-model="diaChi.diaChiCuThe" type="text"
+                                                   placeholder="Ví dụ: Tòa nhà FPT Polytechnic, 13 phố Trịnh Văn Bô" class="form-control"
+                                                   ng-blur="checkDiaChi()"/>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="mb-3 me-2">
+                                                <button ng-click="detailDiaChi(diaChi.id)" type="button"
+                                                        class="btn btn-outline-primary text-end" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal2">
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel2">Cập nhật địa chỉ</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">Tên khách hàng</label>
+                                                                            <input type="text" class="form-control"
+                                                                                   ng-model="diaChiUpdate.tenKhachHang">
+                                                                            <div class="text-danger" ng-if="kiemTra.tenKhachHangUpdate">
+                                                                                Vui lòng nhập họ tên
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">Số điện thoại</label>
+                                                                            <input type="text" class="form-control"
+                                                                                   ng-model="diaChiUpdate.sdt">
+                                                                            <div class="text-danger" ng-if="kiemTra.sdtUpdate">
+                                                                                Vui lòng nhập số điện thoại
+                                                                            </div>
+                                                                            <div class="text-danger" ng-if="dinhDang.sdtUpdate">
+                                                                                Số điện thoại sai định dạng
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-sm-4 mb-3">
+                                                                        <p class="mb-0">Tỉnh/Thành</p>
+                                                                        <select ng-model="diaChiUpdate.idTinh"
+                                                                                ng-change="selectTinhThanhUpdate()" class="form-select">
+                                                                            <option ng-value="0" disabled selected>Chọn Tỉnh/Thành</option>
+                                                                            <option ng-repeat="item in listTinhThanh"
+                                                                                    ng-value="item.ProvinceID">
+                                                                                {{item.ProvinceName}}
+                                                                            </option>
+                                                                        </select>
+                                                                        <div class="text-danger" ng-if="kiemTra.tinhUpdate">
+                                                                            Vui lòng chọn tỉnh
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Quận/Huyện -->
+                                                                    <div class="col-sm-4 mb-3">
+                                                                        <p class="mb-0">Quận/Huyện</p>
+                                                                        <select ng-model="diaChiUpdate.idHuyen"
+                                                                                ng-change="selectQuanHuyenUpdate()" class="form-select">
+                                                                            <option ng-value="0" disabled selected>Chọn Quận/Huyện</option>
+                                                                            <option ng-repeat="item in listQuanHuyen"
+                                                                                    ng-value="item.DistrictID">
+                                                                                {{item.DistrictName}}
+                                                                            </option>
+                                                                        </select>
+                                                                        <div class="text-danger" ng-if="kiemTra.huyenUpdate">
+                                                                            Vui lòng chọn huyện
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- Xã/Phường -->
+                                                                    <div class="col-sm-4 mb-3">
+                                                                        <p class="mb-0">Xã/Phường</p>
+                                                                        <select ng-model="diaChiUpdate.idXa" class="form-select">
+                                                                            <option value="0" disabled selected>Chọn Xã/Phường</option>
+                                                                            <option ng-repeat="item in listXaPhuong"
+                                                                                    ng-value="item.WardCode">
+                                                                                {{item.WardName}}
+                                                                            </option>
+                                                                        </select>
+                                                                        <div class="text-danger" ng-if="kiemTra.xaUpdate">
+                                                                            Vui lòng chọn xã
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-sm-12 mb-3">
+                                                                        <p class="mb-0">Địa chỉ cụ thể</p>
+                                                                        <div class="form-outline">
+                                                                            <input ng-model="diaChiUpdate.diaChi" type="text"
+                                                                                   placeholder="Ví dụ: Tòa nhà FPT Polytechnic, 13 phố Trịnh Văn Bô"
+                                                                                   class="form-control"
+                                                                                   ng-blur="checkDiaChi()"/>
+                                                                        </div>
+                                                                        <div class="text-danger" ng-if="kiemTra.diaChiUpdate">
+                                                                            Vui lòng nhập địa chỉ cụ thể
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng
+                                                                </button>
+                                                                <a ng-click="updateDiaChi(diaChiUpdate.id)" type="button"
+                                                                   class="btn btn-primary">Lưu</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div ng-if="diaChi.macDinh == false">
+                                                <a ng-click="deleteDiaChi(diaChi.id)" class="btn btn-outline-danger me-2"><i
+                                                        class="bi bi-trash3-fill"></i></a>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <br>
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item" ng-class="{disabled: pageNumberDc === 0}">
+                                            <a class="page-link" href="#" ng-click="previousPageDc()">Previous</a>
+                                        </li>
+                                        <li class="page-item" ng-repeat="n in getPagesToDisplayDc()"
+                                            ng-class="{active: n === pageNumberDc}">
+                                            <a class="page-link" href="#" ng-click="setPageDc(n)">{{n + 1}}</a>
+                                        </li>
+                                        <li class="page-item" ng-class="{disabled: pageNumberDc === totalPagesDc - 1}">
+                                            <a class="page-link" href="#" ng-click="nextPageDc()">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <hr>
+                                <button type="button" class="btn btn-primary justify-content-end" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                    Thêm địa chỉ
+                                </button>
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Thêm mới địa chỉ</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Tên khách hàng</label>
+                                                            <input type="text" class="form-control" ng-model="diaChiAdd.tenKhachHang">
+                                                            <div class="text-danger" ng-if="kiemTra.tenKhachHangAdd">
+                                                                Vui lòng nhập họ tên
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Số điện thoại</label>
+                                                            <input type="text" class="form-control" ng-model="diaChiAdd.sdt">
+                                                            <div class="text-danger" ng-if="kiemTra.sdtAdd">
+                                                                Vui lòng nhập số điện thoại
+                                                            </div>
+                                                            <div class="text-danger" ng-if="dinhDang.sdtAdd">
+                                                                Số điện thoại sai định dạng
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4 mb-3">
+                                                        <p class="mb-0">Tỉnh/Thành</p>
+                                                        <select ng-model="diaChiAdd.idTinh"
+                                                                ng-change="selectTinhThanhAdd()" class="form-select">
+                                                            <option ng-value="0" disabled selected>Chọn Tỉnh/Thành</option>
+                                                            <option ng-repeat="item in listTinhThanh" ng-value="item.ProvinceID"
+                                                                    value="item.ProvinceID">
+                                                                {{item.ProvinceName}}
+                                                            </option>
+                                                        </select>
+                                                        <div class="text-danger" ng-if="kiemTra.tinhAdd">
+                                                            Vui lòng chọn tỉnh
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Quận/Huyện -->
+                                                    <div class="col-sm-4 mb-3">
+                                                        <p class="mb-0">Quận/Huyện</p>
+                                                        <select ng-model="diaChiAdd.idHuyen"
+                                                                ng-change="selectQuanHuyenAdd()" class="form-select">
+                                                            <option ng-value="0" disabled selected>Chọn Quận/Huyện</option>
+                                                            <option ng-repeat="item in listQuanHuyen" ng-value="item.DistrictID">
+                                                                {{item.DistrictName}}
+                                                            </option>
+                                                        </select>
+                                                        <div class="text-danger" ng-if="kiemTra.huyenAdd">
+                                                            Vui lòng chọn huyện
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Xã/Phường -->
+                                                    <div class="col-sm-4 mb-3">
+                                                        <p class="mb-0">Xã/Phường</p>
+                                                        <select ng-model="diaChiAdd.idXa" class="form-select">
+                                                            <option value="0" disabled selected>Chọn Xã/Phường</option>
+                                                            <option ng-repeat="item in listXaPhuong" ng-value="item.WardCode">
+                                                                {{item.WardName}}
+                                                            </option>
+                                                        </select>
+                                                        <div class="text-danger" ng-if="kiemTra.xaAdd">
+                                                            Vui lòng chọn xã
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-12 mb-3">
+                                                        <p class="mb-0">Địa chỉ cụ thể</p>
+                                                        <div class="form-outline">
+                                                            <input ng-model="diaChiAdd.diaChi" type="text"
+                                                                   placeholder="Ví dụ: Tòa nhà FPT Polytechnic, 13 phố Trịnh Văn Bô"
+                                                                   class="form-control"
+                                                                   ng-blur="checkDiaChi()"/>
+                                                        </div>
+                                                        <div class="text-danger" ng-if="kiemTra.diaChiAdd">
+                                                            Vui lòng nhập địa chỉ cụ thể
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                <a ng-click="addDiaChi()" type="button" class="btn btn-primary">Lưu</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+<!-- Products -->
+
+<!-- Footer -->
+<footer class="text-center text-lg-start text-muted bg-primary mt-3">
+    <!-- Section: Links  -->
+    <section class="">
+        <div class="container text-center text-md-start pt-4 pb-4">
+            <!-- Grid row -->
+            <div class="row mt-3">
+                <!-- Grid column -->
+                <div class="col-12 col-lg-3 col-sm-12 mb-2">
+                    <!-- Content -->
+                    <a href="https://mdbootstrap.com/" target="_blank" class="text-white h2">
+                        SHOES 6
+                    </a>
+                    <p class="mt-1 text-white">
+                        © 2024 Copyright: SHOES 6 FPT Polytechnic
+                    </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Hà Nội
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            P. Kiều Mai, Phúc Diễn, Từ Liêm, Hà Nội, Việt Nam
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Tp.HCM
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            Tòa nhà QTSC9 (toà T), đường Tô Ký, phường Tân Chánh Hiệp, quận 12, TP HCM.
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Đà Nẵng
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            219 Nguyễn Sinh Sắc, phường Hoà Minh, quận Liên Chiểu, TP Đà Nẵng
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Thái Nguyên
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            Tòa nhà FPT Polytechnic, đường đê Mỏ Bạch, tổ 10, phường Quyết Thắng, TP Thái Nguyên, tỉnh
+                            Thái Nguyên
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+    </section>
+
+    <!-- Section: Links  -->
+</footer>
+<!-- Footer -->
+</body>
+<script>
+
+    const apiGetTinhThanh = "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province";
+    const apiGetQuanHuyen = "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district";
+    const apiGetXaPhuong = "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=";
+
+    const apiDetailKhachHang = "/kh/tai-khoan/api/detail";
+    const apiDetailDiaChi = "/kh/tai-khoan/api/detail-dia-chi";
+    const apiUpdateKhachHang = "/kh/tai-khoan/api/update";
+    const apiUpdateDiaChiMacDinh = "/kh/tai-khoan/api/update-dia-chi-mac-dinh";
+    const apiAddDiaChi = "/kh/tai-khoan/api/add-dia-chi";
+    const apiGetPageDiaChi = "/kh/tai-khoan/api/page-dia-chi";
+    const apiDeleteDiaChi = "/kh/tai-khoan/api/deleteDc";
+    const apiUpdateDcMacDinh="/kh/tai-khoan/api/update-mac-dinh"
+
+
+    const token = "69ea89dc-44f2-11ef-8e53-0a00184fe694";
+    const token2 = {"token": "69ea89dc-44f2-11ef-8e53-0a00184fe694"}
+    let _idDiaChi = 0;
+    let _idTaiKhoan = 0;
+
+    const apiGetTaiKhoan = "/khach-hang/tai-khoan/get-tai-khoan";
+    const apiGetListGhctLength = '/khach-hang/tai-khoan/get-so-sp-trong-gio'
+    let myApp = angular.module("myAngularJs6", []);
+    myApp.controller("taiKhoanController", myFunction);
+
+    function myFunction($scope, $http, $window) {
+        $http.get(apiGetTaiKhoan).then(function (res) {
+            if (res.status == 200) {
+                $scope.taiKhoan = res.data
+                if ($scope.taiKhoan == '') {
+                    $scope.taiKhoan = null
+                }
+            }
+        })
+
+        $scope.getListGhctLength = () => {
+            $http.get(apiGetListGhctLength).then(function (res) {
+                if (res.status == 200) {
+                    $scope.listGhctSize = res.data
+                }
+            })
+        }
+        $scope.getListGhctLength()
+
+        $scope.SelectFile = function (e) {
+            document.getElementById("formTaiKhoan").submit();
+        };
+        // Load Tỉnh/Thành
+        $scope.loadProvinces = function () {
+            $http.get(apiGetTinhThanh, {headers: {"Token": token}})
+                .then(function (response) {
+                    $scope.listTinhThanh = response.data.data;
+                })
+                .catch(function (error) {
+                    console.error('Error loading provinces:', error);
+                });
+        };
+
+        // Load Quận/Huyện dựa trên Tỉnh/Thành đã chọn
+        $scope.selectTinhThanh = function (diaChi) {
+            if (diaChi && diaChi.idTinh) {
+                return $http.get(`${apiGetQuanHuyen}?province_id=${diaChi.idTinh}`, {headers: {"Token": token}})
+                    .then(function (response) {
+                        $scope.listQuanHuyen = response.data.data;
+                        diaChi.listQuanHuyen = response.data.data; // Lưu danh sách Quận/Huyện vào đối tượng diaChi
+                    })
+                    .catch(function (error) {
+                        console.error('Error loading districts:', error);
+                    });
+            } else {
+                return Promise.resolve(); // Trả về một Promise rỗng nếu không có idTinh
+            }
+        };
+
+        $scope.selectQuanHuyen = function (diaChi) {
+            if (diaChi && diaChi.idHuyen) {
+                return $http.get(`${apiGetXaPhuong}${diaChi.idHuyen}`, {headers: {"Token": token}})
+                    .then(function (response) {
+                        $scope.listXaPhuong = response.data.data;
+                        diaChi.listXaPhuong = response.data.data; // Lưu danh sách Xã/Phường vào đối tượng diaChi
+                    })
+                    .catch(function (error) {
+                        console.error('Error loading wards:', error);
+                    });
+            } else {
+                return Promise.resolve(); // Trả về một Promise rỗng nếu không có idHuyen
+            }
+        };
+
+        // Khởi tạo bằng cách load danh sách Tỉnh/Thành
+        $scope.loadProvinces();
+
+        _idTaiKhoan = [[${idKhTt}]];
+        $scope.getDetailKhachHang = function (){
+            return $http.get(apiDetailKhachHang + "/" + _idTaiKhoan)
+        }
+
+
+        $scope.pageNumberDc = 0; // Trang hiện tại bắt đầu từ 0
+        $scope.totalPagesDc = 0; // Tổng số trang
+        $scope.pageSize = 2;
+        $scope.pageRange = 2; // Số lượng trang sẽ hiển thị
+
+        $scope.loadDiaChi = function (pageNumber) {
+            let url = apiGetPageDiaChi + '?page=' + pageNumber + '&size=' + $scope.pageSize;
+
+            $http.get(url).then(function (res) {
+                if (res.status == 200) {
+                    $scope.lstDc = res.data.content; // Lưu trữ dữ liệu địa chỉ trong lstDc
+                    console.log($scope.lstDc)
+                    console.log(url)
+                    $scope.totalPagesDc = res.data.totalPages; // Tổng số trang
+                    $scope.pageNumberDc = pageNumber; // Cập nhật trang hiện tại
+
+                    for (let i = 0; i < $scope.lstDc.length; i++) {
+                        $scope.abcxyz(i)
+                    }
+                } else {
+                    console.error('Failed to load data');
+                }
+            }).catch(function (error) {
+                console.error('Error fetching data:', error);
+            });
+        };
+
+        $scope.getTinhThanh = () => {
+            return $http.get(apiGetTinhThanh, {headers: token2})
+        }
+
+        $scope.getQuanHuyen = (tinhThanh) => {
+            return $http.post(apiGetQuanHuyen, tinhThanh, {headers: token2})
+        }
+
+        $scope.getXaPhuong = (quanHuyen) => {
+            return $http.get(apiGetXaPhuong + quanHuyen.DistrictID, {headers: token2})
+        }
+
+        $scope.abcxyz = (index) => {
+            let obj = {"province_id": $scope.lstDc[index].idTinh}
+            $scope.getTinhThanh()
+                .then(function (res){
+                    return res.data
+                })
+                .then(function (res){
+                    let listTinhThanh = res.data
+                    let tinhThanh = listTinhThanh.find(({ProvinceID}) => ProvinceID == $scope.lstDc[index].idTinh);
+                    $scope.getQuanHuyen(obj)
+                        .then(function (res) {
+                            return res.data
+                        })
+                        .then(function (res) {
+                            let listQuanHuyen = res.data
+                            let quanHuyen = listQuanHuyen.find(({DistrictID}) => DistrictID == $scope.lstDc[index].idHuyen);
+                            $scope.getXaPhuong(quanHuyen)
+                                .then(function (res) {
+                                    return res.data
+                                })
+                                .then(function (res) {
+                                    let listXaPhuong = res.data
+                                    let xaPhuong = listXaPhuong.find(({WardCode}) => WardCode == $scope.lstDc[index].idXa);
+                                    $scope.lstDc[index].tenTinh = tinhThanh.ProvinceName
+                                    $scope.lstDc[index].tenHuyen = quanHuyen.DistrictName
+                                    $scope.lstDc[index].tenXa = xaPhuong.WardName
+                                })
+                        })
+                })
+
+        }
+
+        $scope.getDetailKhachHang()
+            .then(function (res){
+                if (res.status == 200) {
+                    $scope.taiKhoanRequest = {
+                        id:res.data.id,
+                        tenKhachHang: res.data.hoVaTen,
+                        email: res.data.email,
+                        sdt: res.data.soDienThoai,
+                        ngaySinh: new Date(res.data.ngaySinh),
+                        gioiTinh: parseInt(res.data.gioiTinh),
+                        trangThai: parseInt(res.data.trangThai)
+                    }
+                }
+            })
+            .then(function (){
+                $scope.loadDiaChi(0);
+            })
+
+
+        $scope.previousPageDc = function () {
+            if ($scope.pageNumberDc > 0) {
+                $scope.loadDiaChi($scope.pageNumberDc - 1);
+            }
+        };
+
+        $scope.nextPageDc = function () {
+            if ($scope.pageNumberDc < $scope.totalPagesDc - 1) {
+                $scope.loadDiaChi($scope.pageNumberDc + 1);
+            }
+        };
+
+        $scope.setPageDc = function (pageNumber) {
+            $scope.loadDiaChi(pageNumber);
+        };
+
+        $scope.getPagesToDisplayDc = function () {
+            let startPage = Math.max(0, $scope.pageNumberDc - Math.floor($scope.pageRange / 2));
+            let endPage = Math.min($scope.totalPagesDc, startPage + $scope.pageRange);
+
+            if (endPage - startPage < $scope.pageRange) {
+                startPage = Math.max(0, endPage - $scope.pageRange);
+            }
+
+            return Array.from({length: endPage - startPage}, (v, i) => startPage + i);
+        };
+
+
+        $scope.updateList = function () {
+            //Kiểm tra từng trường dữ liệu
+            $scope.kiemTra = {
+                tenKhachHang: false,
+                sdt: false,
+                email: false,
+                ngaySinh: false,
+                trangThai: false,
+                gioiTinh: false
+            };
+            $scope.dinhDang = {
+                email: false,
+                sdt: false
+            };
+            //Tạo 1 biến để kiểm tra
+            let flag = true;
+            let checkMail = true;
+            let checkSDT = true;
+            if (!$scope.taiKhoanRequest || !$scope.taiKhoanRequest.tenKhachHang) {
+                flag = false;
+                $scope.kiemTra.tenKhachHang = true
+            }
+            if (!$scope.taiKhoanRequest || !$scope.taiKhoanRequest.ngaySinh) {
+                flag = false;
+                $scope.kiemTra.ngaySinh = true
+            }
+            if (!$scope.taiKhoanRequest || !$scope.taiKhoanRequest.email) {
+                flag = false;
+                $scope.kiemTra.email = true;
+                checkMail = false
+            }
+
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if (checkMail && re.test($scope.taiKhoanRequest.email) == false) {
+                flag = false;
+                $scope.dinhDang.email = true;
+            }
+
+            if (!$scope.taiKhoanRequest || !$scope.taiKhoanRequest.sdt) {
+                flag = false;
+                $scope.kiemTra.sdt = true;
+                checkSDT = false
+            }
+            var vnf_regex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+            if (checkSDT && vnf_regex.test($scope.taiKhoanRequest.sdt) == false) {
+                flag = false;
+                $scope.dinhDang.sdt = true;
+            }
+
+            $scope.checkTrung = {
+                sdt: false,
+                email: false
+            }
+
+            const apiCheckSdtUpdate = "/kh/tai-khoan/api/sdt-update";
+            $http.get(apiCheckSdtUpdate + "?sdt=" + $scope.taiKhoanRequest.sdt + "&id=" + _idTaiKhoan).then(function (response) {
+                if (response.status == 200) {
+                    $scope.getSdt = response.data;
+                    if ($scope.getSdt !== "") {
+                        flag = false;
+                        $scope.checkTrung.sdt = true
+                    }
+                }
+            })
+
+            const apiCheckEmailUpdate = "/kh/tai-khoan/api/email-update";
+            $http.get(apiCheckEmailUpdate + "?email=" + $scope.taiKhoanRequest.email + "&id=" + _idTaiKhoan).then(function (response) {
+                if (response.status == 200) {
+                    $scope.getEmail = response.data;
+                    if ($scope.getEmail !== "") {
+                        flag = false;
+                        $scope.checkTrung.email = true
+                    }
+                }
+            })
+
+            if (flag) {
+
+                let newList = {
+                    anh: $scope.taiKhoanRequest.anh,
+                    tenKhachHang: $scope.taiKhoanRequest.tenKhachHang,
+                    email: $scope.taiKhoanRequest.email,
+                    soCanCuoc: "",
+                    sdt: $scope.taiKhoanRequest.sdt,
+                    ngaySinh: $scope.taiKhoanRequest.ngaySinh,
+                    gioiTinh: $scope.taiKhoanRequest.gioiTinh,
+                    idTinh: 1,
+                    idHuyen: 1,
+                    idXa: 1,
+                    diaChi: "",
+                    trangThai: $scope.taiKhoanRequest.trangThai
+                }
+                Swal.fire({
+                    title: 'Bạn có muốn cập nhật thông tin?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $http.put(
+                            apiUpdateKhachHang + "/" + _idTaiKhoan, // URL API
+                            newList // Dữ liệu gửi lên API
+                        ).then(function (res) {
+                            if (res.status == 200) {
+                                Swal.fire(
+                                    'Cập nhật thành công!',
+                                    'Thông tin đã cập nhật thành công.',
+                                    'success'
+                                ).then(() => {
+                                    $window.location.href = "/khach-hang/tai-khoan/ho-so";
+                                }).catch(function (error) {
+                                    console.error('Error:', error); // Xử lý lỗi nếu yêu cầu POST thất bại
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        $scope.updateDiaChi = function () {
+            //Kiểm tra từng trường dữ liệu
+            $scope.kiemTra = {
+                tenKhachHangUpdate: false,
+                sdtUpdate: false,
+                tinhUpdate: false,
+                huyenUpdate: false,
+                xaUpdate: false,
+                diaChiUpdate: false
+            };
+            $scope.dinhDang = {
+                sdtUpdate: false
+            };
+            //Tạo 1 biến để kiểm tra
+            let flag = true;
+            let checkSDT = true;
+            if (!$scope.diaChiUpdate || !$scope.diaChiUpdate.tenKhachHang) {
+                flag = false;
+                $scope.kiemTra.tenKhachHangUpdate = true
+            }
+            if (!$scope.diaChiUpdate || !$scope.diaChiUpdate.sdt) {
+                flag = false;
+                $scope.kiemTra.sdtUpdate = true
+            }
+
+            if (!$scope.diaChiUpdate || !$scope.diaChiUpdate.idTinh) {
+                flag = false;
+                $scope.kiemTra.tinhUpdate = true;
+            }
+            if (!$scope.diaChiUpdate || !$scope.diaChiUpdate.idHuyen) {
+                flag = false;
+                $scope.kiemTra.huyenUpdate = true;
+            }
+            if (!$scope.diaChiUpdate || !$scope.diaChiUpdate.idXa || $scope.diaChiUpdate.idXa == 0) {
+                flag = false;
+                $scope.kiemTra.xaUpdate = true;
+            }
+            if (!$scope.diaChiUpdate || !$scope.diaChiUpdate.diaChi) {
+                flag = false;
+                $scope.kiemTra.diaChiUpdate = true;
+            }
+            var vnf_regex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+            if (checkSDT && vnf_regex.test($scope.diaChiUpdate.sdt) == false) {
+                flag = false;
+                $scope.dinhDang.sdtUpdate = true;
+            }
+
+            if (flag) {
+
+                let newList = {
+                    hoVaTen: $scope.diaChiUpdate.tenKhachHang,
+                    soDienThoai: $scope.diaChiUpdate.sdt,
+                    idTinh: $scope.diaChiUpdate.idTinh,
+                    idHuyen: $scope.diaChiUpdate.idHuyen,
+                    idXa: $scope.diaChiUpdate.idXa,
+                    diaChiCuThe: $scope.diaChiUpdate.diaChi,
+                }
+                console.log("id: " + _idDiaChi)
+                Swal.fire({
+                    title: 'Bạn có muốn cập nhật địa chỉ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $http.put(
+                            apiUpdateDiaChiMacDinh + "/" + _idDiaChi, // URL API
+                            newList // Dữ liệu gửi lên API
+                        ).then(function (res) {
+                            if (res.status == 200) {
+                                Swal.fire(
+                                    'Cập nhật thành công!',
+                                    'Địa chỉ đã cập nhật thành công.',
+                                    'success'
+                                ).then(() => {
+                                    $window.location.href = "/khach-hang/tai-khoan/ho-so";
+                                }).catch(function (error) {
+                                    console.error('Error:', error); // Xử lý lỗi nếu yêu cầu POST thất bại
+                                });
+                            }
+                        });
+                    }
+                });
+
+            }
+        }
+
+        $scope.selectTinhThanhAdd = function () {
+            if ($scope.diaChiAdd.idTinh) {
+                $http.get(`${apiGetQuanHuyen}?province_id=${$scope.diaChiAdd.idTinh}`, {headers: {"Token": token}})
+                    .then(function (response) {
+                        $scope.listQuanHuyen = response.data.data;
+                    })
+                    .catch(function (error) {
+                        console.error('Error loading districts:', error);
+                    });
+            } else {
+                $scope.listQuanHuyen = [];
+                $scope.listXaPhuong = [];
+            }
+        };
+
+        $scope.selectQuanHuyenAdd = function () {
+            if ($scope.diaChiAdd.idHuyen) {
+                $http.get(`${apiGetXaPhuong}${$scope.diaChiAdd.idHuyen}`, {headers: {"Token": token}})
+                    .then(function (response) {
+                        $scope.listXaPhuong = response.data.data;
+                    })
+                    .catch(function (error) {
+                        console.error('Error loading wards:', error);
+                    });
+            } else {
+                $scope.listXaPhuong = [];
+            }
+        };
+
+        $scope.addDiaChi = function () {
+            //Kiểm tra từng trường dữ liệu
+            $scope.kiemTra = {
+                tenKhachHangAdd: false,
+                sdtAdd: false,
+                tinhAdd: false,
+                huyenAdd: false,
+                xaAdd: false,
+                diaChiAdd: false,
+            };
+            $scope.dinhDang = {
+                sdtAdd: false
+            };
+            //Tạo 1 biến để kiểm tra
+            let flag = true;
+            let checkSDT = true;
+            if (!$scope.diaChiAdd || !$scope.diaChiAdd.tenKhachHang) {
+                flag = false;
+                $scope.kiemTra.tenKhachHangAdd = true
+            }
+            if (!$scope.diaChiAdd || !$scope.diaChiAdd.idTinh) {
+                flag = false;
+                $scope.kiemTra.tinhAdd = true;
+            }
+            if (!$scope.diaChiAdd || !$scope.diaChiAdd.idHuyen) {
+                flag = false;
+                $scope.kiemTra.huyenAdd = true;
+            }
+            if (!$scope.diaChiAdd || !$scope.diaChiAdd.idXa || $scope.diaChiAdd.idXa == 0) {
+                flag = false;
+                $scope.kiemTra.xaAdd = true;
+            }
+            if (!$scope.diaChiAdd || !$scope.diaChiAdd.diaChi) {
+                flag = false;
+                $scope.kiemTra.diaChiAdd = true;
+            }
+
+            if (!$scope.diaChiAdd || !$scope.diaChiAdd.sdt) {
+                flag = false;
+                $scope.kiemTra.sdtAdd = true;
+                checkSDT = false
+            }
+            var vnf_regex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+            if (checkSDT && vnf_regex.test($scope.diaChiAdd.sdt) == false) {
+                flag = false;
+                $scope.dinhDang.sdtAdd = true;
+            }
+
+            if (flag) {
+
+                let newList = {
+                    id: null,
+                    hoVaTen: $scope.diaChiAdd.tenKhachHang,
+                    soDienThoai: $scope.diaChiAdd.sdt,
+                    idTinh: $scope.diaChiAdd.idTinh,
+                    idHuyen: $scope.diaChiAdd.idHuyen,
+                    idXa: $scope.diaChiAdd.idXa,
+                    diaChiCuThe: $scope.diaChiAdd.diaChi,
+                    macDinh: null
+                }
+                Swal.fire({
+                    title: 'Bạn có muốn thêm địa chỉ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $http.post(
+                            apiAddDiaChi, // URL API
+                            newList // Dữ liệu gửi lên API
+                        ).then(function (res) {
+                            if (res.status == 200) {
+                                Swal.fire(
+                                    'Thêm thành công!',
+                                    'Địa chỉ đã thêm thành công.',
+                                    'success'
+                                ).then(() => {
+                                    $window.location.href = "/khach-hang/tai-khoan/ho-so";
+                                    $window.location.reload();
+                                }).catch(function (error) {
+                                    console.error('Error:', error); // Xử lý lỗi nếu yêu cầu POST thất bại
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        // Load Quận/Huyện dựa trên Tỉnh/Thành đã chọn
+        $scope.selectTinhThanhUpdate = function () {
+            if ($scope.diaChiUpdate.idTinh) {
+                $http.get(`${apiGetQuanHuyen}?province_id=${$scope.diaChiUpdate.idTinh}`, {headers: {"Token": token}})
+                    .then(function (response) {
+                        $scope.listQuanHuyen = response.data.data;
+                    })
+                    .catch(function (error) {
+                        console.error('Error loading districts:', error);
+                    });
+            } else {
+                $scope.listQuanHuyen = [];
+                $scope.listXaPhuong = [];
+            }
+        };
+
+        // Load Xã/Phường dựa trên Quận/Huyện đã chọn
+        $scope.selectQuanHuyenUpdate = function () {
+            if ($scope.diaChiUpdate.idHuyen) {
+                $http.get(`${apiGetXaPhuong}${$scope.diaChiUpdate.idHuyen}`, {headers: {"Token": token}})
+                    .then(function (response) {
+                        $scope.listXaPhuong = response.data.data;
+                    })
+                    .catch(function (error) {
+                        console.error('Error loading wards:', error);
+                    });
+            } else {
+                $scope.listXaPhuong = [];
+            }
+        };
+
+        // Khởi tạo bằng cách load danh sách Tỉnh/Thành
+        $scope.loadProvinces();
+
+        $scope.detailDiaChi = function (id) {
+            _idDiaChi = id;
+            $http.get(apiDetailDiaChi + "/" + id).then(function (res) {
+                if (res.status == 200) {
+                    $scope.diaChiUpdate = {
+                        tenKhachHang: res.data.hoVaTen,
+                        sdt: res.data.soDienThoai,
+                        idTinh: res.data.idTinh,
+                        idHuyen: res.data.idHuyen,
+                        idXa: res.data.idXa,
+                        diaChi: res.data.diaChiCuThe
+                    };
+                    // Mở modal sau khi cập nhật thông tin địa chỉ
+                    $('#exampleModal2').modal('show');
+                    $scope.selectTinhThanhUpdate();
+                    $scope.selectQuanHuyenUpdate();
+                } else {
+                    console.error('Failed to load address details');
+                }
+            }).catch(function (error) {
+                console.error('Error fetching address detail:', error);
+            });
+        };
+
+        $scope.deleteDiaChi = function (id) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $http.delete(apiDeleteDiaChi + "/" + id).then(function (res) {
+                        if (res.status == 200) {
+                            Swal.fire(
+                                'Đã xóa!',
+                                'Địa chỉ đã được xóa thành công.',
+                                'success'
+                            ).then(() => {
+                                $window.location.href = "/khach-hang/tai-khoan/ho-so";
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        $scope.updateMacDinh=function (idDc){
+            Swal.fire({
+                title: 'Bạn có muốn cập nhật địa chỉ mặc định?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $http.get(apiUpdateDcMacDinh+"?idDc="+idDc).then(function (res) {
+                        if (res.status == 200) {
+                            Swal.fire(
+                                'Cập nhật thành công!',
+                                'Địa chỉ mặc định đã cập nhật thành công.',
+                                'success'
+                            ).then(() => {
+                                $window.location.href = "/khach-hang/tai-khoan/ho-so";
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    }
+</script>
+<script>
+    (() => {
+        'use strict'
+        const tooltipTriggerList = Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.forEach(tooltipTriggerEl => {
+            new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    })()
+
+
+
+    document.getElementById('uploadProfilePic').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('profilePic').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+</html>

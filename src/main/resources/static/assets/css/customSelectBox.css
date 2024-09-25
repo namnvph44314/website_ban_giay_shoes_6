@@ -1,0 +1,42 @@
+.selectLbl{
+    font-size: 18px;
+}
+.styled-select {
+    border: 3px solid white;
+    box-sizing: border-box;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.styled-select:focus-within {
+    border: 3px solid #00bcd4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+.styled-select, .styled-select select { width: 240px;}
+select:focus { outline: none; }
+.styled-select select {
+    height: 34px;
+    padding: 5px 0 5px 5px;
+    background: transparent;
+    border: none;
+    /*hide default down arrow in webkit */
+    -webkit-appearance: none;
+}
+
+@-moz-document url-prefix(){
+    .styled-select select { width: 110%; }
+}
+
+.fa-sort-desc {
+    position: absolute;
+    top: 0;
+    right: 12px;
+    font-size: 24px;
+}
+
+select::-ms-expand { display: none; } /* hide default down arrow in IE10*/
+

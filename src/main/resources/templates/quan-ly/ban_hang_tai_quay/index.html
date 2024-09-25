@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind POS</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/tailWindCss.css">
+    <link rel="stylesheet" href="/assets/css/banoff.css">
+    <link rel="stylesheet" href="/assets/css/switchbuttonw3school.css">
+    <link rel="stylesheet" href="/assets/css/codepenmodal.css">
+    <link rel="stylesheet" href="/assets/css/radiobuttoncodepen.css">
+    <link rel="stylesheet" href="/assets/css/formcustom.css">
+    <link rel="stylesheet" href="/assets/css/customSelectBox.css">
+    <link rel="stylesheet" href="/assets/css/alertCustom.css">
+    <link rel="stylesheet" href="/assets/css/badgeCustom.css">
+    <link rel="stylesheet" href="/assets/css/paginationCustom.css">
+    <link rel="stylesheet" href="/assets/css/radioButtonCustom.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .addAnimate {
+            animation-name: animateModal;
+            animation-duration: 1s;
+        }
+
+        /* Add Animation */
+        @keyframes animateModal {
+            from {
+                top: -300px;
+                opacity: 0
+            }
+            to {
+                top: 0;
+                opacity: 1
+            }
+        }
+
+        .addAnimate2 {
+            animation-name: animateModal2;
+            animation-duration: 0.5s;
+        }
+
+        /* Add Animation */
+        @keyframes animateModal2 {
+            from {
+                bottom: -300px;
+                opacity: 0
+            }
+            to {
+                bottom: 0;
+                opacity: 1
+            }
+        }
+    </style>
+</head>
+<body ng-app="myAngularJS" ng-controller="myController" class="bg-blue-gray-50">
+<!-- Thông báo hiện đang ẩn-->
+<div class="alertFail hide">
+    <span class="fas fa-exclamation-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+             class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+          <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+        </svg>
+    </span>
+    <span id="alertFailContent" class="msg">Warning: This is a warning alert!</span>
+    <div class="close-btn" role="button" ng-click="closeAlertFail()">
+        <span class="fas fa-times">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x"
+                 viewBox="0 0 16 16">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+        </span>
+    </div>
+</div>
+<div class="alertSuccess hide">
+    <span class="fas fa-exclamation-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+             class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+</svg>
+    </span>
+    <span id="alertSuccessContent" class="msg">Success: This is a success alert!</span>
+    <div class="close-btn" role="button" ng-click="closeAlertSuccess()">
+        <span class="fas fa-times">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x"
+                 viewBox="0 0 16 16">
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+        </span>
+    </div>
+</div>
+<!-- Thông báo hiện đang ẩn-->
+
+<!--Modal danh sách địa chỉ-->
+<div ng-show="chonDiaChi == true"
+     class=" fixed w-full h-screen left-0 top-0 z-10 flex flex-wrap justify-center content-center p-24">
+    <div class="fixed glass w-full h-screen left-0 top-0 z-0"></div>
+    <div class=" w-96 rounded-3xl bg-white shadow-xl z-10 ">
+        <div class="h-80 addAnimate text-left text-sm p-6 overflow-auto">
+            <span class="close" ng-click="closeModalDiaChi()">&times;</span>
+            <div class="text-center mb-3">
+                <h3 class="text-xl font-semibold">Danh sách địa chỉ</h3>
+            </div>
+            <fieldset>
+                <label class="account-selection__option mb-2" ng-repeat="item in listAddress">
+                    <input type="radio"
+                           ng-click="selectAddress(item.id)"
+                           ng-model="addressDefault.id"
+                           ng-value="item.id"
+                           class="account-selection__input"/>
+                    <div class="account-selection__text">
+                        <strong class="account-selection__text">{{item.hoVaTen}}</strong>
+                        <br>
+                        <strong class="account-selection__text">{{item.soDienThoai}}</strong>
+                        <br>
+                        <small class="account-selection__text">{{item.diaChiCuThe}}, {{item.tenXa}},
+                            {{item.tenHuyen}}, {{item.tenTinh}}</small>
+                    </div>
+                    <span class="material-symbols-outlined account-selection__icon"></span>
+                </label>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<!--Modal danh sách địa chỉ-->
+
+<!-- Modal danh sách khách hàng -->
+<div ng-show="khachHang == true"
+     class="fixed w-full h-screen left-0 top-0 z-10 flex flex-wrap justify-center content-center p-24">
+    <div class="fixed glass w-full h-screen left-0 top-0 z-0"></div>
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" ng-click="closeModalKhachHang()">&times;</span>
+                <h2>Danh sách khách hàng</h2>
+            </div>
+            <div class="modal-body bg-blue-gray-50" style="text-align: center">
+                <div ng-click="selectCustomer()" class="flex px-2 flex-row relative mt-3 mb-2">
+                    <div class="absolute left-5 top-3 px-2 py-2 rounded-full bg-cyan-500 hover:bg-cyan-600 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    <input
+                            type="text"
+                            class="bg-white rounded-3xl shadow text-lg full w-full h-16 py-4 pl-16 transition-shadow focus:shadow-2xl focus:outline-none"
+                            placeholder="Nhập số điện thoại khách hàng"
+                    />
+                </div>
+                <table class="w-full">
+                    <thead>
+                    <tr>
+                        <th class="py-1 text-center">#</th>
+                        <th class="py-1 text-center">Họ và tên</th>
+                        <th class="py-1 text-center">Ngày sinh</th>
+                        <th class="py-1 text-center">Số điện thoại</th>
+                        <th class="py-1 text-center">Giới tính</th>
+                        <th class="py-1 text-center">Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in listCustomer">
+                        <td class="py-2 text-center">{{ $index + 1 }}</td>
+                        <td class="py-2 text-center">{{ item.hoVaTen }}</td>
+                        <td class="py-2 text-center">{{ item.ngaySinh }}</td>
+                        <td class="py-2 text-center">{{ item.soDienThoai }}</td>
+                        <td class="py-2 text-center">{{ item.gioiTinh == 1 ? 'Nam' : 'Nữ' }}</td>
+                        <td class="py-2 text-center">
+                            <button ng-click="selectCustomer(item.id)"
+                                    class=" rounded-full bg-cyan-500 hover:bg-cyan-600 text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                     class="bi bi-plus" viewBox="0 0 16 16">
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="pagination2">
+                    <a href="#"
+                       ng-click="pageCustomer.number > 0 && getCustomer(pageCustomer.number-1)"
+                       ng-class="{'disabled': pageCustomer.number === 0}">&laquo;</a>
+                    <a href="#" class="active">{{pageCustomer.number+1}}</a>
+                    <a href="#"
+                       ng-click="pageCustomer.number < pageCustomer.totalPages - 1 && getCustomer(pageCustomer.number+1)"
+                       ng-class="{'disabled': pageCustomer.number >= pageCustomer.totalPages - 1}">&raquo;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal danh sách khách hàng -->
+
+
+<div class=" hide-print flex flex-row h-screen antialiased text-blue-gray-800">
+    <!-- left sidebar -->
+    <div class="w-1/12 flex flex-row w-auto flex-shrink-0 pl-4 pr-2 py-4">
+        <div class="flex flex-col items-center py-4 flex-shrink-0 w-20 bg-cyan-500 hover:bg-cyan-600 rounded-3xl">
+            <a href="#"
+               class="">
+                <img src="/api/read-file-by-img-url/Shoes6cop-removebg-preview.png" width="60px" height="48px"
+                     class="flex items-center justify-center rounded-full" alt="logo">
+            </a>
+            <ul class="flex flex-col space-y-2 mt-12">
+                <li>
+                    <a href="/ban-hang-tai-quay"
+                       class="flex items-center">
+                      <span
+                              class="flex items-center justify-center h-12 w-12 rounded-2xl bg-cyan-300 shadow-lg text-white"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
+                    </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/hoa-don/hien-thi" target="_blank"
+                       class="flex items-center">
+              <span class="flex items-center justify-center text-cyan-100 hover:bg-cyan-400 h-12 w-12 rounded-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                </svg>
+              </span>
+                    </a>
+                </li>
+            </ul>
+            <a
+                    href="/tai-khoan-quan-ly/ho-so"
+                    target="_blank"
+                    class="mt-auto flex items-center justify-center text-cyan-200 hover:text-cyan-100 h-10 w-10 focus:outline-none"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                          clip-rule="evenodd"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+    <!-- left sidebar -->
+
+    <div class="flex-grow flex">
+        <!-- Danh sách sản phẩm và phần nhập thông tin khách hàng-->
+        <div class="w-7/12 flex flex-col bg-blue-gray-50 h-full w-full py-4">
+            <div class="flex px-2 flex-row relative mb-3">
+                <div role="button"
+                     ng-click="deleteBill()"
+                     class="absolute left-5 top-3 px-2 py-2 rounded-full  hover:text-pink-600 text-blue-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                         class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                    </svg>
+                </div>
+                <div ng-click="createBill()" role="button"
+                     class="absolute left-20 top-3 px-2 py-2 rounded-full bg-cyan-500 hover:bg-cyan-600 text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                         class="bi bi-plus" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                    </svg>
+                </div>
+                <div class="rounded-3xl full w-full h-16 py-4 pl-32">
+                    <button ng-repeat="item in listHoaDon" ng-click="detailBill(item.id)" id="hoaDon{{item.id}}"
+                            class="maHoaDon bg-cyan-100 hover:bg-cyan-500 text-cyan-900 hover:text-white px-4 py-2 rounded-2xl w-25 mr-2 position-relative">
+                        {{item.maHoaDon}}
+                    </button>
+                </div>
+            </div>
+            <div class="flex px-2 flex-row relative">
+                <div ng-click="findProduct()"
+                     class="absolute left-5 top-3 px-2 py-2 rounded-full bg-cyan-500 hover:bg-cyan-600 text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                <input
+                        type="text"
+                        ng-model="inputProductName"
+                        class="bg-white rounded-3xl shadow text-lg full w-full h-16 py-4 pl-16 transition-shadow focus:shadow-2xl focus:outline-none"
+                        placeholder="Nhập tên sản phẩm"
+                />
+            </div>
+            <div class="h-full overflow-hidden mt-4  ">
+                <div class="h-full overflow-y-auto px-2 " style="text-align: center">
+                    <!-- Khi không tìm thấy sản phẩm -->
+                    <div ng-if="!listProduct || listProduct.length === 0"
+                         class="select-none bg-blue-gray-100 rounded-3xl flex flex-wrap content-center justify-center h-full opacity-25">
+                        <div class="w-full text-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 inline-block" fill="none"
+                                 viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                            </svg>
+                            <p class="text-xl">
+                                KHÔNG TÌM THẤY
+                                <br/>
+                                SẢN PHẨM
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Khi có sản phẩm -->
+                    <div ng-if="listProduct && listProduct.length > 0" class="grid grid-cols-3 gap-4 pb-3">
+                        <div
+                                ng-repeat="item in listProduct"
+                                role="button"
+                                ng-click="addProductToBill(item.id)"
+                                class="item select-none cursor-pointer transition-shadow overflow-hidden rounded-2xl bg-white shadow hover:shadow-lg"
+                                title="{{item.sanPhamByIdSanPham.tenSanPham}}"
+                        >
+                            <img src="/api/read-file-by-idspct-return-anh-mac-dinh/{{item.id}}">
+                            <span class="notify-badge">{{item.kichThuocByIdKichCo.tenKichThuoc}}</span>
+                            <div class="flex pb-2 px-3 text-sm mt-2">
+                                <p class="flex-grow truncate mr-1">{{item.sanPhamByIdSanPham.tenSanPham}}</p>
+                                <p class="nowrap font-semibold">{{item.gia | currency: '' : 0}} VNĐ</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination" ng-if="listProduct && listProduct.length > 0">
+                        <a href="#"
+                           ng-click="pageProduct.number > 0 && getProductByPage(pageProduct.number-1)"
+                           ng-class="{'disabled': pageProduct.number === 0}">&laquo;</a>
+                        <a href="#" class="active">{{pageProduct.number+1}}</a>
+                        <a href="#"
+                           ng-click="pageProduct.number < pageProduct.totalPages - 1 && getProductByPage(pageProduct.number+1)"
+                           ng-class="{'disabled': pageProduct.number >= pageProduct.totalPages - 1}">&raquo;</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--  Phần hiển thị thông tin khách hàng khi chọn giao hàng -->
+            <div ng-show="ship == true"
+                 class=" p-5  bg-blue-gray-100 rounded-3xl justify-center h-full relative">
+                <span class="close">
+                    <button ng-click="openModalDiaChi()"
+                            class="bg-cyan-500 hover:bg-cyan-600 text-white rounded-2xl px-4 py-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                      <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+                    </svg>
+                </button>
+                </span>
+                <div class="grid grid-cols-6 gap-x-16 gap-y-8 justify-center ">
+                    <div class="form-control col-span-3 ">
+                        <input type="text" ng-model="nameCustomer" ng-blur="checkTen()" required>
+                        <label> Tên người nhận </label>
+                    </div>
+                    <div class="form-control col-span-3">
+                        <input type="text" ng-model="addressDefault.soDienThoai" ng-blur="checkSdt()" required>
+                        <label> Số điện thoại </label>
+                    </div>
+
+                    <div class="col-span-2">
+                        <label class="selectLbl">Tỉnh/thành </label>
+                        <div class="styled-select mt-2">
+                            <select ng-model="addressDefault.idTinh"
+                                    ng-change="selectTinhThanh()">
+                                <option ng-repeat="tinhThanh in listTinhThanh" ng-value="tinhThanh.ProvinceID">
+                                    {{tinhThanh.ProvinceName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="selectLbl">Quận/huyện </label>
+                        <div class="styled-select mt-2">
+                            <select ng-model="addressDefault.idHuyen"
+                                    ng-change="selectQuanHuyen()">
+                                <option ng-repeat="item in listQuanHuyen" ng-value="item.DistrictID">
+                                    {{item.DistrictName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-span-2">
+                        <label class="selectLbl">Xã/phường </label>
+                        <div class="styled-select mt-2">
+                            <select ng-model="addressDefault.idXa">
+                                <option ng-repeat="item in listXaPhuong" ng-value="item.WardCode">{{item.WardName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-control col-span-3">
+                        <input ng-model="addressDefault.diaChiCuThe" type="text" required>
+                        <label> Địa chỉ cụ thể </label>
+                    </div>
+                    <div class="form-control col-span-3">
+                        <input type="text" required>
+                        <label ng-model="addressDefault.ghiChu"> Ghi chú </label>
+                    </div>
+                </div>
+            </div>
+            <!--  Phần hiển thị thông tin khách hàng khi chọn giao hàng -->
+
+        </div>
+        <!-- Danh sách sản phẩm và phần nhập thông tin khách hàng -->
+
+        <!-- right sidebar -->
+        <div class="w-4/12 flex flex-col bg-blue-gray-50 h-full bg-white pr-4 pl-2 py-4">
+            <div class="bg-white rounded-3xl flex flex-col h-full shadow">
+                <div class="flex-1 flex flex-col overflow-auto">
+                    <div ng-show="billId != null" class="h-16 text-center flex justify-center">
+                        <div class="pl-8 text-left text-lg py-4 relative">
+                            <!-- Trigger/Open The Modal -->
+                            <button ng-click="openModalKhachHang()"
+                                    class="bg-cyan-500 hover:bg-cyan-600 text-white rounded-2xl px-4 py-2"
+                                    id="myBtn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                     class="bi bi-person-plus" viewBox="0 0 16 16">
+                                    <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5"/>
+                                </svg>
+                            </button>
+
+                        </div>
+                        <div class="-ml-2 flex-grow px-8 text-right text-lg py-4 relative">
+                            <!-- trash button -->
+                            <p style="display: inline" class="text-sm">Giao hàng</p>
+                            <div style="display: inline">
+                                <label class="switch">
+                                    <input ng-model="ship" ng-change="enableShip()"
+                                           type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--                        Nếu list hdct trống-->
+                    <div ng-show="listDetailBill == null"
+                         class="flex-1 w-full p-4 opacity-25 select-none flex flex-col flex-wrap content-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 inline-block" fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <p>
+                            GIỎ HÀNG TRỐNG
+                        </p>
+                    </div>
+                    <!--                    Nếu list hdct trống-->
+                    <div ng-show="listDetailBill != null  || listDetailBill.length > 0"
+                         class="flex-1 w-full px-4 overflow-auto">
+                        <div ng-repeat="item in listDetailBill"
+                             title="{{ item.sanPhamChiTietByIdSpct.sanPhamByIdSanPham.tenSanPham }}/{{ item.sanPhamChiTietByIdSpct.kichThuocByIdKichCo.tenKichThuoc }}"
+                             class="cursor-pointer select-none mb-3 bg-blue-gray-50 rounded-lg w-full text-blue-gray-700 py-2 px-2 flex justify-center">
+                            <img role="button" ng-click="deleteProduct(item.sanPhamChiTietByIdSpct.id)"
+                                 src="/api/read-file-by-idspct-return-anh-mac-dinh/{{item.sanPhamChiTietByIdSpct.id}}"
+                                 alt=""
+                                 class="rounded-lg h-10 w-10 bg-white shadow mr-2">
+                            <div class="flex-grow overflow-hidden">
+                                <h5 class="flex-grow truncate text-sm">{{
+                                    item.sanPhamChiTietByIdSpct.sanPhamByIdSanPham.tenSanPham }}/{{
+                                    item.sanPhamChiTietByIdSpct.kichThuocByIdKichCo.tenKichThuoc }}</h5>
+                                <p class="text-xs block">{{ item.gia | currency: '' : 0}} VNĐ</p>
+                            </div>
+                            <div class="py-1">
+                                <div class="w-28 grid grid-cols-3 gap-2 ml-2">
+                                    <button
+                                            ng-click="editAmountProduct(-1, item.sanPhamChiTietByIdSpct.id, item.soLuongSanPham)"
+                                            class="rounded-lg text-center py-1 text-white bg-blue-gray-600 hover:bg-blue-gray-700 focus:outline-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-3 inline-block"
+                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M20 12H4"/>
+                                        </svg>
+                                    </button>
+                                    <input type="text"
+                                           class="bg-white rounded-lg text-center shadow focus:outline-none focus:shadow-lg text-sm"
+                                           ng-blur="changeAmountProduct($index, item.sanPhamChiTietByIdSpct.id)"
+                                           ng-model="item.soLuongSanPham">
+                                    <button
+                                            ng-click="editAmountProduct(1, item.sanPhamChiTietByIdSpct.id, item.soLuongSanPham)"
+                                            class="rounded-lg text-center py-1 text-white bg-blue-gray-600 hover:bg-blue-gray-700 focus:outline-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-3 inline-block"
+                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end of cart items -->
+
+                <!-- payment info -->
+                <div ng-show="listDetailBill != null" class="select-none h-auto w-full text-center pt-3 pb-4 px-4">
+                    <div class="flex mb-1 text-lg font-semibold text-blue-gray-700">
+                        <div class="text-left w-full">TẠM TÍNH</div>
+                        <div class="text-right w-full">{{ tongTien | currency: '' : 0}} VNĐ</div>
+                    </div>
+                    <div class="flex mb-1 text-lg text-blue-gray-700">
+                        <div class="text-left w-full">PHÍ SHIP</div>
+                        <div class="text-right w-full">{{ phiShip | currency: '' : 0}} VNĐ</div>
+                    </div>
+                    <div class="flex mb-1 text-lg text-blue-gray-700">
+                        <div class="text-left w-full">GIẢM GIÁ</div>
+                        <div class="text-right w-full">{{ voucher.giaTriGiam | currency: '' : 0}} VNĐ</div>
+                    </div>
+                    <hr>
+                    <div class="flex mb-3 mt-3 text-lg font-semibold text-blue-gray-700">
+                        <div class="text-left w-full">TỔNG TIỀN</div>
+                        <div class="text-right w-full">{{ tienSauGiam | currency: '' : 0}} VNĐ</div>
+                    </div>
+                    <button type="button" ng-click="openModalThanhToan()"
+                            class="bg-cyan-500 hover:bg-cyan-600 text-white rounded-2xl text-lg w-full py-3 focus:outline-none">
+                        THANH TOÁN
+                    </button>
+                </div>
+                <!-- end of payment info -->
+            </div>
+        </div>
+        <!-- end of right sidebar -->
+    </div>
+
+    <!-- modal thanh toán -->
+    <div ng-show="thanhToan == true"
+         class=" fixed w-full h-screen left-0 top-0 z-10 flex flex-wrap justify-center content-center p-24">
+        <div class="fixed glass w-full h-screen left-0 top-0 z-0"></div>
+        <div class="w-96 rounded-3xl bg-white shadow-xl overflow-hidden z-10">
+            <div id="receipt-content" class="addAnimate text-left w-full text-sm p-6 overflow-auto">
+                <div class="text-center">
+                    <img src="/api/read-file-by-img-url/Shoes6cop-removebg-preview.png" alt="Tailwind POS"
+                         class="mb-3 inline-block" width="60px" height="48px">
+                    <span class="close" ng-click="closeModalThanhToan()">&times;</span>
+                </div>
+                <div class="text-xs float-left"><strong>Khách hàng:</strong>
+                    <span>{{nameCustomer}} - {{ phoneNumber }}</span>
+                </div>
+                <div>
+                    <table class="w-full text-xs">
+                        <thead>
+                        <tr>
+                            <th class="py-1 text-center">#</th>
+                            <th class="py-1 text-center">Phương thức</th>
+                            <th class="py-1 text-center">Mã giao dịch</th>
+                            <th class="py-1 text-center">Số tiền</th>
+                            <th class="py-1 text-right">Hành động</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <div>
+                            <tr ng-repeat="item in historyPayOffline track by $index">
+                                <td class="py-2 text-center">{{ $index + 1}}</td>
+                                <td class="py-2 text-center">{{ item.phuongThuc == 1 ? 'Tiền mặt': 'Chuyển khoản' }}
+                                </td>
+                                <td class="py-2 text-center">{{ item.maGiaoDich}}</td>
+                                <td class="py-2 text-center">{{ item.soTien | currency: '' : 0}} VNĐ</td>
+                                <td class="py-2 text-center">
+                                    <button ng-click="deleteHistoryPay(item.id)"
+                                            class="text-blue-gray-300 hover:text-pink-500 focus:outline-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" fill="none"
+                                             viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </div>
+                        </tbody>
+                    </table>
+                </div>
+                <hr class="my-2">
+                <div class="mb-3 text-blue-gray-700 px-3 pt-2 pb-3 rounded-lg bg-blue-gray-50">
+                    <div class="mb-2 flex text-lg font-semibold">
+                        <div class="flex-grow text-left">Khách trả</div>
+                        <div class="flex text-right">
+                            <div class="mr-2">VNĐ</div>
+                            <input type="text"
+                                   class="w-28 text-right bg-white shadow rounded-lg focus:bg-white focus:shadow-lg px-2 focus:outline-none"
+                                   ng-model="tienTra">
+                        </div>
+                    </div>
+                    <!--                    <div ng-show="phuongThuc == 2" class="flex text-lg font-semibold">-->
+                    <!--                        <div class="flex-grow text-left">Mã giao dịch</div>-->
+                    <!--                        <div class="flex text-right">-->
+                    <!--                            <input type="text"-->
+                    <!--                                   class="w-40 text-right bg-white shadow rounded-lg focus:bg-white focus:shadow-lg px-2 focus:outline-none">-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <hr class="my-2">
+                    <div class="flex">
+                        <div class="flex-grow text-left">
+                            <button ng-click="confirmCheckout()"
+                                    class="bg-white rounded-lg hover:shadow-lg hover:bg-teal-400 hover:text-white focus:outline-none inline-block px-2 py-1 ">
+                                <span>Thêm</span></button>
+                        </div>
+                        <div class="switch-field flex text-right">
+                            <input ng-click="selectPaymentMethod(1)" type="radio" id="radio-one" name="switch-one"
+                                   value="yes" checked/>
+                            <label for="radio-one">Tiền mặt</label>
+                            <input type="radio" id="radio-two" name="switch-one" value="no"/>
+                            <label ng-click="selectPaymentMethod(2)" for="radio-two">Chuyển khoản</label>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div>
+                    <div class="flex font-semibold">
+                        <div class="flex-grow">TỔNG TIỀN</div>
+                        <div>{{ tienSauGiam | currency: '' : 0}} VNĐ</div>
+                    </div>
+                    <div class="flex text-xs font-semibold">
+                        <div class="flex-grow">KHÁCH TRẢ</div>
+                        <div>{{ tienKhachTra | currency: '' : 0}} VNĐ</div>
+                    </div>
+                    <hr class="my-2">
+                    <div class="flex text-xs font-semibold">
+                        <div class="flex-grow">CÒN THIẾU</div>
+                        <div>{{ tienConThieu | currency: '' : 0}} VNĐ</div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 w-full">
+                <button type="button"
+                        ng-click="finalCheckout()"
+                        class="bg-cyan-500 hover:bg-cyan-600 text-white text-lg px-4 py-3 rounded-2xl w-full focus:outline-none"
+                >XÁC NHẬN
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- modal thanh toán -->
+</div>
+</body>
+
+<!--    Chữ trong form giao hàng nhảy loạn xạ   -->
+<script>
+
+    const labels = document.querySelectorAll(".form-control label");
+    labels.forEach((label) => {
+        label.innerHTML = label.innerText
+            .split("")
+            .map(
+                (letter, idx) =>
+                    `<span style="transition-delay:${idx * 50}ms">${letter}</span>`
+            )
+            .join("");
+    });
+
+</script>
+<!--    Chữ trong form giao hàng nhảy loạn xạ   -->
+
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
+    let myApp = angular.module("myAngularJS", []);
+    myApp.controller("myController", myFunction);
+
+    let _tinhThanh
+    let _quanHuyen
+    const apiGetTinhThanh = "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province";
+    const apiGetQuanHuyen = "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district";
+    const apiGetXaPhuong = "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=";
+    const token = {"token": "69ea89dc-44f2-11ef-8e53-0a00184fe694"}
+
+    function myFunction($scope, $http, $window) {
+        $scope.thanhToan = false
+        $scope.khachHang = false
+        $scope.chonDiaChi = false
+
+        $scope.openModalDiaChi = function () {
+
+            $scope.chonDiaChi = true
+        }
+
+        $scope.checkTienTra = function () {
+            if ($scope.tienTra == null) {
+                $scope.checkGia = false
+            }
+            let regex = /^[1-9]\d{3,}$/
+            $scope.checkGia = regex.test($scope.tienTra)
+
+            if ($scope.checkGia == false) {
+                Toast.fire({
+                    icon: "error",
+                    title: "Số tiền không hợp lệ"
+                });
+            }
+        }
+
+        $scope.closeModalDiaChi = function () {
+
+            $scope.chonDiaChi = false
+        }
+
+        $scope.openModalThanhToan = function () {
+            if ($scope.billId == null || $scope.billId == " ") {
+                Toast.fire({
+                    icon: "error",
+                    title: "Vui lòng chọn hoá đơn trước!"
+                });
+            } else if ($scope.listDetailBill == null || $scope.listDetailBill.size == 0) {
+                Toast.fire({
+                    icon: "error",
+                    title: "Vui lòng thêm sản phẩm vào giỏ hàng!"
+                });
+            } else {
+                $scope.thanhToan = true
+            }
+        }
+
+        $scope.closeModalThanhToan = function () {
+
+            $scope.thanhToan = false
+        }
+
+        $scope.openModalKhachHang = function () {
+
+            $scope.khachHang = true
+        }
+
+        $scope.closeModalKhachHang = function () {
+
+            $scope.khachHang = false
+        }
+
+        $scope.openForm = function (id) {
+            document.getElementById("myForm" + id).style.display = "block";
+        }
+        $scope.closeForm = function (id) {
+            document.getElementById("myForm" + id).style.display = "none";
+        }
+
+        $scope.ship = false;
+        $scope.idCustomerCheck = -1
+        $scope.tienTra = 0
+        $scope.phuongThuc = 1
+        $scope.tienConThieu = 0
+        $scope.idTaiKhoan = 0
+        $scope.tienSauGiam = 0
+        $scope.tienGiamGia = 0
+        $scope.soDienThoai = ""
+        $scope.phiShip = 0
+        $scope.trangThaiHoaDon = 5
+        $scope.tongTien = 0
+        $scope.phuongThucThanhToan = 2
+        $scope.tienDaTra = 0
+        $scope.timKiem = {
+            tenSanPham: ""
+        }
+        $scope.inputProductName = ""
+
+        $scope.soLuongSanPham = 1
+
+        $scope.findProduct = function () {
+            $http.get('/find-by-name?name=' + $scope.inputProductName).then(function (res) {
+                $scope.listProduct = res.data.content
+            })
+        }
+
+        $scope.deleteBill = function () {
+            if ($scope.billId == null || $scope.billId == " " || $scope.billId == 0) {
+                Toast.fire({
+                    icon: "error",
+                    title: "Vui lòng chọn hóa đơn"
+                });
+            } else {
+                Swal.fire({
+                    title: "Bạn có chắc muốn xóa hóa đơn",
+                    text: "Bạn sẽ không thể hoàn tác hành động",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Đồng ý!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $http.get('/delete-bill/' + $scope.billId)
+                            .then(function (res) {
+                                if (res.status == 200) {
+                                    Swal.fire({
+                                        title: "Thành công",
+                                        text: "Hóa đơn đa được xóa",
+                                        icon: "success",
+                                    });
+                                    $scope.listDetailBill = null
+                                    $scope.billId = null
+                                    $scope.ship = false
+                                    $http.get('/bill-wait')
+                                        .then(function (res) {
+                                            $scope.listHoaDon = res.data;
+                                        })
+                                }
+                            })
+                    }
+                })
+
+            }
+
+        }
+
+        const apiTinhPhiShip = "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee"
+        const apiGetShipService = "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services"
+
+        const tokenAndShopId = {"token": "69ea89dc-44f2-11ef-8e53-0a00184fe694", "ShopId": 192970}
+
+        let _tinhPhiShipData = {
+            "from_district_id": 1454,
+            "from_ward_code": "21211",
+            "service_id": 0,
+            "service_type_id": null,
+            "to_district_id": 1452,
+            "to_ward_code": "21012",
+            "height": 50,
+            "length": 20,
+            "weight": 200,
+            "width": 20,
+            "insurance_value": 10000,
+            "cod_failed_amount": 2000,
+            "coupon": null
+        }
+
+        let _getShipServiceData = {
+            "shop_id": 192970,
+            "from_district": 1454,
+            "to_district": 0
+        }
+
+        $scope.getTinhThanh = () => {
+            return $http.get(apiGetTinhThanh, {headers: token})
+        }
+
+        $scope.getTinhThanh()
+            .then(function (res) {
+                if (res.status == 200) {
+                    $scope.listTinhThanh = res.data.data
+                    console.log($scope.listTinhThanh)
+                }
+            })
+
+        $scope.getQuanHuyen = (tinhThanh) => {
+            return $http.post(apiGetQuanHuyen, tinhThanh, {headers: token})
+        }
+
+        $scope.getXaPhuong = (quanHuyen) => {
+            return $http.get(apiGetXaPhuong + quanHuyen, {headers: token})
+        }
+
+
+        $scope.tinhPhiShip = (tinhPhiShipData) => {
+            return $http.post(apiTinhPhiShip, tinhPhiShipData, {headers: tokenAndShopId})
+        }
+
+        $scope.getShipService = (getShipServiceData) => {
+            return $http.post(apiGetShipService, getShipServiceData, {headers: token})
+        }
+
+        $scope.listCustomer = [];
+
+        $http.get('/customers?page=0').then(function (res) {
+            $scope.listCustomer = res.data.content;
+        })
+
+        $scope.enableShip = function () {
+            if ($scope.ship == true) {
+                $http.get('/address/customer/' + $scope.idTaiKhoan).then(function (response) {
+                    $scope.listAddress = response.data
+                })
+                $http.get('/address/default/' + $scope.idTaiKhoan).then(function (resp) {
+                    $scope.addressDefault = resp.data;
+                    $scope.soDienThoai = $scope.addressDefault.soDienThoai;
+                    $scope._idTinh = $scope.addressDefault.idTinh
+                    $scope._idXa = $scope.addressDefault.idXa
+                    $scope._idHuyen = $scope.addressDefault.idHuyen
+                }).then(function () {
+                    console.log($scope.addressDefault.idTinh)
+                    $scope.getTinhThanh()
+                        .then(function (res) {
+                            if (res.status == 200) {
+                                $scope.listTinhThanh = res.data.data
+                                console.log($scope.listTinhThanh)
+                            }
+                        }).then(function () {
+                        _tinhThanh = {"province_id": $scope.addressDefault.idTinh}
+                        if (_tinhThanh.province_id == null || _tinhThanh.province_id == " ") {
+                            _tinhThanh.province_id = 259
+                        }
+                        $scope.getQuanHuyen(_tinhThanh)
+                            .then(function (res) {
+                                return res.data
+                            })
+                            .then(function (list) {
+                                $scope.listQuanHuyen = list.data
+                                // $scope.addressDefault.idHuyen = $scope.listQuanHuyen[0].DistrictID
+                                _quanHuyen = $scope.addressDefault.idHuyen
+                                if (_quanHuyen == null || _quanHuyen == " ") {
+                                    _quanHuyen = 1921
+                                }
+                                $scope.getXaPhuong(_quanHuyen)
+                                    .then(function (res) {
+                                        return res.data
+                                    })
+                                    .then(function (list) {
+                                        $scope.listXaPhuong = list.data
+                                        // $scope.addressDefault.idXa = $scope.listXaPhuong[0].WardCode
+                                        _getShipServiceData.to_district = $scope.addressDefault.idHuyen
+                                        $scope.getShipService(_getShipServiceData)
+                                            .then(function (res) {
+                                                return res.data
+                                            })
+                                            .then(function (result) {
+                                                return result.data
+                                            })
+                                            .then(function (data) {
+                                                _tinhPhiShipData.service_id = data[0].service_id
+                                            })
+                                            .then(function () {
+                                                if ($scope.tongTien > 0) {
+                                                    _tinhPhiShipData.to_district_id = $scope.addressDefault.idHuyen
+                                                    _tinhPhiShipData.to_ward_code = $scope.addressDefault.idXa
+                                                    $scope.tinhPhiShip(_tinhPhiShipData)
+                                                        .then(function (res) {
+                                                            if (res.status == 200) {
+                                                                return res.data
+                                                            }
+                                                        })
+                                                        .then(function (res) {
+                                                            $scope.phiShip = res.data.total
+                                                        }).then(function () {
+                                                        $scope.tienSauGiam = $scope.tienSauGiam + $scope.phiShip
+                                                        $http.get('/count-money/' + $scope.billId).then(function (res) {
+                                                            $scope.tienDaTra = res.data
+                                                            $scope.tienConThieu = $scope.tongTien + $scope.phiShip - $scope.voucher.giaTriGiam - res.data;
+                                                        })
+
+                                                    })
+                                                }
+                                            })
+                                            .then(function () {
+                                                for (let i = 0; i < $scope.listAddress.length; i++) {
+                                                    let tinh = $scope.listTinhThanh.find(({ProvinceID}) => ProvinceID == $scope.listAddress[i].idTinh);
+                                                    $scope.listAddress[i].tenTinh = tinh.ProvinceName
+                                                    let tinhId = {"province_id": tinh.ProvinceID}
+                                                    $scope.getQuanHuyen(tinhId)
+                                                        .then(function (res) {
+                                                            if (res.status == 200) {
+                                                                return res.data
+                                                            }
+                                                        })
+                                                        .then(function (list) {
+                                                            let listQuanHuyen = list.data
+                                                            let huyen = listQuanHuyen.find(({DistrictID}) => DistrictID == $scope.listAddress[i].idHuyen);
+                                                            $scope.listAddress[i].tenHuyen = huyen.DistrictName
+                                                            $scope.getXaPhuong(huyen.DistrictID)
+                                                                .then(function (res) {
+                                                                    if (res.status == 200) {
+                                                                        return res.data
+                                                                    }
+                                                                })
+                                                                .then(function (list) {
+                                                                    let listXaPhuong = list.data
+                                                                    let xa = listXaPhuong.find(({WardCode}) => WardCode == $scope.listAddress[i].idXa);
+                                                                    $scope.listAddress[i].tenXa = xa.WardName
+                                                                })
+                                                        })
+                                                }
+                                            })
+                                    })
+                            })
+                    })
+                })
+                $scope.trangThaiHoaDon = 1
+                $scope.phuongThucThanhToan = 1
+            } else {
+                $scope.trangThaiHoaDon = 5
+                $scope.phuongThucThanhToan = 2
+                $scope.tienSauGiam = $scope.tienSauGiam - $scope.phiShip
+                $scope.phiShip = 0
+                $http.get('/count-money/' + $scope.billId).then(function (res) {
+                    $scope.tienDaTra = res.data
+                    $scope.tienConThieu = $scope.tongTien - $scope.voucher.giaTriGiam - res.data;
+                })
+            }
+        }
+
+        $scope.changeAmountProduct = function (index, productId) {
+            let soLuongSanPham = $scope.listDetailBill[index].soLuongSanPham
+            console.log(soLuongSanPham)
+            $http.get('/get-so-luong/' + productId).then(function (res) {
+                $scope.soLuongSP = res.data
+            }).then(function () {
+                if (soLuongSanPham > $scope.soLuongSP) {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Số lượng sản phẩm không đủ"
+                    });
+                    $http.get('/get-so-luong-sp-gio-hang/' + $scope.billId + "?productId=" + productId).then(function (res) {
+                        $scope.listDetailBill[index].soLuongSanPham = res.data
+                    })
+                } else if (soLuongSanPham <= 0) {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Số lượng sản phẩm phải lớn hơn 0"
+                    });
+                    $http.get('/get-so-luong-sp-gio-hang/' + $scope.billId + "?productId=" + productId).then(function (res) {
+                        $scope.listDetailBill[index].soLuongSanPham = res.data
+                    })
+                } else if (isNaN(soLuongSanPham)) {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Số lượng sản phẩm phải là số"
+                    });
+                    $http.get('/get-so-luong-sp-gio-hang/' + $scope.billId + "?productId=" + productId).then(function (res) {
+                        $scope.listDetailBill[index].soLuongSanPham = res.data
+                    })
+                } else {
+                    $http.get('/update-amount-product/' + $scope.billId + "?productId=" + productId + "&amount=" + soLuongSanPham).then(function (res) {
+                        Toast.fire({
+                            icon: "success",
+                            title: "Cập nhật số lượng sản phẩm thành công"
+                        });
+                        $http.get('/get-so-luong-sp-gio-hang/' + $scope.billId + "?productId=" + productId).then(function (res) {
+                            $scope.soLuongSanPham = res.data
+                        }).then(function () {
+                            $http.get('/bill/' + $scope.billId).then(function (res) {
+                                $scope.pageBill = res.data;
+                                $scope.listDetailBill = res.data;
+                                if ($scope.listDetailBill == '') {
+                                    $scope.listDetailBill = null
+                                }
+
+                            })
+                        }).then(function () {
+                            $http.get('/bill/tong-tien/' + $scope.billId).then(function (res) {
+                                $scope.tongTien = res.data;
+                                if ($scope.tongTien == '') {
+                                    $scope.tongTien = 0
+                                }
+
+                            }).then(function () {
+                                if ($scope.tongTien > 0) {
+                                    let api = '/voucher/auto/' + $scope.billId + '?tongTien=' + $scope.tongTien
+                                    if ($scope.idTaiKhoan !== null) {
+                                        api = api + '&idCustomer=' + $scope.idTaiKhoan
+                                    }
+                                    $http.get(api).then(function (res) {
+                                        return res.data
+                                    }).then(function (data) {
+                                        $scope.voucher = {
+                                            tenPhieu: data.maPgg,
+                                            giaTriGiam: data.tienDuocGiamTheoDon,
+                                        }
+
+                                        $scope.tienSauGiam = $scope.tongTien - $scope.voucher.giaTriGiam + $scope.phiShip
+                                        $scope.tienGiamGia = $scope.voucher.giaTriGiam
+
+                                        $http.get('/count-money/' + $scope.billId).then(function (res) {
+                                            $scope.tienDaTra = res.data
+                                            $scope.tienConThieu = $scope.tongTien + $scope.phiShip - $scope.voucher.giaTriGiam - res.data;
+                                        })
+
+                                        $http.get('/history-pay/' + $scope.billId).then(function (res) {
+                                            $scope.historyPayOffline = res.data
+                                        })
+                                        $http.get('/history-pay-online/' + $scope.billId).then(function (res) {
+                                            $scope.historyPayOnline = res.data
+                                        })
+
+                                    })
+                                }
+                            })
+                        })
+                    })
+                }
+            })
+        }
+
+        $scope.editAmountProduct = function (amount, productId, soLuongSanPham) {
+            //fixme
+
+            $http.get('/get-so-luong/' + productId).then(function (res) {
+                $scope.soLuongSP = res.data
+            }).then(function () {
+                if (soLuongSanPham + amount <= 0) {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Số lượng sản phẩm phải lớn hơn 0"
+                    });
+                } else if (soLuongSanPham + amount > $scope.soLuongSP) {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Số lượng sản phẩm phải lớn hơn 0"
+                    });
+                } else if ($scope.soLuongSP <= 0) {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Sản phẩm đã hết hàng"
+                    });
+                } else {
+                    $http.post('/edit-amount/' + $scope.billId + "?productId=" + productId + "&amount=" + amount).then(function (res) {
+                        if (res.status == 200) {
+                            Toast.fire({
+                                icon: "success",
+                                title: "Cập nhật số lượng sản phẩm thành công"
+                            });
+                        }
+                    }).then(function () {
+                        $http.get('/bill/' + $scope.billId).then(function (res) {
+                            $scope.pageBill = res.data;
+                            $scope.listDetailBill = res.data;
+                            if ($scope.listDetailBill == '') {
+                                $scope.listDetailBill = null
+                            }
+
+                        })
+                    }).then(function () {
+                        $http.get('/bill/tong-tien/' + $scope.billId).then(function (res) {
+                            $scope.tongTien = res.data;
+                            if ($scope.tongTien == '') {
+                                $scope.tongTien = 0
+                            }
+
+                        }).then(function () {
+                            if ($scope.tongTien > 0) {
+                                let api = '/voucher/auto/' + $scope.billId + '?tongTien=' + $scope.tongTien
+                                if ($scope.idTaiKhoan !== null) {
+                                    api = api + '&idCustomer=' + $scope.idTaiKhoan
+                                }
+                                $http.get(api).then(function (res) {
+                                    return res.data
+                                }).then(function (data) {
+                                    $scope.voucher = {
+                                        tenPhieu: data.maPgg,
+                                        giaTriGiam: data.tienDuocGiamTheoDon,
+                                    }
+
+                                    $scope.tienSauGiam = $scope.tongTien - $scope.voucher.giaTriGiam + $scope.phiShip
+                                    $scope.tienGiamGia = $scope.voucher.giaTriGiam
+
+                                    $http.get('/count-money/' + $scope.billId).then(function (res) {
+                                        $scope.tienDaTra = res.data
+                                        $scope.tienConThieu = $scope.tongTien + $scope.phiShip - $scope.voucher.giaTriGiam - res.data;
+                                    })
+
+                                    $http.get('/history-pay/' + $scope.billId).then(function (res) {
+                                        $scope.historyPayOffline = res.data
+                                    })
+                                    $http.get('/history-pay-online/' + $scope.billId).then(function (res) {
+                                        $scope.historyPayOnline = res.data
+                                    })
+
+                                })
+                            }
+                        })
+                    })
+                }
+            })
+        }
+
+        let apiUrl = "/bill-wait";
+        $http.get(apiUrl).then(function (res) {
+            $scope.listHoaDon = res.data;
+        })
+
+        $scope.getProductByPage = function (page) {
+            $http.get('/products?page=' + page).then(function (res) {
+                $scope.pageProduct = res.data;
+                console.log($scope.pageProduct.totalPages)
+                $scope.listProduct = $scope.pageProduct.content;
+            })
+        }
+
+        $scope.getCustomer = function (page) {
+            $http.get('/customers?page=' + page).then(function (res) {
+                $scope.pageCustomer = res.data;
+                console.log($scope.pageCustomer.totalPages)
+                $scope.listCustomer = $scope.pageCustomer.content;
+            })
+        }
+
+        $scope.getProductByPage(0);
+
+        $scope.getCustomer(0)
+
+        $scope.createBill = function () {
+            $http.get('/count-bill-wait').then(function (res) {
+                if (res.data >= 5) {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Chỉ được tạo tối đa 5 hoá đơn chờ"
+                    });
+                } else {
+                    $http.get('/bill/create-bill').then(function (res) {
+                        $scope.hoaDon = res.data;
+                        $scope.listHoaDon.push($scope.hoaDon);
+                    }, function (error) {
+                        console.log(error)
+                    }).then(function () {
+                        Toast.fire({
+                            icon: "success",
+                            title: "Tạo hoá đơn thành công"
+                        });
+                    })
+                }
+            })
+        }
+
+
+        $scope.voucher = {
+            tenPhieu: "",
+            giaTriGiam: 0,
+        }
+
+        $scope.listAddress = []
+        $scope.historyPayOffline = []
+        $scope.historyPayOnline = []
+        $scope.tienKhachTra = 0
+
+        $scope.detailBill = function (billId) {
+            // Đoạn này để in đậm hóa đơn được chọn
+            let listElement = document.querySelectorAll(".maHoaDon");
+            for (let i = 0; i < listElement.length; i++) {
+                listElement[i].classList.remove("bg-cyan-500");
+                listElement[i].classList.remove("text-white");
+                listElement[i].classList.add("bg-cyan-100");
+                listElement[i].classList.add("text-cyan-900");
+            }
+            let element = document.getElementById("hoaDon" + billId)
+            element.classList.remove("bg-cyan-100");
+            element.classList.remove("text-cyan-900");
+            element.classList.add("bg-cyan-500");
+            element.classList.add("text-white");
+            // Đoạn này để in đậm hóa đơn được chọn
+
+            $scope.billId = billId
+            $scope.tongTien = 0
+            $scope.ship = false
+            $scope.tienSauGiam = 0
+            $scope.phiShip = 0
+            $scope.voucher.giaTriGiam = 0
+            $http.get('/bill/' + billId).then(function (res) {
+                $scope.pageBill = res.data;
+                $scope.listDetailBill = res.data;
+                if ($scope.listDetailBill == '') {
+                    $scope.listDetailBill = null
+                }
+            })
+
+            $http.get('/customer-pay-money/' + billId).then(function (res) {
+                $scope.tienKhachTra = res.data
+            })
+
+            $http.get('/bill-info/' + billId).then(function (res) {
+                $scope.idTaiKhoan = res.data.idTaiKhoan
+
+                if ($scope.idTaiKhoan == '') {
+                    $scope.idTaiKhoan = 0
+                }
+                if (res.data.hoVaTen != null) {
+                    $scope.nameCustomer = res.data.hoVaTen
+                    $scope.phoneNumber = res.data.soDienThoai
+                } else {
+                    $scope.nameCustomer = "Khách lẻ"
+                }
+
+            }).then(function () {
+                $http.get('/bill/tong-tien/' + billId).then(function (res) {
+                    $scope.tongTien = res.data;
+                    if ($scope.tongTien == '') {
+                        $scope.tongTien = 0
+                    }
+
+                }).then(function () {
+                    if ($scope.tongTien > 0) {
+                        let api = '/voucher/auto/' + $scope.billId + '?tongTien=' + $scope.tongTien
+                        if ($scope.idTaiKhoan !== null) {
+                            api = api + '&idCustomer=' + $scope.idTaiKhoan
+                        }
+                        $http.get(api).then(function (res) {
+                            return res.data
+                        }).then(function (data) {
+                            $scope.voucher = {
+                                tenPhieu: data.maPgg,
+                                giaTriGiam: data.tienDuocGiamTheoDon,
+                            }
+
+                            $scope.tienSauGiam = $scope.tongTien - $scope.voucher.giaTriGiam + $scope.phiShip
+                            $scope.tienGiamGia = $scope.voucher.giaTriGiam
+
+                            $http.get('/count-money/' + billId).then(function (res) {
+                                $scope.tienDaTra = res.data
+                                $scope.tienConThieu = $scope.tongTien + $scope.phiShip - $scope.voucher.giaTriGiam - res.data;
+                            })
+
+                            $http.get('/history-pay/' + billId).then(function (res) {
+                                $scope.historyPayOffline = res.data
+                            })
+                            $http.get('/history-pay-online/' + billId).then(function (res) {
+                                $scope.historyPayOnline = res.data
+                            })
+
+                        })
+                    }
+                })
+            })
+        }
+
+        $scope.deleteProductRequest = {
+            productId: 0,
+            billId: 0
+        }
+
+        $scope.openAlertFail = function (content) {
+            document.getElementById("alertFailContent").innerText = content
+            const element = document.querySelector(".alertFail")
+            element.classList.add("show");
+            element.classList.remove("hide");
+            element.classList.add("showAlert");
+            setTimeout(function () {
+                element.classList.remove("show");
+                element.classList.add("hide");
+            }, 3000);
+        }
+
+        $scope.closeAlertFail = function () {
+            const element = document.querySelector(".alertFail")
+            element.classList.remove("show");
+            element.classList.add("hide");
+        }
+
+        $scope.openAlertSuccess = function (content) {
+            document.getElementById("alertSuccessContent").innerText = content
+            const element = document.querySelector(".alertSuccess")
+            element.classList.add("show");
+            element.classList.remove("hide");
+            element.classList.add("showAlert");
+            setTimeout(function () {
+                element.classList.remove("show");
+                element.classList.add("hide");
+            }, 3000);
+        }
+
+        $scope.closeAlertSuccess = function () {
+            const element = document.querySelector(".alertSuccess")
+            element.classList.remove("show");
+            element.classList.add("hide");
+        }
+
+        $scope.deleteProduct = function (productId) {
+            $scope.deleteProductRequest = {
+                productId: productId,
+                billId: $scope.billId
+            }
+
+            $http.post("/bill/delete-product", $scope.deleteProductRequest).then(function (res) {
+                Toast.fire({
+                    icon: "success",
+                    title: "Xoá sản phẩm thành công"
+                });
+                $scope.detailBill($scope.billId)
+            })
+        }
+
+        $scope.product = {amount: 0}
+
+        $scope.addProductToBill = function (productId) {
+            if ($scope.billId == null) {
+                Toast.fire({
+                    icon: "error",
+                    title: "Bạn cần chọn hoá đơn trước"
+                });
+            }
+            let newBillDetail = {
+                amountProduct: 1,
+                billId: $scope.billId,
+                productId: productId
+            }
+
+            $http.get('/get-so-luong/' + productId).then(function (res) {
+                $scope.soLuongSP = res.data
+            }).then(function () {
+                if (newBillDetail.amountProduct > $scope.soLuongSP) {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Số lượng sản phẩm không đủ"
+                    });
+                } else {
+                    $http.post('/bill/add-product', newBillDetail).then(function (res) {
+                        if (res.status == 201 && $scope.tongTien > 0) {
+                            let api = '/voucher/auto/' + $scope.billId + '?tongTien=' + $scope.tongTien
+                            if ($scope.idTaiKhoan !== null) {
+                                api = api + '&idCustomer=' + $scope.idTaiKhoan
+                            }
+                            $http.get(api).then(function (res) {
+                                if (res.status == 200) {
+                                    $scope.voucher = {
+                                        tenPhieu: res.data.maPgg,
+                                        giaTriGiam: res.data.tienDuocGiamTheoDon,
+                                    }
+                                    $scope.tienSauGiam = $scope.tongTien - $scope.voucher.giaTriGiam + $scope.phiShip
+                                }
+                            })
+                        }
+                    }).then(function () {
+                        Toast.fire({
+                            icon: "success",
+                            title: "Thêm sản phẩm thành công"
+                        });
+                        $scope.detailBill($scope.billId)
+
+                        $scope.closeForm(productId)
+
+                        $scope.product.amount = 0
+
+                    })
+                }
+            })
+        }
+
+
+        $scope.nameCustomer = "Khách lẻ"
+        $scope.selectCustomer = function (idCustomer) {
+            $http.get('/customer/' + idCustomer + "?billId=" + $scope.billId).then(function (res) {
+                $scope.idTaiKhoan = idCustomer
+                $scope.customerResponse = res.data
+                $scope.listAddress = res.data.address;
+                $scope.nameCustomer = res.data.name;
+                $scope.phoneNumber = res.data.soDienThoai
+                $scope.addressDefault = {}
+            }).then(function () {
+                Toast.fire({
+                    icon: "success",
+                    title: "Chọn khách hàng thành công"
+                });
+                $http.get('/address/default/' + idCustomer).then(function (response) {
+                    $scope.addressDefault = response.data
+                    $scope.soDienThoai = $scope.addressDefault.soDienThoai;
+                    $scope._idTinh = $scope.addressDefault.idTinh
+                    $scope._idXa = $scope.addressDefault.idXa
+                    $scope._idHuyen = $scope.addressDefault.idHuyen
+                })
+
+                let api = '/voucher/auto/' + $scope.billId + '?tongTien=' + $scope.tongTien
+                if ($scope.idTaiKhoan !== null) {
+                    api = api + '&idCustomer=' + idCustomer
+                }
+                $http.get(api).then(function (res) {
+                    if (res.status == 200) {
+                        $scope.voucher = {
+                            tenPhieu: res.data.maPgg,
+                            giaTriGiam: res.data.tienDuocGiamTheoDon,
+                        }
+                        $scope.tienSauGiam = $scope.tongTien - $scope.voucher.giaTriGiam + $scope.phiShip
+                        $http.get('/count-money/' + $scope.billId).then(function (response) {
+                            $scope.tienDaTra = response.data
+                            $scope.tienConThieu = $scope.tongTien + $scope.phiShip - $scope.voucher.giaTriGiam - response.data;
+                        })
+                    }
+                })
+                for (let i = 0; i < $scope.listAddress.length; i++) {
+                    let tinh = $scope.listTinhThanh.find(({ProvinceID}) => ProvinceID == $scope.listAddress[i].idTinh);
+                    $scope.listAddress[i].tenTinh = tinh.ProvinceName
+                    let tinhId = {"province_id": tinh.ProvinceID}
+                    $scope.getQuanHuyen(tinhId)
+                        .then(function (res) {
+                            if (res.status == 200) {
+                                return res.data
+                            }
+                        })
+                        .then(function (list) {
+                            let listQuanHuyen = list.data
+                            let huyen = listQuanHuyen.find(({DistrictID}) => DistrictID == $scope.listAddress[i].idHuyen);
+                            $scope.listAddress[i].tenHuyen = huyen.DistrictName
+                            $scope.getXaPhuong(huyen.DistrictID)
+                                .then(function (res) {
+                                    if (res.status == 200) {
+                                        return res.data
+                                    }
+                                })
+                                .then(function (list) {
+                                    let listXaPhuong = list.data
+                                    let xa = listXaPhuong.find(({WardCode}) => WardCode == $scope.listAddress[i].idXa);
+                                    $scope.listAddress[i].tenXa = xa.WardName
+                                })
+                        })
+                }
+            })
+        }
+
+        $scope.selectAddress = function (address) {
+            $http.post('/select-address/' + address, $scope.billId).then(function (res) {
+                $scope.addressDefault = res.data
+                $scope.soDienThoai = $scope.addressDefault.soDienThoai;
+                $scope.nameCustomer = $scope.addressDefault.hoVaTen;
+                $scope.phoneNumber = $scope.addressDefault.soDienThoai
+            }).then(function () {
+                console.log($scope.addressDefault.idTinh)
+                $scope.getTinhThanh()
+                    .then(function (res) {
+                        if (res.status == 200) {
+                            $scope.listTinhThanh = res.data.data
+                        }
+                    }).then(function () {
+                    _tinhThanh = {"province_id": $scope.addressDefault.idTinh}
+                    $scope.getQuanHuyen(_tinhThanh)
+                        .then(function (res) {
+                            return res.data
+                        })
+                        .then(function (list) {
+                            $scope.listQuanHuyen = list.data
+                            // $scope.addressDefault.idHuyen = $scope.listQuanHuyen[0].DistrictID
+                            _quanHuyen = $scope.addressDefault.idHuyen
+                            $scope.getXaPhuong(_quanHuyen)
+                                .then(function (res) {
+                                    return res.data
+                                })
+                                .then(function (list) {
+                                    $scope.listXaPhuong = list.data
+                                    // $scope.addressDefault.idXa = $scope.listXaPhuong[0].WardCode
+                                    _getShipServiceData.to_district = $scope.addressDefault.idHuyen
+                                    $scope.getShipService(_getShipServiceData)
+                                        .then(function (res) {
+                                            return res.data
+                                        })
+                                        .then(function (result) {
+                                            return result.data
+                                        })
+                                        .then(function (data) {
+                                            _tinhPhiShipData.service_id = data[0].service_id
+                                        })
+                                        .then(function () {
+                                            _tinhPhiShipData.to_district_id = $scope.addressDefault.idHuyen
+                                            _tinhPhiShipData.to_ward_code = $scope.addressDefault.idXa
+                                            $scope.tinhPhiShip(_tinhPhiShipData)
+                                                .then(function (res) {
+                                                    if (res.status == 200) {
+                                                        return res.data
+                                                    }
+                                                })
+                                                .then(function (res) {
+                                                    $scope.phiShip = res.data.total
+                                                })
+                                        })
+                                })
+                        })
+                })
+            })
+        }
+
+        $scope.selectTinhThanh = function () {
+            $scope.getTinhThanh()
+                .then(function (res) {
+                    if (res.status == 200) {
+                        $scope.listTinhThanh = res.data.data
+                    }
+                }).then(function () {
+                _tinhThanh = {"province_id": $scope.addressDefault.idTinh}
+                $scope.getQuanHuyen(_tinhThanh)
+                    .then(function (res) {
+                        return res.data
+                    })
+                    .then(function (list) {
+                        $scope.listQuanHuyen = list.data
+                        $scope.addressDefault.idHuyen = $scope.listQuanHuyen[0].DistrictID
+                        _quanHuyen = $scope.addressDefault.idHuyen
+                        $scope.getXaPhuong(_quanHuyen)
+                            .then(function (res) {
+                                return res.data
+                            })
+                            .then(function (list) {
+                                $scope.listXaPhuong = list.data
+                                $scope.addressDefault.idXa = $scope.listXaPhuong[0].WardCode
+                                _getShipServiceData.to_district = $scope.addressDefault.idHuyen
+                                $scope.getShipService(_getShipServiceData)
+                                    .then(function (res) {
+                                        return res.data
+                                    })
+                                    .then(function (result) {
+                                        return result.data
+                                    })
+                                    .then(function (data) {
+                                        _tinhPhiShipData.service_id = data[0].service_id
+                                    })
+                                    .then(function () {
+                                        _tinhPhiShipData.to_district_id = $scope.addressDefault.idHuyen
+                                        _tinhPhiShipData.to_ward_code = $scope.addressDefault.idXa
+                                        $scope.tinhPhiShip(_tinhPhiShipData)
+                                            .then(function (res) {
+                                                if (res.status == 200) {
+                                                    return res.data
+                                                }
+                                            })
+                                            .then(function (res) {
+                                                $scope.phiShip = res.data.total
+                                            })
+                                    })
+                            })
+                    })
+            })
+        }
+
+        $scope.selectQuanHuyen = function () {
+            _quanHuyen = $scope.addressDefault.idHuyen
+            $scope.getXaPhuong(_quanHuyen)
+                .then(function (res) {
+                    return res.data
+                })
+                .then(function (list) {
+                    $scope.listXaPhuong = list.data
+                    $scope.addressDefault.idXa = $scope.listXaPhuong[0].WardCode
+                    _getShipServiceData.to_district = $scope.addressDefault.idHuyen
+                    $scope.getShipService(_getShipServiceData)
+                        .then(function (res) {
+                            return res.data
+                        })
+                        .then(function (result) {
+                            return result.data
+                        })
+                        .then(function (data) {
+                            _tinhPhiShipData.service_id = data[0].service_id
+                        })
+                        .then(function () {
+                            _tinhPhiShipData.to_district_id = $scope.addressDefault.idHuyen
+                            _tinhPhiShipData.to_ward_code = $scope.addressDefault.idXa
+                            $scope.tinhPhiShip(_tinhPhiShipData)
+                                .then(function (res) {
+                                    if (res.status == 200) {
+                                        return res.data
+                                    }
+                                })
+                                .then(function (res) {
+                                    $scope.phiShip = res.data.total
+                                })
+                        })
+                })
+        }
+
+
+        $scope.selectPaymentMethod = function (paymentMethod) {
+            $scope.phuongThuc = paymentMethod
+        }
+
+        $scope.deleteHistoryPay = function (id) {
+            $http.post('/delete-history-pay/' + id).then(function (res) {
+                if (res.data == 1) {
+                    Toast.fire({
+                        icon: "success",
+                        title: "Xoá thành công"
+                    });
+                } else {
+                    Toast.fire({
+                        icon: "error",
+                        title: "Xoá thất bại"
+                    });
+                }
+            }).then(function () {
+                $http.get('/history-pay-offline/' + $scope.billId).then(function (res) {
+                    $scope.historyPayOffline = res.data
+                })
+                $http.get('/customer-pay-money/' + $scope.billId).then(function (res) {
+                    $scope.tienKhachTra = res.data
+                })
+
+                $http.get('/count-money/' + $scope.billId).then(function (res) {
+                    $scope.tienDaTra = res.data
+                    $scope.tienConThieu = $scope.tongTien + $scope.phiShip - $scope.voucher.giaTriGiam - res.data;
+                })
+            })
+        }
+
+        $scope.confirmCheckout = function () {
+            $scope.lichSuTraTien = {
+                soTien: $scope.tienTra,
+                phuongThuc: $scope.phuongThuc,
+                idHoaDon: $scope.billId
+            }
+
+            $scope.checkTienTra()
+
+            if ($scope.checkGia == false) {
+                Toast.fire({
+                    icon: "error",
+                    title: "Số tiền không hợp lệ, vui lòng kiểm tra lại!"
+                });
+            } else {
+                $http.post('/pay-history', $scope.lichSuTraTien).then(function (res) {
+                    if (res.status == 200) {
+                        Toast.fire({
+                            icon: "success",
+                            title: "Thành công"
+                        });
+                    }
+                }).then(function () {
+                    $http.get('/bill/' + $scope.billId).then(function (res) {
+                        $scope.pageBill = res.data;
+                        $scope.listDetailBill = res.data;
+                    })
+
+                    $http.get('/customer-pay-money/' + $scope.billId).then(function (res) {
+                        $scope.tienKhachTra = res.data
+                    })
+
+                    $http.get('/bill/tong-tien/' + $scope.billId).then(function (res) {
+                        $scope.tongTien = res.data;
+
+                    }).then(function () {
+                        if ($scope.tongTien > 0) {
+                            let api = '/voucher/auto/' + $scope.billId + '?tongTien=' + $scope.tongTien
+                            if ($scope.idTaiKhoan !== null) {
+                                api = api + '&idCustomer=' + $scope.idTaiKhoan
+                            }
+                            $http.get(api).then(function (res) {
+                                return res.data
+                            }).then(function (data) {
+                                $scope.voucher = {
+                                    tenPhieu: data.maPgg,
+                                    giaTriGiam: data.tienDuocGiamTheoDon,
+                                }
+                                $scope.tienSauGiam = $scope.tongTien - $scope.voucher.giaTriGiam + $scope.phiShip
+                                $http.get('/count-money/' + $scope.billId).then(function (res) {
+                                    $scope.tienDaTra = res.data
+                                    $scope.tienConThieu = $scope.tongTien + $scope.phiShip - $scope.voucher.giaTriGiam - res.data;
+                                })
+
+                                $http.get('/history-pay-offline/' + $scope.billId).then(function (res) {
+                                    $scope.historyPayOffline = res.data
+                                })
+                                $http.get('/history-pay-online/' + $scope.billId).then(function (res) {
+                                    $scope.historyPayOnline = res.data
+                                })
+                            })
+                        }
+                    })
+
+                })
+            }
+
+
+        }
+
+        $scope.checkTen = () => {
+            // Tên có dấu hoặc không
+            // Không có kí tự đặc biệt
+            // Không có số
+            if ($scope.nameCustomer == '') {
+                $scope.isCheckTen = false
+            } else {
+                var re = /^(([a-zA-Z\sÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]*)([a-zA-Z\s\'ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]*)([a-zA-Z\sÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]))*$/g
+                $scope.isCheckTen = re.test($scope.nameCustomer)
+            }
+            if ($scope.isCheckTen == false) {
+                Toast.fire({
+                    icon: "error",
+                    title: "Tên không hợp lệ"
+                });
+            }
+        }
+
+        $scope.checkSdt = () => {
+            var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+            $scope.isCheckSdt = re.test($scope.addressDefault.soDienThoai)
+            if ($scope.isCheckSdt == false) {
+                Toast.fire({
+                    icon: "error",
+                    title: "Số điện thoại không hợp lệ"
+                });
+            }
+
+
+        }
+
+        $scope.finalCheckout = function () {
+            Swal.fire({
+                title: "Bạn có chắc muốn thanh toán?",
+                text: "Bạn sẽ không thể hoàn tác lại hành động này",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Đồng ý!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if ($scope.checkSdt == false || $scope.checkTen == false) {
+                        Swal.fire({
+                            title: "Thất bại",
+                            text: "Giá trị đầu vào không hợp lệ, vui lòng kiểm tra lại",
+                            icon: "warning"
+                        });
+                    } else {
+                        if ($scope.billId == null || $scope.billId == " ") {
+                            Toast.fire({
+                                icon: "error",
+                                title: "Bạn chưa chọn hoá đơn"
+                            });
+                        } else if ($scope.tienConThieu > 0 && $scope.ship == false) {
+                            Toast.fire({
+                                icon: "error",
+                                title: "Bạn chưa trả đủ tiền"
+                            });
+                        } else {
+                            let diaChiTong = ""
+                            let diaChiNew = {}
+                            let tenKhachHang = ""
+                            let soDienThoai = ""
+                            $scope._idTinh = 0
+                            $scope._idHuyen = 0
+                            $scope._idXa = 0
+                            // if ($scope.nameCustomer == null || $scope.nameCustomer == " "){
+                            //     $scope.openAlertFail("Vui lòng không để trống tên người nhận")
+                            // }else if($scope.soDienThoai == null || $scope.soDienThoai == " "){
+                            //     $scope.openAlertFail("Vui lòng không để trống số điện thoại")
+                            // }
+                            if ($scope.ship === true) {
+                                let tinh = $scope.listTinhThanh.find(({ProvinceID}) => ProvinceID == $scope.addressDefault.idTinh);
+                                let huyen = $scope.listQuanHuyen.find(({DistrictID}) => DistrictID == $scope.addressDefault.idHuyen);
+                                let xa = $scope.listXaPhuong.find(({WardCode}) => WardCode == $scope.addressDefault.idXa);
+                                let diaChi = $scope.addressDefault.diaChiCuThe
+                                let tenTinh = tinh.ProvinceName
+                                let tenHuyen = huyen.DistrictName
+                                let tenXa = xa.WardName
+                                diaChiTong = diaChi + ", " + tenTinh + ", " + tenHuyen + ", " + tenXa
+                                diaChiNew = $scope.addressDefault
+                                tenKhachHang = $scope.nameCustomer
+                                $scope._idTinh = $scope.addressDefault.idTinh
+                                $scope._idXa = $scope.addressDefault.idXa
+                                $scope._idHuyen = $scope.addressDefault.idHuyen
+                                soDienThoai = $scope.addressDefault.soDienThoai
+                            } else {
+
+                                diaChiTong = ""
+                                diaChiNew = null
+                                tenKhachHang = ""
+                                $scope._idTinh = 0
+                                $scope._idHuyen = 0
+                                $scope._idXa = 0
+                                soDienThoai = $scope.soDienThoai
+                            }
+
+                            $scope.finalCheckout = {
+                                tienSauGiam: $scope.tongTien - $scope.voucher.giaTriGiam,
+                                tienGiamGia: $scope.tienGiamGia,
+                                tienGiaoHang: $scope.phiShip,
+                                soDienThoai: soDienThoai,
+                                diaChi: diaChiTong,
+                                trangThai: $scope.trangThaiHoaDon,
+                                diaChiNew: diaChiNew,
+                                phuongThucThanhToan: $scope.phuongThucThanhToan,
+                                tongTien: $scope.tienSauGiam,
+                                idKhachHang: $scope.idTaiKhoan,
+                                tenKhachHang: tenKhachHang,
+                                idTinh: $scope._idTinh,
+                                idHuyen: $scope._idHuyen,
+                                idXa: $scope._idXa
+                            }
+
+                            $http.post('/final-checkout/' + $scope.billId, $scope.finalCheckout).then(function (res) {
+                                if (res.data === 1) {
+                                    if ($scope.ship == false){
+                                        $http.get("/generate-pdf/" + $scope.billId, {responseType: 'arraybuffer'})
+                                            .then(function (response) {
+                                                // Bước 2: Tạo một đối tượng Blob từ dữ liệu nhận được
+                                                var blob = new Blob([response.data], {type: 'application/pdf'});
+
+                                                // Kiểm tra xem Blob có chứa dữ liệu hợp lệ không
+                                                if (blob.size > 0) {
+                                                    // Bước 3: Tạo URL từ Blob
+                                                    var downloadUrl = URL.createObjectURL(blob);
+
+                                                    // Bước 4: Tạo một thẻ anchor để kích hoạt sự kiện tải xuống
+                                                    var a = document.createElement('a');
+                                                    a.href = downloadUrl;
+                                                    a.target = '_blank';  // Mở trong một tab mới
+                                                    a.download = 'pdf_' + new Date().toISOString().slice(0, 19).replace(/:/g, "-") + '.pdf';
+
+                                                    // Bước 5: Thêm thẻ anchor vào body và kích hoạt sự kiện click để tải file
+                                                    document.body.appendChild(a);
+                                                    a.click();
+
+                                                    // Sau khi tải xong, loại bỏ thẻ anchor
+                                                    document.body.removeChild(a);
+
+                                                    const Toast = Swal.mixin({
+                                                        toast: true,
+                                                        position: "top-end",
+                                                        showConfirmButton: false,
+                                                        timer: 3000,
+                                                        timerProgressBar: true,
+                                                        didOpen: (toast) => {
+                                                            toast.onmouseenter = Swal.stopTimer;
+                                                            toast.onmouseleave = Swal.resumeTimer;
+                                                        }
+                                                    });
+                                                    Swal.fire({
+                                                        title: "Thanh toán thành công!",
+                                                        text: "Đơn hàng của bạn đã thanh toán thành công!",
+                                                        icon: "success"
+                                                    });
+                                                } else {
+                                                    alert('Lỗi pdf');
+                                                }
+                                            }, function (error) {
+                                                console.error('Error occurred:', error);
+                                                alert('Failed to generate PDF: ' + (error.data ? error.data.message : 'Unknown error'));
+                                            }).then(function (){
+                                                $window.location.reload()
+                                        })
+                                    }else{
+                                        const Toast = Swal.mixin({
+                                            toast: true,
+                                            position: "top-end",
+                                            showConfirmButton: false,
+                                            timer: 3000,
+                                            timerProgressBar: true,
+                                            didOpen: (toast) => {
+                                                toast.onmouseenter = Swal.stopTimer;
+                                                toast.onmouseleave = Swal.resumeTimer;
+                                            }
+                                        });
+                                        Swal.fire({
+                                            title: "Thanh toán thành công!",
+                                            text: "Đơn hàng của bạn đã thanh toán thành công!",
+                                            icon: "success"
+                                        });
+
+                                        $window.location.reload()
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+            });
+        }
+
+    }
+
+    // document.addEventListener('contextmenu', function (e) {
+    //     e.preventDefault(); // Ngăn chuột phải
+    // });
+    //
+    // document.addEventListener('keydown', function (e) {
+    //     if (e.keyCode === 123) {
+    //         e.preventDefault();
+    //     }
+    // });
+</script>
+</html>

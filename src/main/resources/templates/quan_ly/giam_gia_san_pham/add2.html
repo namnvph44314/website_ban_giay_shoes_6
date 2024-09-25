@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <title>Thêm phiếu giảm giá</title>
+
+    <style>
+        .pagination-container {
+            text-align: center;
+            margin-top: 20px; /* Thêm khoảng cách phía trên nếu cần */
+            margin-bottom: 20px;
+        }
+
+        .pagination {
+            display: inline-block;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .pagination li {
+            display: inline;
+            margin: 0 5px; /* Khoảng cách giữa các mục phân trang */
+        }
+
+        .pagination li a {
+            text-decoration: none;
+            color: #007bff;
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .pagination li a:hover {
+            background-color: #0d6efd;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <div class="mb-3 mt-2">
+                <h3>Thêm mới đợt giảm giá</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="container">
+                <div class="row">
+                    <form id="form"
+                          th:object="${ggspRequest}">
+                        <div class="row">
+                            <div th:if="${checkAdd==false}" th:text="${ngay}" class="alert alert-danger"
+                                 role="alert"></div>
+                            <div class="col-5">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên đợt giảm giá</label>
+                                    <input type="text" class="form-control" th:field="*{ten}">
+                                    <i th:errors="*{ten}" style="color: red"></i>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Giá trị</label>
+                                    <input type="number" class="form-control" th:field="*{giaTri}">
+                                    <i th:errors="*{giaTri}" style="color: red"></i>
+                                    <i th:if="${checkGt==false}" th:text="${gt}" style="color: red"></i>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Từ ngày</label>
+                                    <input type="datetime-local" id="datetimeInput1" class="form-control"
+                                           th:field="*{ngayBatDau}">
+                                    <i th:errors="*{ngayBatDau}" style="color: red"></i>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Đến ngày</label>
+                                    <input type="datetime-local" id="datetimeInput2" class="form-control"
+                                           th:field="*{ngayKetThuc}">
+                                    <i th:errors="*{ngayKetThuc}" style="color: red"></i>
+                                </div>
+                            </div>
+
+                            <div class="col-7" id="myDiv">
+                                <div class="d-flex">
+                                    <input class="form-control me-2" type="text" id="sdt" aria-label="Search"
+                                           th:name="sdt" th:value="${sdt}"
+                                           placeholder="Nhập số điện thoại khách hàng cần tìm">
+                                    <i th:if="${checkSrKh == false}" th:text="${messageSrKh}" style="color: red"></i>
+                                    <button type="button" onclick="submitData()" class="btn btn-outline-success">
+                                        Search
+                                    </button>
+                                </div>
+                                <table class="table">
+                                    <tr>
+                                        <th></th>
+                                        <th>STT</th>
+                                        <th>Tên</th>
+                                    </tr>
+                                    <tr th:each="i,lstSp:${lstSp}" th:object="${spctAdd}">
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="select-item" type="checkbox" onclick="submitSp()"
+                                                       th:value="${i.id}" th:field="*{ggspct}"
+                                                       id="idSp"
+                                                       name="checkboxValues" type="submit">
+                                            </div>
+                                        </td>
+                                        <td th:text="${lstSp.index+1}"></td>
+                                        <td th:text="${i.tenSanPham}"></td>
+                                    </tr>
+                                </table>
+                                <div class="pagination-container" th:if="${checkPage==0}">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li><a
+                                                    class="btn-outline-secondary" onclick="previousPage()">Previous</a>
+                                            </li>
+                                            <li style="color: #0d6efd" th:text="${lstSp.number+1}"> ></li>
+                                            <li><a class="btn-outline-secondary" onclick="nextPage()">Next</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+
+<!--                            <div th:if="${checkboxValues!=null}">-->
+<!--                                <hr>-->
+<!--                                <h4> Chi tiết sản phẩm</h4>-->
+<!--                                <table class="table">-->
+<!--                                    <tr>-->
+<!--                                        <th></th>-->
+<!--                                        <th>STT</th>-->
+<!--                                        <th>Tên sản phẩm</th>-->
+<!--                                        <th>Thể loại</th>-->
+<!--                                        <th>Thương hiệu</th>-->
+<!--                                        <th>Chất liệu</th>-->
+<!--                                        <th>Màu sắc</th>-->
+<!--                                        <th>Đế giày</th>-->
+<!--                                    </tr>-->
+<!--                                    <tr th:each="i,lstSpct:${lstSpct}">-->
+<!--                                        <td>-->
+<!--                                            <div class="form-check">-->
+<!--                                                <input class="select-item" type="checkbox" th:value="${i.id}"-->
+<!--                                                       id="${i.id}">-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+<!--                                        <td th:text="${lstSpct.index+1}"></td>-->
+<!--                                        <td th:text="${i.sanPhamByIdSanPham.tenSanPham}"></td>-->
+<!--                                        <td th:text="${i.theLoaiByIdDanhMuc.tenTheLoai}"></td>-->
+<!--                                        <td th:text="${i.thuongHieuByIdThuongHieu.tenThuongHieu}"></td>-->
+<!--                                        <td th:text="${i.chatLieuByIdChatLieu.tenChatLieu}"></td>-->
+<!--                                        <td th:text="${i.mauSacByIdMauSac.tenMauSac}"></td>-->
+<!--                                        <td th:text="${i.deGiayByIdDeGiay.tenDeGiay}"></td>-->
+<!--                                    </tr>-->
+<!--                                </table>-->
+<!--                            </div>-->
+
+                            <div class=" text-center">
+                                <button id="submit-button" type="submit"
+                                        onclick="return window.confirm('Bạn có muốn Thêm không')"
+                                        class="btn btn-outline-success" style="width: 100px">Thêm
+                                    mới
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script language="JavaScript">
+
+    // window.onload = function () {
+    //     const urlParams = new URLSearchParams(window.location.search);
+    //     const checkboxValues = urlParams.getAll('checkboxValues');
+    //     checkboxValues.forEach(value => {
+    //         let checkbox = document.querySelector(`input[name="checkboxValues"][value="${value}"]`);
+    //         if (checkbox) {
+    //             checkbox.checked = true;
+    //         }
+    //     });
+    // }
+    //
+    function submitSp() {
+        // let checkboxes = document.querySelectorAll('input[name="checkboxValues"]:checked');
+        // let values = [];
+        // checkboxes.forEach((checkbox) => {
+        //     values.push(checkbox.value);
+        // });
+        // console.log(values)
+        // localStorage.setItem('checkboxValues', JSON.stringify(values));
+        // const urlParams = new URLSearchParams(window.location.search);
+        // let currentPage = parseInt(urlParams.get('page')) || 0;
+        //
+        // // Xây dựng URL với các tham số truy vấn và thêm 'page'
+        // let queryString = values.map(value => 'checkboxValues=' + encodeURIComponent(value)).join('&');
+        // queryString += `&page=${currentPage}`;
+        // let url = "/admin/giam-gia-san-pham/add-sp" + '?' + queryString;
+        let url = "/admin/giam-gia-san-pham/add-sp" ;
+        // Chuyển đến trang tiếp theo
+        window.location.href = url;
+    }
+    //
+    // function nextPage() {
+    //     // Lấy danh sách các checkbox đã được chọn
+    //     let checkboxes = document.querySelectorAll('input[name="checkboxValues"]:checked');
+    //     let values = [];
+    //     checkboxes.forEach((checkbox) => {
+    //         values.push(checkbox.value);
+    //     });
+    //
+    //     let maxPage = [[${lstSp.totalPages}]];
+    //
+    //     // Lấy tham số 'page' hiện tại hoặc đặt mặc định là 0
+    //     const urlParams = new URLSearchParams(window.location.search);
+    //     let currentPage = parseInt(urlParams.get('page')) || 0;
+    //     let nextPage;
+    //     // Tăng giá trị của 'page'
+    //     if (currentPage < maxPage - 1) {
+    //         nextPage = currentPage + 1
+    //     }
+    //     if (currentPage == maxPage - 1) {
+    //         nextPage = 0
+    //     }
+    //
+    //     // Xây dựng URL với các tham số truy vấn và thêm 'page'
+    //     let queryString = values.map(value => 'checkboxValues=' + encodeURIComponent(value)).join('&');
+    //     queryString += `&page=${nextPage}`;
+    //     let url = window.location.pathname + '?' + queryString;
+    //     // Chuyển đến trang tiếp theo
+    //     window.location.href = url;
+    // }
+    //
+    // function previousPage() {
+    //     // Lấy danh sách các checkbox đã được chọn
+    //     let checkboxes = document.querySelectorAll('input[name="checkboxValues"]:checked');
+    //     let values = [];
+    //     checkboxes.forEach((checkbox) => {
+    //         values.push(checkbox.value);
+    //     });
+    //
+    //     // Lấy tham số 'page' hiện tại hoặc đặt mặc định là 0
+    //     const urlParams = new URLSearchParams(window.location.search);
+    //     let currentPage = parseInt(urlParams.get('page')) || 0;
+    //
+    //     let previousPage;
+    //
+    //     if (currentPage > 0) {
+    //         previousPage = currentPage - 1;
+    //     }
+    //     if (currentPage == 0) {
+    //         previousPage = [[${lstSp.totalPages}]] - 1;
+    //     }
+    //
+    //     // Xây dựng URL với các tham số truy vấn và thêm 'page'
+    //     let queryString = values.map(value => 'checkboxValues=' + encodeURIComponent(value)).join('&');
+    //     queryString += `&page=${previousPage}`;
+    //     let url = '/admin/giam-gia-san-pham/add?' + queryString;
+    //     // Chuyển đến trang tiếp theo
+    //     window.location.href = url;
+    // }
+
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault(); // Ngăn chuột phải
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.keyCode === 123) {
+            e.preventDefault();
+        }
+    });
+</script>
+</html>

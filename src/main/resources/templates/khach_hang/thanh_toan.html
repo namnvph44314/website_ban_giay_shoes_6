@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Thanh toán</title>
+    <link rel="shortcut icon" href="/assets/images/Shoes6cop.png"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"/>
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"/>
+    <!-- BootStrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .modal-body {
+            background: #dedede;
+        }
+
+        .coupon .kanan {
+            border-left: 1px dashed #ddd;
+            width: 40% !important;
+            position: relative;
+        }
+
+        .coupon .kanan .info::after, .coupon .kanan .info::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #dedede;
+            border-radius: 100%;
+        }
+
+
+        .coupon .kanan .info::before {
+            top: -10px;
+            left: -10px;
+        }
+
+        .coupon .kanan .info::after {
+            bottom: -10px;
+            left: -10px;
+        }
+
+        .coupon .time {
+            font-size: 1.6rem;
+        }
+
+    </style>
+    <style>
+        .coupon2 .kanan2 {
+            border-left: 1px dashed green;
+            width: 40% !important;
+            position: relative;
+        }
+
+        .coupon2 .kanan2 .info2::after, .coupon2 .kanan2 .info2::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(248, 249, 250, 255);
+            border-radius: 100%;
+        }
+
+
+        .coupon2 .kanan2 .info2::before {
+            top: -10px;
+            left: -10px;
+            border-bottom: 1px solid green;
+        }
+
+        .coupon2 .kanan2 .info2::after {
+            bottom: -10px;
+            left: -10px;
+            border-top: 1px solid green;
+        }
+
+        .coupon2 .time2 {
+            font-size: 1rem;
+        }
+
+
+    </style>
+    <style>
+        .popover__wrapper {
+            position: relative;
+            margin-top: 1.5rem;
+            display: inline-block;
+        }
+
+        .popover__content {
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            left: -115px;
+            top: 80px;
+            transform: translate(0, 10px);
+            background-color: #bfbfbf;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+            width: 300px;
+        }
+
+        .popover__content:before {
+            position: absolute;
+            z-index: -1;
+            content: "";
+            right: calc(50% - 10px);
+            top: -8px;
+            border-style: solid;
+            border-width: 0 10px 10px 10px;
+            border-color: transparent transparent #bfbfbf transparent;
+            transition-duration: 0.3s;
+            transition-property: transform;
+        }
+
+        .popover__wrapper:hover .popover__content {
+            z-index: 10;
+            opacity: 1;
+            visibility: visible;
+            transform: translate(0, -20px);
+            transition: all 0.5s cubic-bezier(0.75, -0.02, 0.2, 0.97);
+        }
+
+        .popover__message {
+            text-align: center;
+        }
+    </style>
+
+
+</head>
+<body ng-app="myAngularJs2" ng-controller="thanhToanController">
+<header>
+    <!-- Jumbotron -->
+    <div class="p-3 text-center bg-white border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/trang-chu/index" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+                    <img src="/api/read-file-by-img-url/Shoes6cop.png" width="90px" height="73px"/>
+                </a>
+
+                <ul class="ms-3 nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/trang-chu/index" class="nav-link px-2 link-secondary">Trang chủ</a></li>
+                    <li><a href="/list-san-pham/index" class="nav-link px-2 link-body-emphasis">Sản phẩm</a>
+                    </li>
+                </ul>
+
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search"
+                      action="/list-san-pham/search" method="post"
+                      th:object="${searchRequest}">
+                    <div class="input-group float-center">
+                                <span class="input-group-text text-primary">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                        <input th:field="*{ten}" type="text" class="form-control" placeholder="Nhập tên sản phẩm ">
+                    </div>
+                </form>
+
+                <div ng-if="taiKhoan != null" class="dropdown text-end me-3">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/api/read-file-by-id-tai-khoan/{{taiKhoan.id}}" alt="mdo" width="48" height="48"
+                             class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item" href="/khach-hang/tai-khoan/ho-so">Thông tin</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
+                    </ul>
+                </div>
+                <a ng-if="taiKhoan != null" href="/khach-hang/gio-hang-index"
+                   class="border rounded py-1 px-3 nav-link d-flex align-items-center position-relative">
+                    <i class="fas fa-shopping-cart m-1 me-md-2"></i>
+                    <p class="d-none d-md-block mb-0">Giỏ hàng</p>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{{listGhctSize}}</span>
+                </a>
+                <a ng-if="taiKhoan == null" href="/login"
+                   class="me-1 border rounded py-1 px-3 nav-link d-flex align-items-center">
+                    <i class="fas fa-user-alt m-1 me-md-2"></i>
+                    <p class="d-none d-md-block mb-0">Đăng nhập</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Jumbotron -->
+
+    <!-- Heading -->
+    <div class="bg-primary">
+        <div class="container py-4">
+            <h3 class="text-white mt-2">Thanh toán</h3>
+        </div>
+    </div>
+    <!-- Heading -->
+
+</header>
+<section ng-if="thanhToanHoaDon.listSanPham.length > 0" class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-8 mb-4">
+                <!-- Checkout -->
+                <div class="card shadow-0 border">
+                    <div class="p-4">
+                        <h5 class="card-title mb-3">Thông tin khách hàng</h5>
+                        <div class="row">
+                            <div class="col-6 ">
+                                <p class="mb-0">Họ và tên</p>
+                                <div class="form-outline">
+                                    <input ng-blur="checkTen()" ng-model="thanhToanHoaDon.thongTinKhachHang.hoVaTen"
+                                           type="text"
+                                           placeholder="Nhập tên của bạn" class="form-control"/>
+                                    <p ng-if="isCheckTen == false" class="text-danger">Vui lòng không để trống và nhập
+                                        tên không có số,
+                                        ký tự đặc biệt</p>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <p class="mb-0">Số điện thoại</p>
+                                <div class="form-outline">
+                                    <input ng-blur="checkSdt()" ng-model="thanhToanHoaDon.thongTinKhachHang.soDienThoai"
+                                           type="text"
+                                           placeholder="Nhập số điện thoại của bạn" class="form-control"/>
+                                    <p ng-if="isCheckSdt == false" class="text-danger">Vui lòng không để trống và nhập
+                                        số điện thoại đúng
+                                        định dạng</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4"/>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <h5 class="form-label">Thông tin giao hàng</h5>
+                            <button type="button"
+                                    class="btn btn-light text-primary btn-sm border"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalAddress">Chọn địa chỉ
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModalAddress" tabindex="-1"
+                                 aria-labelledby="exampleModalLabelAddress" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabelAddress">Danh sách địa
+                                                chỉ</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-check h-100 border border-light rounded-3 bg-light mb-3"
+                                                 ng-repeat="item in listDiaChi">
+                                                <div class="p-3 ">
+                                                    <input data-bs-dismiss="modal" class="form-check-input" type="radio"
+                                                           ng-model="thanhToanHoaDon.thongTinKhachHang.idDiaChi"
+                                                           ng-value="item.id"
+                                                           ng-change="chonDiaChi($index)"/>
+                                                    <label class="form-check-label">
+                                                        <strong>{{item.hoVaTen}}</strong> <br/>
+                                                        <strong>{{item.soDienThoai}}</strong> <br/>
+                                                        <small class="text-muted">{{item.diaChiCuThe}}, {{item.tenXa}},
+                                                            {{item.tenHuyen}}, {{item.tenTinh}}</small>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4 mb-3">
+                                <p class="mb-0">Tỉnh/Thành</p>
+                                <select ng-model="thanhToanHoaDon.thongTinKhachHang.idTinh"
+                                        ng-change="selectTinhThanh()" class="form-select">
+                                    <option ng-repeat="item in listTinhThanh" ng-value="item.ProvinceID">
+                                        {{item.ProvinceName}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-4 mb-3">
+                                <p class="mb-0">Quận/Huyện</p>
+                                <select ng-model="thanhToanHoaDon.thongTinKhachHang.idHuyen"
+                                        ng-change="selectQuanHuyen()" class="form-select">
+                                    <option ng-repeat="item in listQuanHuyen" ng-value="item.DistrictID">
+                                        {{item.DistrictName}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-4 mb-3">
+                                <p class="mb-0">Xã/Phường</p>
+                                <select ng-model="thanhToanHoaDon.thongTinKhachHang.idXa" class="form-select">
+                                    <option ng-repeat="item in listXaPhuong" ng-value="item.WardCode">
+                                        {{item.WardName}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-12 mb-3">
+                                <p class="mb-0">Địa chỉ cụ thể</p>
+                                <div class="form-outline">
+                                    <input ng-model="thanhToanHoaDon.thongTinKhachHang.diaChiCuThe" type="text"
+                                           placeholder="Ví dụ: Tòa nhà FPT Polytechnic, 13 phố Trịnh Văn Bô"
+                                           class="form-control"
+                                           ng-blur="checkDiaChi()"/>
+                                    <p ng-if="isCheckDiaChi == false" class="text-danger">Vui lòng nhập địa chỉ cụ
+                                        thể</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1"/>
+                            <label class="form-check-label" for="flexCheckDefault1">Lưu địa chỉ</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <p class="mb-0">Ghi chú cho người bán</p>
+                            <div class="form-outline">
+                                <textarea ng-blur="updateGhiChu()" ng-model="thanhToanHoaDon.thongTinKhachHang.ghiChu"
+                                          class="form-control"
+                                          id="textAreaExample1" rows="2"></textarea>
+                            </div>
+                        </div>
+
+                        <hr class="my-4"/>
+
+                        <h5 class="card-title mb-3">Hình thức thanh toán</h5>
+                        <div class="row mb-3">
+                            <div class="form-check h-100 border rounded-3">
+                                <div class="p-3">
+                                    <input ng-change="updateHinhThucThanhToan()"
+                                           ng-model="thanhToanHoaDon.thongTinThanhToan.phuongThucThanhToan" ng-value="1"
+                                           class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault1" checked/>
+                                    <label class="form-check-label" for="flexRadioDefault1"><i class="bi bi-truck"></i>
+                                        COD <br/>
+                                        Thanh toán khi nhận hàng
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="form-check h-100 border rounded-3">
+                                <div class="p-3">
+                                    <input ng-change="updateHinhThucThanhToan()"
+                                           ng-model="thanhToanHoaDon.thongTinThanhToan.phuongThucThanhToan" ng-value="2"
+                                           class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2" checked/>
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        <img src="/api/read-file-by-img-url/vnpay-logo-inkythuatso-01.png"
+                                             width="63px" height="16px"/>
+                                        Ví điện tử VNPay
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="float-end">
+                            <a href="/khach-hang/gio-hang/index" class="btn btn-light border">Hủy</a>
+                            <a id="datHangBtn" ng-click="datHang()" class="btn btn-success shadow-0 border">
+                                <span ng-if="loading" class="spinner-border spinner-border-sm"
+                                      aria-hidden="true"></span>
+                                <span ng-if="loading == false" role="status">Đặt hàng</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Checkout -->
+            </div>
+            <div class="col-xl-4 col-lg-4 d-flex justify-content-center justify-content-lg-end">
+                <div class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px;">
+                    <h6 class="mb-3">Thông tin thanh toán</h6>
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-2">Tạm tính:</p>
+                        <p ng-if="thanhToanHoaDon.thongTinThanhToan.tongTienTruocGiam > 0" id="tongTienTruocGiam"
+                           class="mb-2">
+                            {{thanhToanHoaDon.thongTinThanhToan.tongTienTruocGiam | currency: '' : 0}} VNĐ</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-2">Phiếu giảm giá:</p>
+                        <p ng-if="thanhToanHoaDon.thongTinThanhToan.tienGiam > 0" id="pgg" class="mb-2 text-success">
+                            -{{thanhToanHoaDon.thongTinThanhToan.tienGiam | currency: '' : 0}} VNĐ</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-2">Phí giao hàng:</p>
+                        <p ng-if="thanhToanHoaDon.thongTinThanhToan.tienGiaoHang > 0"
+                           class="mb-2 fw-bold">{{thanhToanHoaDon.thongTinThanhToan.tienGiaoHang | currency: '' : 0}}
+                            VNĐ</p>
+                    </div>
+                    <hr/>
+                    <div class="d-flex justify-content-between">
+                        <p class="mb-2">Tổng tiền:</p>
+                        <p ng-if="thanhToanHoaDon.thongTinThanhToan.tongTienSauGiam > 0" id="tongTienSauGiam"
+                           class="mb-2 fw-bold">{{thanhToanHoaDon.thongTinThanhToan.tongTienTruocGiam -
+                            thanhToanHoaDon.thongTinThanhToan.tienGiam + thanhToanHoaDon.thongTinThanhToan.tienGiaoHang|
+                            currency: '' : 0}}
+                            VNĐ</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <label class="form-label mb-2">Phiếu giảm giá</label>
+                        <button ng-click="chonPgg()" type="button" class="btn btn-outline-primary mb-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">Chọn
+                        </button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Phiếu giảm giá</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+
+                                    </div>
+                                    <div class="modal-body">
+                                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="pills-home-tab"
+                                                        data-bs-toggle="pill" data-bs-target="#pills-home"
+                                                        type="button" role="tab" aria-controls="pills-home"
+                                                        aria-selected="true">Công khai
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="pills-profile-tab"
+                                                        data-bs-toggle="pill" data-bs-target="#pills-profile"
+                                                        type="button" role="tab" aria-controls="pills-profile"
+                                                        aria-selected="false">Cá nhân
+                                                </button>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content" id="pills-tabContent">
+                                            <div class="tab-pane fade show active" id="pills-home"
+                                                 role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                                                <div class="container my-5" ng-repeat="item in listPggPublic">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="coupon bg-white rounded mb-3 d-flex justify-content-between">
+                                                                <div class="kiri p-3">
+                                                                    <div class="icon-container ">
+                                                                        <div class="icon-container_box">
+                                                                            <img src="/api/read-file-by-img-url/Shoes6cop.png"
+                                                                                 width="85" alt="đang k có ảnh"
+                                                                                 class=""/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="tengah py-3 d-flex w-100 justify-content-start">
+                                                                    <div class="text-start">
+                                                                        <span class="badge text-bg-success">{{item.tienDuocGiamTheoDon | currency: '' : 0}} VNĐ</span>
+                                                                        <h3 ng-if="item.kieuGiaTri ==0"
+                                                                            class="lead">Giảm
+                                                                            {{item.giaTriGiam}}% tối đa
+                                                                            {{item.giamToiDa | currency: '' :
+                                                                            0}} VNĐ</h3>
+                                                                        <h3 ng-if="item.kieuGiaTri ==1"
+                                                                            class="lead">Giảm {{item.giaTriGiam
+                                                                            | currency: '' : 0}} VNĐ</h3>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="kanan">
+                                                                    <div class="info m-3 d-flex align-items-center">
+                                                                        <div class="w-100">
+                                                                            <div class="block">
+                                                                                <span class="time font-weight-light">
+                                                                                    <span>{{item.maPgg}}</span>
+                                                                                </span>
+                                                                            </div>
+
+                                                                            <div class="popover__wrapper">
+                                                                                <a href="#">
+                                                                                    <button ng-click="apDungPublic(item.idPgg)"
+                                                                                            data-bs-dismiss="modal"
+                                                                                            class="btn btn-sm btn-outline-success btn-block">
+                                                                                        Áp dụng
+                                                                                    </button>
+                                                                                </a>
+                                                                                <div class="popover__content">
+                                                                                    <p class="popover__message">Đơn tối
+                                                                                        thiểu: {{item.donToiThieu |
+                                                                                        currency: '' : 0}} VNĐ</p>
+                                                                                    <p class="popover__message">HSD:
+                                                                                        {{item.ngayKetThuc | date:
+                                                                                        'dd/MM/yyyy'}}</p>
+                                                                                    <p class="popover__message">Số
+                                                                                        lượng: {{item.soLuong}}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                                                 aria-labelledby="pills-profile-tab" tabindex="0">
+
+                                                <div ng-if="taiKhoan != null " class="container my-5"
+                                                     ng-repeat="item in listPggPrivate">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="coupon bg-white rounded mb-3 d-flex justify-content-between">
+                                                                <div class="kiri p-3">
+                                                                    <div class="icon-container ">
+                                                                        <div class="icon-container_box">
+                                                                            <img src="/api/read-file-by-img-url/Shoes6cop.png"
+                                                                                 width="85" alt="đang k có ảnh"
+                                                                                 class=""/>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="tengah py-3 d-flex w-100 justify-content-start">
+                                                                    <div class="text-start">
+                                                                        <span class="badge text-bg-success">{{item.tienDuocGiamTheoDon | currency: '' : 0}} VNĐ</span>
+                                                                        <h3 ng-if="item.kieuGiaTri ==0"
+                                                                            class="lead">Giảm
+                                                                            {{item.giaTriGiam}}% tối đa
+                                                                            {{item.giamToiDa | currency: '' :
+                                                                            0}} VNĐ</h3>
+                                                                        <h3 ng-if="item.kieuGiaTri ==1"
+                                                                            class="lead">Giảm {{item.giaTriGiam
+                                                                            | currency: '' : 0}} VNĐ</h3>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="kanan">
+                                                                    <div class="info m-3 d-flex align-items-center">
+                                                                        <div class="w-100">
+                                                                            <div class="block">
+                                                                                <span class="time font-weight-light">
+                                                                                    <span>{{item.maPgg}}</span>
+                                                                                </span>
+                                                                            </div>
+
+                                                                            <div class="popover__wrapper">
+                                                                                <a href="#">
+                                                                                    <button ng-click="apDungPrivate(item.idPgg)"
+                                                                                            data-bs-dismiss="modal"
+                                                                                            class="btn btn-sm btn-outline-success btn-block">
+                                                                                        Áp dụng
+                                                                                    </button>
+                                                                                </a>
+                                                                                <div class="popover__content">
+                                                                                    <p class="popover__message">Đơn tối
+                                                                                        thiểu: {{item.donToiThieu |
+                                                                                        currency: '' : 0}} VNĐ</p>
+                                                                                    <p class="popover__message">HSD:
+                                                                                        {{item.ngayKetThuc | date:
+                                                                                        'dd/MM/yyyy'}}</p>
+                                                                                    <p class="popover__message">Số
+                                                                                        lượng: {{item.soLuong}}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div ng-if="taiKhoan == null " class="container my-5">
+                                                    <div class="row">
+                                                        Vui lòng đăng nhập để xem phiếu giảm giá dành riêng cho
+                                                        bạn
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="pggDiv" class="row" ng-show="thanhToanHoaDon.thongTinThanhToan.maPgg != null">
+                        <div class="col-sm-12">
+                            <div class="coupon2 border border-success rounded mb-3 d-flex justify-content-between text-success">
+                                <div class="tengah2 py-3 d-flex w-100 justify-content-center">
+                                    <div class="fw-bold" id="tienDuocGiamDiv">
+                                        {{thanhToanHoaDon.thongTinThanhToan.tienGiam |
+                                        currency: '' : 0}} VNĐ
+                                    </div>
+                                </div>
+                                <div class="kanan2">
+                                    <div class="info2 m-3 d-flex align-items-center">
+                                        <div class="w-100">
+                                            <div class="block">
+                                                <span class="time2 " id="maPggSpan">{{thanhToanHoaDon.thongTinThanhToan.maPgg}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <h6 class="text-dark my-4">Sản phẩm</h6>
+
+                    <div class="d-flex align-items-center mb-4" ng-repeat="item in thanhToanHoaDon.listSanPham">
+                        <div class="me-3 position-relative">
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">{{item.soLuongMua}}</span>
+                            <img src="/api/read-file-by-idspct-return-anh-mac-dinh/{{item.idSpct}}" style="height: 96px; width: 96px;"
+                                 class="img-sm rounded border"/>
+                        </div>
+                        <div class="">
+                            <a href="/khach-hang-san-pham/index/{{item.idSpct}}/{{item.mauSac.id}}/{{item.kichThuoc.id}}"
+                               class="nav-link">
+                                {{item.tenSanPham}} - {{item.mauSac.tenMauSac}} / {{item.kichThuoc.tenKichThuoc}}
+                            </a>
+                            <div class="price text-muted">{{item.soLuongMua * item.giaGiam |
+                                currency: '' : 0}} VNĐ
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer -->
+<footer class="text-center text-lg-start text-muted bg-primary">
+    <!-- Section: Links  -->
+    <section class="">
+        <div class="container text-center text-md-start pt-4 pb-4">
+            <!-- Grid row -->
+            <div class="row mt-3">
+                <!-- Grid column -->
+                <div class="col-12 col-lg-3 col-sm-12 mb-2">
+                    <!-- Content -->
+                    <a class="text-white h2">
+                        SHOES 6
+                    </a>
+                    <p class="mt-1 text-white">
+                        © 2024 Copyright: SHOES 6 FPT Polytechnic
+                    </p>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Hà Nội
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            P. Kiều Mai, Phúc Diễn, Từ Liêm, Hà Nội, Việt Nam
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Tp.HCM
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            Tòa nhà QTSC9 (toà T), đường Tô Ký, phường Tân Chánh Hiệp, quận 12, TP HCM.
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Đà Nẵng
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            219 Nguyễn Sinh Sắc, phường Hoà Minh, quận Liên Chiểu, TP Đà Nẵng
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+
+                <!-- Grid column -->
+                <div class="col-6 col-sm-4 col-lg-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase text-white fw-bold mb-2">
+                        Cơ sở Thái Nguyên
+                    </h6>
+                    <ul class="list-unstyled mb-4">
+                        <p class="text-white-50">
+                            Tòa nhà FPT Polytechnic, đường đê Mỏ Bạch, tổ 10, phường Quyết Thắng, TP Thái Nguyên, tỉnh
+                            Thái Nguyên
+                        </p>
+                    </ul>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+    </section>
+
+    <!-- Section: Links  -->
+</footer>
+<!-- Footer -->
+</body>
+<script>
+    let _tinhPhiShipData = {
+        "from_district_id": 1454,
+        "from_ward_code": "21211",
+        "service_id": 0,
+        "service_type_id": null,
+        "to_district_id": 1452,
+        "to_ward_code": "21012",
+        "height": 50,
+        "length": 20,
+        "weight": 200,
+        "width": 20,
+        "insurance_value": 10000,
+        "cod_failed_amount": 2000,
+        "coupon": null
+    }
+
+    let _getShipServiceData = {
+        "shop_id": 192970,
+        "from_district": 1454,
+        "to_district": 0
+    }
+
+    let _tinhThanh
+    let _quanHuyen
+    const apiUpdatePgg = "/api/khach-hang/gio-hang/update-pgg/";
+    const apiCheckSoLuongSp = "/api/check-so-luong-san-pham";
+    const apiCheckPgg = "/api/check-pgg/";
+    const apiGetListDiaChi = "/api/get-list-dia-chi";
+    const apiUpdateDiaChiMacDinh = "/api/update-dia-chi-mac-dinh/";
+    const apiUpdateHinhThucThanhToan = "/api/update-hinh-thuc-thanh-toan/";
+    const apiUpdatePhiShip = "/api/update-phi-ship/";
+    const apiUpdateGhiChu = "/api/update-ghi-chu/";
+    const apiGetListPggPublic = "/api/khach-hang/gio-hang/get-list-pgg-public/";
+    const apiGetListPggPrivate = "/api/khach-hang/gio-hang/get-list-pgg-private/";
+    const apiGetListPggPublicInit = "/api/khach-hang/gio-hang/get-list-pgg-public-init";
+    const apiGetListPggPrivateInit = "/api/khach-hang/gio-hang/get-list-pgg-private-init";
+    const apiGetThanhToanHoaDon = "/api/get-thanh-toan-hoa-don"
+    const apiGetTaiKhoan = "/api/get-tai-khoan";
+    const apiThanhToanVnPay = "/api/thanh-toan-vnp/";
+    const apiLuuDiaChi = "/api/luu-dia-chi";
+    const apiLuuThanhToanHoaDon = "/api/luu-thanh-toan-hoa-don";
+    const apiGetTinhThanh = "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province";
+    const apiGetQuanHuyen = "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district";
+    const apiGetXaPhuong = "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=";
+    const apiTinhPhiShip = "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee"
+    const apiGetShipService = "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services"
+    const token = {"token": "69ea89dc-44f2-11ef-8e53-0a00184fe694"}
+    const tokenAndShopId = {"token": "69ea89dc-44f2-11ef-8e53-0a00184fe694", "ShopId": 192970}
+    const apiGetListGhctLength = '/api/khach-hang/san-pham/get-so-sp-trong-gio'
+    let myApp = angular.module("myAngularJs2", []);
+    myApp.controller("thanhToanController", myFunction);
+
+    function myFunction($scope, $http, $window) {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        $scope.isCheckSdt = true
+        $scope.isCheckTen = true
+        $scope.isCheckDiaChi = true
+        $scope.loading = false
+        $scope.getListGhctLength = () => {
+            $http.get(apiGetListGhctLength).then(function (res) {
+                if (res.status == 200) {
+                    $scope.listGhctSize = res.data
+                }
+            })
+        }
+        $scope.getListGhctLength()
+        $http.get(apiGetListPggPublicInit).then(function (res) {
+            if (res.status == 200) {
+                $scope.listPggPublic = res.data
+
+            }
+        })
+        $http.get(apiGetListPggPrivateInit).then(function (res) {
+            if (res.status == 200) {
+                $scope.listPggPrivate = res.data
+
+            }
+        })
+
+        $http.get(apiGetTaiKhoan).then(function (res) {
+            if (res.status == 200) {
+                $scope.taiKhoan = res.data
+                if ($scope.taiKhoan == '') {
+                    $scope.taiKhoan = null
+                }
+            }
+        })
+
+        $scope.updatePgg = (idPgg) => {
+            return $http.get(apiUpdatePgg + idPgg)
+        }
+
+        $scope.chonPgg = () => {
+            if ($scope.taiKhoan != null) {
+                $http.get(apiGetListPggPublic + $scope.thanhToanHoaDon.thongTinThanhToan.tongTienTruocGiam).then(function (res) {
+                    if (res.status == 200) {
+                        $scope.listPggPublic = res.data
+
+                    }
+                })
+                $http.get(apiGetListPggPrivate + $scope.thanhToanHoaDon.thongTinThanhToan.tongTienTruocGiam).then(function (res) {
+                    if (res.status == 200) {
+                        $scope.listPggPrivate = res.data
+
+                    }
+                })
+            } else {
+                $http.get(apiGetListPggPublic + $scope.thanhToanHoaDon.thongTinThanhToan.tongTienTruocGiam).then(function (res) {
+                    if (res.status == 200) {
+                        $scope.listPggPublic = res.data
+                    }
+                })
+            }
+        }
+
+        $scope.apDungPublic = (id) => {
+            let pgg = $scope.listPggPublic.find(({idPgg}) => idPgg === id)
+            let maPgg = pgg.maPgg
+            let tienDuocGiam = pgg.tienDuocGiamTheoDon
+            $scope.thanhToanHoaDon.thongTinThanhToan.maPgg = maPgg
+            $scope.thanhToanHoaDon.thongTinThanhToan.idPgg = pgg.idPgg
+            $scope.thanhToanHoaDon.thongTinThanhToan.tienGiam = tienDuocGiam
+            $scope.updatePgg(pgg.idPgg)
+        }
+
+        $scope.apDungPrivate = (id) => {
+            let pgg = $scope.listPggPrivate.find(({idPgg}) => idPgg === id)
+            let maPgg = pgg.maPgg
+            let tienDuocGiam = pgg.tienDuocGiamTheoDon
+            $scope.thanhToanHoaDon.thongTinThanhToan.maPgg = maPgg
+            $scope.thanhToanHoaDon.thongTinThanhToan.tienGiam = tienDuocGiam
+            $scope.thanhToanHoaDon.thongTinThanhToan.idPgg = pgg.idPgg
+            $scope.updatePgg(pgg.idPgg)
+        }
+
+        $scope.datHang = () => {
+            $scope.loading = true
+            if ($scope.isCheckTen == false || $scope.isCheckSdt == false || $scope.isCheckDiaChi == false) {
+                $scope.loading = false
+            } else {
+                if ($scope.thanhToanHoaDon.thongTinThanhToan.phuongThucThanhToan == -1 ) {
+                    Toast.fire({
+                        icon: "info",
+                        title: "Vui lòng chọn phương thức thanh toán"
+                    });
+                    $scope.loading = false
+                }else {
+
+                    let checkSp
+                    let checkPgg
+                    let spHet
+                    let pggUnvalid
+                    $http.post(apiCheckSoLuongSp, $scope.thanhToanHoaDon.listSanPham)
+                        .then(function (res) {
+                            if (res.data == "") {
+                                checkSp = true
+                                spHet = ""
+                            } else {
+                                checkSp = false
+                                spHet = res.data
+                                return res.data
+                            }
+                        })
+                        .then(function (res) {
+                            $http.get(apiCheckPgg + $scope.thanhToanHoaDon.thongTinThanhToan.idPgg)
+                                .then(function (res) {
+                                    if (res.data == "") {
+                                        checkPgg = true
+                                        pggUnvalid = ""
+                                    } else {
+                                        checkPgg = false
+                                        pggUnvalid = res.data
+                                        return res.data
+                                    }
+                                })
+                                .then(function (res) {
+                                    if (checkPgg == false || checkSp == false) {
+                                        if (spHet != "") {
+                                            if (spHet.tenSanPham == 'sanPhamNayCanXoa') {
+                                                let spCanXoa = $scope.thanhToanHoaDon.listSanPham.find(({idGhct}) => idGhct === spHet.idGhct)
+                                                Toast.fire({
+                                                    icon: "error",
+                                                    title: 'Sản phẩm ' + spCanXoa.tenSanPham + ' - ' + spCanXoa.mauSac.tenMauSac + ' / ' + spCanXoa.kichThuoc.tenKichThuoc + ' không còn đủ số lượng, vui lòng sửa lại tại giỏ hàng'
+                                                });
+                                                $scope.loading = false
+                                            } else {
+                                                Toast.fire({
+                                                    icon: "error",
+                                                    title: 'Sản phẩm ' + spHet.tenSanPham + ' - ' + spHet.mauSac.tenMauSac + ' / ' + spHet.kichThuoc.tenKichThuoc + ' không còn đủ số lượng, vui lòng sửa lại tại giỏ hàng'
+                                                });
+                                                $scope.loading = false
+                                            }
+                                        }
+                                        if (pggUnvalid != "") {
+                                            Toast.fire({
+                                                icon: "error",
+                                                title: 'Phiếu giảm giá ' + $scope.thanhToanHoaDon.thongTinThanhToan.maPgg + ' đã hết, vui lòng chọn phiếu khác'
+                                            });
+                                            $scope.thanhToanHoaDon.thongTinThanhToan.maPgg = null
+                                            $scope.thanhToanHoaDon.thongTinThanhToan.idPgg = -1
+                                            $scope.thanhToanHoaDon.thongTinThanhToan.tienGiam = 0
+                                            $scope.loading = false
+                                            $scope.loading = false
+                                        }
+                                    } else {
+                                        let tinh = $scope.listTinhThanh.find(({ProvinceID}) => ProvinceID == $scope.thanhToanHoaDon.thongTinKhachHang.idTinh);
+                                        let huyen = $scope.listQuanHuyen.find(({DistrictID}) => DistrictID == $scope.thanhToanHoaDon.thongTinKhachHang.idHuyen);
+                                        let xa = $scope.listXaPhuong.find(({WardCode}) => WardCode == $scope.thanhToanHoaDon.thongTinKhachHang.idXa);
+                                        let diaChi = $scope.thanhToanHoaDon.thongTinKhachHang.diaChiCuThe
+                                        let tenTinh = tinh.ProvinceName
+                                        let tenHuyen = huyen.DistrictName
+                                        let tenXa = xa.WardName
+                                        $scope.thanhToanHoaDon.thongTinKhachHang.diaChiCuThe = diaChi + " " + tenXa + " " + tenHuyen + " " + tenTinh
+                                        let url
+                                        if (document.getElementById('flexCheckDefault1').checked == true) {
+                                            console.log('luu dia chi')
+                                            url = apiLuuThanhToanHoaDon + '?luuDiaChi=true'
+                                        }else{
+                                            console.log('ko luu')
+                                            url = apiLuuThanhToanHoaDon
+                                        }
+                                        $http.post(url, $scope.thanhToanHoaDon)
+                                            .then(function () {
+                                                if ($scope.thanhToanHoaDon.thongTinThanhToan.phuongThucThanhToan == 1) {
+                                                    $window.location.href = '/khach-hang/thanh-toan-dat-hang-thanh-cong'
+                                                    $scope.loading = false
+                                                } else {
+                                                    let tongTienSauGiam = $scope.thanhToanHoaDon.thongTinThanhToan.tongTienTruocGiam - $scope.thanhToanHoaDon.thongTinThanhToan.tienGiam + $scope.thanhToanHoaDon.thongTinThanhToan.tienGiaoHang
+                                                    $http.get(apiThanhToanVnPay + tongTienSauGiam)
+                                                        .then(function (res) {
+                                                            $window.location.href = res.data.paymentUrl
+                                                            $scope.loading = false
+                                                        })
+                                                }
+                                            })
+                                    }
+                                })
+                        })
+                }
+
+            }
+        }
+        $scope.checkDiaChi = () => {
+            if ($scope.thanhToanHoaDon.thongTinKhachHang.diaChiCuThe == '') {
+                $scope.isCheckDiaChi = false
+            } else {
+                $scope.isCheckDiaChi = true
+            }
+        }
+        $http.get(apiGetThanhToanHoaDon)
+            .then(function (res) {
+                if (res.status == 200) {
+                    $scope.thanhToanHoaDon = res.data
+                    return $scope.thanhToanHoaDon
+                }
+            })
+            .then(function (res) {
+                return res.thongTinKhachHang
+            })
+            .then(function (thongTinKhachHang) {
+                console.log('res2', thongTinKhachHang)
+                if (thongTinKhachHang.idTinh != null || thongTinKhachHang.idTinh != ''){
+                    $scope.getTinhThanh()
+                        .then(function (res) {
+                            if (res.status == 200) {
+                                return res.data
+                            } else {
+                            }
+                        })
+                        .then(function (list) {
+                            $scope.listTinhThanh = list.data
+                            _tinhThanh = {"province_id": thongTinKhachHang.idTinh}
+                            $scope.getQuanHuyen(_tinhThanh)
+                                .then(function (res) {
+                                    if (res.status == 200) {
+                                        return res.data
+                                    }
+                                })
+                                .then(function (list) {
+                                    $scope.listQuanHuyen = list.data
+                                    _quanHuyen = thongTinKhachHang.idHuyen
+                                    $scope.getXaPhuong(_quanHuyen)
+                                        .then(function (res) {
+                                            if (res.status == 200) {
+                                                return res.data
+                                            }
+                                        })
+                                        .then(function (list) {
+                                            console.log('ttkh', thongTinKhachHang)
+                                            $scope.listXaPhuong = list.data
+                                            _getShipServiceData.to_district = thongTinKhachHang.idHuyen
+                                            console.log('shipService', _getShipServiceData)
+                                            $scope.getShipService(_getShipServiceData)
+                                                .then(function (res) {
+                                                    return res.data
+                                                })
+                                                .then(function (result) {
+                                                    return result.data
+                                                })
+                                                .then(function (data) {
+                                                    _tinhPhiShipData.service_id = data[0].service_id
+                                                    _tinhPhiShipData.service_type_id = data[0].service_type_id
+                                                })
+                                                .then(function () {
+                                                    _tinhPhiShipData.to_district_id = thongTinKhachHang.idHuyen
+                                                    _tinhPhiShipData.to_ward_code = thongTinKhachHang.idXa
+                                                    console.log('_tinhPhiShipDataSau',_tinhPhiShipData)
+                                                    $scope.tinhPhiShip(_tinhPhiShipData)
+                                                        .then(function (res) {
+                                                            if (res.status == 200) {
+                                                                return res.data
+                                                            }
+                                                        })
+                                                        .then(function (res) {
+                                                            $scope.thanhToanHoaDon.thongTinThanhToan.tienGiaoHang = res.data.total
+                                                            $scope.updatePhiShip(res.data.total)
+                                                                .then(function (res) {
+                                                                    $http.get(apiGetListDiaChi)
+                                                                        .then(function (res) {
+                                                                            if (res.status == 200) {
+                                                                                $scope.listDiaChi = res.data
+                                                                            }
+                                                                        })
+                                                                        .then(function () {
+                                                                            for (let i = 0; i < $scope.listDiaChi.length; i++) {
+                                                                                let tinh = $scope.listTinhThanh.find(({ProvinceID}) => ProvinceID == $scope.listDiaChi[i].idTinh);
+                                                                                $scope.listDiaChi[i].tenTinh = tinh.ProvinceName
+                                                                                let tinhId = {"province_id": tinh.ProvinceID}
+                                                                                $scope.getQuanHuyen(tinhId)
+                                                                                    .then(function (res) {
+                                                                                        if (res.status == 200) {
+                                                                                            return res.data
+                                                                                        }
+                                                                                    })
+                                                                                    .then(function (list) {
+                                                                                        let listQuanHuyen = list.data
+                                                                                        let huyen = listQuanHuyen.find(({DistrictID}) => DistrictID == $scope.listDiaChi[i].idHuyen);
+                                                                                        $scope.listDiaChi[i].tenHuyen = huyen.DistrictName
+                                                                                        $scope.getXaPhuong(huyen.DistrictID)
+                                                                                            .then(function (res) {
+                                                                                                if (res.status == 200) {
+                                                                                                    return res.data
+                                                                                                }
+                                                                                            })
+                                                                                            .then(function (list) {
+                                                                                                let listXaPhuong = list.data
+                                                                                                let xa = listXaPhuong.find(({WardCode}) => WardCode == $scope.listDiaChi[i].idXa);
+                                                                                                $scope.listDiaChi[i].tenXa = xa.WardName
+                                                                                            })
+                                                                                    })
+                                                                            }
+                                                                        })
+                                                                })
+                                                        })
+                                                })
+
+                                        })
+                                })
+                        })
+                }else{
+                    console.log("vao else")
+                }
+
+            })
+
+        $scope.getTinhThanh = () => {
+            return $http.get(apiGetTinhThanh, {headers: token})
+        }
+
+        $scope.getQuanHuyen = (tinhThanh) => {
+            return $http.post(apiGetQuanHuyen, tinhThanh, {headers: token})
+        }
+
+        $scope.getXaPhuong = (quanHuyen) => {
+            return $http.get(apiGetXaPhuong + quanHuyen, {headers: token})
+        }
+
+        $scope.selectTinhThanh = () => {
+            console.log('vao day asdasdasdasd')
+            _tinhThanh = {"province_id": $scope.thanhToanHoaDon.thongTinKhachHang.idTinh}
+            $scope.getQuanHuyen(_tinhThanh)
+                .then(function (res) {
+                    return res.data
+                })
+                .then(function (list) {
+                    $scope.listQuanHuyen = list.data
+                    $scope.thanhToanHoaDon.thongTinKhachHang.idHuyen = $scope.listQuanHuyen[0].DistrictID
+                    _quanHuyen = $scope.thanhToanHoaDon.thongTinKhachHang.idHuyen
+                    $scope.getXaPhuong(_quanHuyen)
+                        .then(function (res) {
+                            return res.data
+                        })
+                        .then(function (list) {
+                            $scope.listXaPhuong = list.data
+                            $scope.thanhToanHoaDon.thongTinKhachHang.idXa = $scope.listXaPhuong[0].WardCode
+                            _getShipServiceData.to_district = $scope.thanhToanHoaDon.thongTinKhachHang.idHuyen
+                            $scope.getShipService(_getShipServiceData)
+                                .then(function (res) {
+                                    return res.data
+                                })
+                                .then(function (result) {
+                                    return result.data
+                                })
+                                .then(function (data) {
+                                    _tinhPhiShipData.service_id = data[0].service_id
+                                })
+                                .then(function (){
+                                    _tinhPhiShipData.to_district_id = $scope.thanhToanHoaDon.thongTinKhachHang.idHuyen
+                                    _tinhPhiShipData.to_ward_code = $scope.thanhToanHoaDon.thongTinKhachHang.idXa
+                                    $scope.tinhPhiShip(_tinhPhiShipData)
+                                        .then(function (res) {
+                                            if (res.status == 200) {
+                                                return res.data
+                                            }
+                                        })
+                                        .then(function (res) {
+                                            $scope.thanhToanHoaDon.thongTinThanhToan.tienGiaoHang = res.data.total
+                                            $scope.updatePhiShip(res.data.total)
+                                                .then(function (res) {
+                                                })
+                                        })
+                                })
+                        })
+                })
+        }
+
+        $scope.selectQuanHuyen = () => {
+            _quanHuyen = $scope.thanhToanHoaDon.thongTinKhachHang.idHuyen
+            $scope.getXaPhuong(_quanHuyen)
+                .then(function (res) {
+                    return res.data
+                })
+                .then(function (list) {
+                    $scope.listXaPhuong = list.data
+                    $scope.thanhToanHoaDon.thongTinKhachHang.idXa = $scope.listXaPhuong[0].WardCode
+                    _getShipServiceData.to_district = $scope.thanhToanHoaDon.thongTinKhachHang.idHuyen
+                    $scope.getShipService(_getShipServiceData)
+                        .then(function (res) {
+                            return res.data
+                        })
+                        .then(function (result) {
+                            return result.data
+                        })
+                        .then(function (data) {
+                            _tinhPhiShipData.service_id = data[0].service_id
+                        })
+                        .then(function (){
+                            _tinhPhiShipData.to_district_id = $scope.thanhToanHoaDon.thongTinKhachHang.idHuyen
+                            _tinhPhiShipData.to_ward_code = $scope.thanhToanHoaDon.thongTinKhachHang.idXa
+                            $scope.tinhPhiShip(_tinhPhiShipData)
+                                .then(function (res) {
+                                    if (res.status == 200) {
+                                        return res.data
+                                    }
+                                })
+                                .then(function (res) {
+                                    $scope.thanhToanHoaDon.thongTinThanhToan.tienGiaoHang = res.data.total
+                                    $scope.updatePhiShip(res.data.total)
+                                        .then(function (res) {
+                                        })
+                                })
+                        })
+                })
+
+        }
+
+        $scope.chonDiaChi = (index) => {
+            $scope.thanhToanHoaDon.thongTinKhachHang.idDiaChi = $scope.listDiaChi[index].id
+            $scope.thanhToanHoaDon.thongTinKhachHang.hoVaTen = $scope.listDiaChi[index].hoVaTen
+            $scope.thanhToanHoaDon.thongTinKhachHang.soDienThoai = $scope.listDiaChi[index].soDienThoai
+            $scope.thanhToanHoaDon.thongTinKhachHang.diaChiCuThe = $scope.listDiaChi[index].diaChiCuThe
+            $scope.thanhToanHoaDon.thongTinKhachHang.idTinh = $scope.listDiaChi[index].idTinh
+            $scope.isCheckDiaChi = true
+            $scope.isCheckSdt = true
+            $scope.isCheckTen = true
+            _tinhThanh = {"province_id": $scope.thanhToanHoaDon.thongTinKhachHang.idTinh}
+            $scope.getQuanHuyen(_tinhThanh)
+                .then(function (res) {
+                    return res.data
+                })
+                .then(function (list) {
+                    $scope.listQuanHuyen = list.data
+                    $scope.thanhToanHoaDon.thongTinKhachHang.idHuyen = $scope.listDiaChi[index].idHuyen
+                    _quanHuyen = $scope.thanhToanHoaDon.thongTinKhachHang.idHuyen
+                    $scope.getXaPhuong(_quanHuyen)
+                        .then(function (res) {
+                            return res.data
+                        })
+                        .then(function (list) {
+                            $scope.listXaPhuong = list.data
+                            $scope.thanhToanHoaDon.thongTinKhachHang.idXa = $scope.listDiaChi[index].idXa
+                            _getShipServiceData.to_district = $scope.thanhToanHoaDon.thongTinKhachHang.idHuyen
+                            $scope.getShipService(_getShipServiceData)
+                                .then(function (res) {
+                                    return res.data
+                                })
+                                .then(function (result) {
+                                    return result.data
+                                })
+                                .then(function (data) {
+                                    _tinhPhiShipData.service_id = data[0].service_id
+                                })
+                                .then(function (){
+                                    _tinhPhiShipData.to_district_id = $scope.thanhToanHoaDon.thongTinKhachHang.idHuyen
+                                    _tinhPhiShipData.to_ward_code = $scope.thanhToanHoaDon.thongTinKhachHang.idXa
+                                    $scope.tinhPhiShip(_tinhPhiShipData)
+                                        .then(function (res) {
+                                            if (res.status == 200) {
+                                                return res.data
+                                            }
+                                        })
+                                        .then(function (res) {
+                                            $scope.thanhToanHoaDon.thongTinThanhToan.tienGiaoHang = res.data.total
+                                            $scope.updatePhiShip(res.data.total)
+                                                .then(function (res) {
+                                                    $scope.updateDiaChiMacDinh($scope.thanhToanHoaDon.thongTinKhachHang.idDiaChi)
+                                                        .then(function (res) {
+                                                            if (res.status == 200) {
+                                                            }
+                                                        })
+                                                })
+                                        })
+                                })
+                        })
+                })
+        }
+
+
+        $scope.updateHinhThucThanhToan = () => {
+            return $http.get(apiUpdateHinhThucThanhToan + $scope.thanhToanHoaDon.thongTinThanhToan.phuongThucThanhToan)
+        }
+
+        $scope.updateGhiChu = () => {
+            return $http.get(apiUpdateGhiChu + $scope.thanhToanHoaDon.thongTinKhachHang.ghiChu)
+        }
+        $scope.tinhPhiShip = (tinhPhiShipData) => {
+            return $http.post(apiTinhPhiShip, tinhPhiShipData, {headers: tokenAndShopId})
+        }
+
+        $scope.getShipService = (getShipServiceData) => {
+            return $http.post(apiGetShipService, _getShipServiceData, {headers: token})
+        }
+
+        $scope.updatePhiShip = (phiShip) => {
+            return $http.get(apiUpdatePhiShip + phiShip)
+        }
+
+        $scope.updateDiaChiMacDinh = (idDiaChi) => {
+            return $http.get(apiUpdateDiaChiMacDinh + idDiaChi)
+        }
+
+        $scope.checkTen = () => {
+            // Tên có dấu hoặc không
+            // Không có kí tự đặc biệt
+            // Không có số
+            if ($scope.thanhToanHoaDon.thongTinKhachHang.hoVaTen == '') {
+                $scope.isCheckTen = false
+            } else {
+                var re = /^(([a-zA-Z\sÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]*)([a-zA-Z\s\'ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]*)([a-zA-Z\sÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]))*$/g
+                $scope.isCheckTen = re.test($scope.thanhToanHoaDon.thongTinKhachHang.hoVaTen)
+            }
+        }
+
+        $scope.checkSdt = () => {
+            var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+            $scope.isCheckSdt = re.test($scope.thanhToanHoaDon.thongTinKhachHang.soDienThoai)
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Material Design for Bootstrap</title>
+    <!-- BootStrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/radioButtonCustom.css">
+</head>
+<body ng-app="myAngularJs" ng-controller="myController" >
+<div class="toast-container">
+    <div id="failToast" class="toast align-items-center text-bg-danger border-0" role="alert"
+         aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="failToastBody">
+
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                    data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+<!-- Registration 8 - Bootstrap Brain Component -->
+<section class="bg-light p-3 p-md-4 p-xl-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-xxl-11">
+                <div class="card border-light-subtle shadow-sm">
+                    <div class="row g-0">
+                        <div class="col-12 col-md-6">
+                            <img class="img-fluid rounded-start w-100 h-100 object-fit-cover" loading="lazy"
+                                 src="/api/read-file-by-img-url/close-up-person-wearing-futuristic-sneakers.jpg"
+                                 alt="Welcome back you've been missed!">
+                        </div>
+                        <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                            <div class="col-12 col-lg-11 col-xl-10">
+                                <div class="card-body p-3 p-md-4 p-xl-5">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-5">
+                                                <div class="text-center mb-4">
+                                                    <a href="#!">
+                                                        <img src="/api/read-file-by-img-url/Shoes6cop.png"
+                                                             alt=" Logo" width="175" height="142">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form>
+                                        <div class="row gy-3 overflow-hidden">
+                                            <div class="col-12">
+                                                <div class="form-floating mb-2">
+                                                    <input type="text" class="form-control" name="firstName"
+                                                           id="firstName" ng-model="user.hoVaTen" placeholder="First Name" required>
+                                                    <label for="firstName" class="form-label">Họ và tên</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating mb-2">
+                                                    <input type="text" class="form-control" name="sdt"
+                                                           id="sdt" ng-model="user.soDienThoai" placeholder="Số điện thoại" required>
+                                                    <label for="sdt" class="form-label">Số điện thoại</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating mb-3">
+                                                    <fieldset>
+                                                        <label>Giới tính</label>
+
+                                                        <label class="account-selection__option">
+                                                            <input type="radio" name="account_type"
+                                                                   value="personal" checked
+                                                                   class="account-selection__input"
+                                                                   ng-model="user.gioiTinh"
+                                                                   ng-value="1"/>
+                                                            <span class="account-selection__text">Nam</span>
+                                                            <span class="material-symbols-outlined account-selection__icon"><i class="bi bi-gender-male"></i></span>
+                                                        </label>
+                                                        <label class="account-selection__option">
+                                                            <input type="radio" name="account_type"
+                                                                   value="business"
+                                                                   class="account-selection__input"
+                                                                   ng-model="user.gioiTinh"
+                                                                   ng-value="0"/>
+                                                            <span class="account-selection__text">Nữ</span>
+                                                            <span class="material-symbols-outlinedaccount-selection__icon"><i class="bi bi-gender-female"></i></span>
+                                                        </label>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating mb-3">
+                                                    <input type="date" ng-model="user.ngaySinh" class="form-control" name="email" id="ngaySinh"
+                                                           placeholder="Ngày sinh" required>
+                                                    <label for="ngaySinh" class="form-label">Ngày sinh</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating mb-3">
+                                                    <input type="email" ng-model="user.email" class="form-control" name="email" id="email"
+                                                           placeholder="name@example.com" required>
+                                                    <label for="email" class="form-label">Email</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-floating mb-3">
+                                                    <input type="password" ng-model="user.matKhau" class="form-control" name="password"
+                                                           id="password" value="" placeholder="Password" required>
+                                                    <label for="password" class="form-label">Password</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" ng-model="dieuKhoan" type="checkbox" value=""
+                                                           name="iAgree" id="iAgree" required>
+                                                    <label class="form-check-label text-secondary" for="iAgree">
+                                                        Tôi đồng ý với <a href="#!" type="button"
+                                                                          class="link-primary text-decoration-none"
+                                                                          data-bs-toggle="modal"
+                                                                          data-bs-target="#exampleModal">các điều khoản
+                                                        dưới đây</a>
+                                                    </label>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                                        Điều khoản bảo mật</h1>
+                                                                    <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Với tư cách là Bên Kiểm Soát Dữ Liệu và/hoặc Bên
+                                                                    Kiểm Soát và Xử Lý Dữ Liệu Cá Nhân (như được định
+                                                                    nghĩa tại Nghị định số 13/2023/NĐ-CP ban hành ngày
+                                                                    17/4/2023, có hiệu lực từ ngày 01/7/2023 – gọi tắt
+                                                                    là “Nghị Định 13”), Chính Sách Bảo Vệ Dữ Liệu này
+                                                                    ("Chính Sách") sẽ trình bày cách thức
+                                                                    Supersports.com.vn Xử Lý Dữ Liệu mà bạn cung cấp cho
+                                                                    hoặc được thu thập bởi Supersports.com.vn
+
+                                                                    “Xử Lý Dữ Liệu” có nghĩa là một hoặc nhiều hoạt động
+                                                                    tác động tới Dữ Liệu Cá Nhân, như: thu thập, ghi,
+                                                                    phân tích, xác nhận, lưu trữ, chỉnh sửa, công khai,
+                                                                    kết hợp, truy cập, truy xuất, thu hồi, mã hóa, giải
+                                                                    mã, sao chép, chia sẻ, truyền đưa, cung cấp, chuyển
+                                                                    giao, xóa, hủy Dữ Liệu Cá Nhân hoặc các hành động
+                                                                    khác có liên quan.
+
+                                                                    “Dữ Liệu Cá Nhân” là thông tin dưới dạng ký hiệu,
+                                                                    chữ viết, chữ số, hình ảnh, âm thanh hoặc dạng tương
+                                                                    tự trên môi trường điện tử gắn liền với một con
+                                                                    người cụ thể hoặc giúp xác định một con người cụ
+                                                                    thể. Dữ Liệu Cá Nhân bao gồm dữ liệu cá nhân cơ bản
+                                                                    và dữ liệu cá nhân nhạy cảm.
+
+                                                                    Trang thông tin điện tử website Shoes6.com.vn của
+                                                                    chúng tôi có thể dẫn liên kết tới các trang thông
+                                                                    tin điện tử/ứng dụng/nền tảng khác của các bên thứ
+                                                                    ba không thuộc quyền sở hữu hoặc kiểm soát của chúng
+                                                                    tôi. Chúng tôi không chịu trách nhiệm về cách thức
+                                                                    các trang thông tin điện tử, ứng dụng và/hoặc các
+                                                                    nền tảng này hoạt động cũng như Xử Lý Dữ Liệu của
+                                                                    bạn, do đó, chúng tôi khuyến nghị bạn nên đọc kỹ các
+                                                                    chính sách bảo mật Dữ Liệu Cá Nhân và các điều khoản
+                                                                    liên quan tới vấn đề bảo mật của bên thứ ba này.
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Đóng
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="d-grid">
+                                                    <button ng-click="register()" class="btn btn-primary btn-lg" type="submit">Đăng ký
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="mb-0 mt-5 text-secondary text-center">Bạn đã có tài khoản? <a
+                                                    href="/login" class="link-primary text-decoration-none">Đăng nhập</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+<script>
+    let myApp = angular.module("myAngularJs", []);
+    myApp.controller("myController", myFunction);
+
+    function myFunction($scope, $http, $window) {
+        $scope.dieuKhoan = false;
+
+        $scope.user = {
+            hoVaTen: "",
+            soDienThoai: "",
+            gioiTinh: 1,
+            ngaySinh: '2024-01-01',
+            email: '',
+            matKhau: ''
+        }
+
+        $scope.register = function (){
+            if($scope.dieuKhoan == false){
+
+            }else{
+                $http.post('/register-user', $scope.user).then(function (res){
+                    if (res.data != null){
+                        var toast = document.getElementById('failToast');
+                        var toastBody = document.getElementById('failToastBody');
+                        var toast = new bootstrap.Toast(toast);
+                        toastBody.innerText = 'Đăng ký thành công !'
+                        toast.show();
+                        // Hide the toast after 5 seconds
+                        setTimeout(function () {
+                            toast.hide();
+                        }, 5000);
+                    }
+                }).then(function (){
+                    $window.location.href = '/login?register=true'
+                })
+            }
+
+        }
+
+    }
+
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault(); // Ngăn chuột phải
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.keyCode === 123) {
+            e.preventDefault();
+        }
+    });
+</script>
+</html>
